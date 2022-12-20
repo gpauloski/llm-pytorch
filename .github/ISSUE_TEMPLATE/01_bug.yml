@@ -2,32 +2,20 @@ name: Bug Report
 description: Report errors or unexpected results.
 labels: ["bug"]
 assignees:
-  - foobar-bug-assign-dev
+  - gpauloski
 body:
   - type: textarea
     id: install
     attributes:
-      label: How did you install foobar?
+      label: How did you install the package and dependencies?
       description: >
-        E.g., install via pip, install from source, etc. **Note:** this will
-        be rendered as console text automatically.
+        E.g., install via pip, install from source, etc. Include versions of
+        all code used. **Note:** this will be rendered as console text
+        automatically.
       placeholder: |
-        $ pip install foobar
-        Collecting foobar
+        $ pip install -e .
         ...
-        Successfully installed foobar...
       render: console
-    validations:
-      required: true
-
-  - type: input
-    id: version
-    attributes:
-      label: What version of foobar are you using?
-      description: >
-        Package version if installed via Pip or commit ID if installed
-        from source.
-      placeholder: v1.2.3
     validations:
       required: true
 

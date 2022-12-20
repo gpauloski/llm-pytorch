@@ -15,20 +15,11 @@ jobs:
       matrix:
         include:
         - os: ubuntu-latest
-          python: 3.7
-          toxenv: py37
-        - os: ubuntu-latest
-          python: 3.8
-          toxenv: py38
-        - os: ubuntu-latest
           python: 3.9
           toxenv: py39
         - os: ubuntu-latest
           python: '3.10'
           toxenv: py310
-        - os: ubuntu-latest
-          python: '3.11'
-          toxenv: py311
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -38,6 +29,19 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
+
+      - name: Get pip cache dir
+        id: pip-cache-dir
+        run: echo "PIP_CACHE_DIR=$(pip cache dir)" >> $GITHUB_ENV
+
+      - name: Use pip cache
+        id: pip-cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.PIP_CACHE_DIR }}
+          key: ${{ matrix.os }}-pip-${{ matrix.python }}-${{ hashFiles('requirements.txt', 'requirements-dev.txt') }}
+          restore-keys: |
+            ${{ matrix.os }}-pip-${{ matrix.python }}-
 
       - name: Install Packages
         run: python -mpip install --upgrade setuptools pip tox virtualenv

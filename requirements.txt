@@ -1,0 +1,5 @@
+--extra-index-url https://download.pytorch.org/whl/cu116
+
+-f https://release.colossalai.org
+colossalai==0.1.12+torch1.12cu11.3
+torch>=1.12

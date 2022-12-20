@@ -2,15 +2,18 @@
 <!--- Describe your changes in detail --->
 
 
-### Fixes #{issue}
-<!--- List any issue numbers above that this PR addresses --->
+### Fixes
+<!--- List any issue numbers that this PR addresses (or remove) --->
 
+- Fixes #1
+- Fixes #2
 
 ### Type of Change
 <!--- Check which off the following types describe this PR --->
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
+- [ ] Refactor (non-breaking change for internal code changes)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation update (no changes to the code)
 - [ ] CI change (changes to CI workflows, packages, templates, etc.)
