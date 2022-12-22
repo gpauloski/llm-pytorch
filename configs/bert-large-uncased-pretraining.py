@@ -50,13 +50,16 @@ elif PHASE == 2:
 else:
     raise NotImplementedError
 
+# Validate user options
 if GLOBAL_BATCH_SIZE % (BATCH_SIZE * WORKERS) != 0:
     raise ValueError(
         'Global batch size must be divisible by the product of the local '
         'batch size and workers',
     )
-accumulation_steps = GLOBAL_BATCH_SIZE // (BATCH_SIZE * WORKERS)
 
+# Colossal-AI options
+accumulation_steps = GLOBAL_BATCH_SIZE // (BATCH_SIZE * WORKERS)
+clip_grad_norm = 1.0
 fp16 = dict(
     mode=AMP_TYPE.TORCH,
     init_scale=2.0**16,
