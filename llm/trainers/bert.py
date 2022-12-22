@@ -14,8 +14,6 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     parser.add_argument('--debug', action='store_true')
     args = parser.parse_args(argv)
 
-    # disable_existing_loggers()
-    # logger = get_dist_logger()
     if args.debug:
         colossalai.launch(
             config=args.config,
@@ -29,17 +27,25 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     else:
         colossalai.launch_from_torch(config=args.config)
 
+    colossalai.logging.disable_existing_loggers()
+    logger = colossalai.logging.get_dist_logger()
+    # TODO: https://github.com/hpcaitech/ColossalAI/issues/2109
+    # logger.log_to_file(os.path.join(gpc.config.OUTPUT_DIR, 'logs'))
+
+    logger.info(
+        f'Launching training from config at {args.config} '
+        f'(debug: {args.debug})',
+    )
+
     if gpc.config.WORKERS != dist.get_world_size():
-        raise ValueError(
+        logger.warning(
             f'Expected number of workers in the config ({gpc.config.WORKERS}) '
             f'does not match the found number of workers '
             f'({dist.get_world_size()}). This can result in incorrect '
-            'gradient accumulation.',
+            'gradient accumulation',
         )
 
-    from pprint import pprint
-
-    pprint(gpc.__dict__)
+    logger.info('Training completed')
 
     return 0
 
