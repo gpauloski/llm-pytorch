@@ -23,12 +23,12 @@ from torch.utils.data.distributed import DistributedSampler
 
 
 class Batch(NamedTuple):
-    input_ids: torch.Tensor
-    input_mask: torch.Tensor
-    masked_lm_ids: torch.Tensor
-    masked_lm_positions: torch.Tensor
-    next_sentence_labels: torch.Tensor
-    segment_ids: torch.Tensor
+    input_ids: torch.LongTensor
+    input_mask: torch.LongTensor
+    masked_lm_ids: torch.LongTensor
+    masked_lm_positions: torch.LongTensor
+    next_sentence_labels: torch.LongTensor
+    segment_ids: torch.LongTensor
 
 
 # Workaround because python functions are not picklable
