@@ -2,12 +2,64 @@ from __future__ import annotations
 
 import sys
 from collections.abc import Sequence
+from typing import Any
+from typing import Literal
 
 import colossalai
+import torch
 import torch.distributed as dist
 from colossalai.core import global_context as gpc
+from colossalai.nn.optimizer import FusedAdam
+from colossalai.nn.optimizer import FusedLamb
+from transformers import BertForPreTraining
 
 from llm.datasets.nvidia import sharded_dataset
+
+
+def get_optimizer_grouped_parameters(
+    model: BertForPreTraining,
+) -> list[dict[str, Any]]:  # pragma: no cover
+    param_optimizer = list(model.named_parameters())
+    no_decay = ['bias', 'gamma', 'beta', 'LayerNorm']
+
+    # configure the weight decay for bert models
+    return [
+        {
+            'params': [
+                p
+                for n, p in param_optimizer
+                if not any(v in n for v in no_decay)
+            ],
+            'weight_decay': 0.1,
+        },
+        {
+            'params': [
+                p for n, p in param_optimizer if any(v in n for v in no_decay)
+            ],
+            'weight_decay': 0.0,
+        },
+    ]
+
+
+def get_optimizer(
+    model: BertForPreTraining,
+    name: Literal['lamb', 'adam'],
+    lr: float,
+) -> torch.optim.Optimizer:  # pragma: no cover
+    optimizer_grouped_params = get_optimizer_grouped_parameters(model)
+
+    if name == 'adam':
+        optimizer = FusedAdam(
+            optimizer_grouped_params,
+            lr=lr,
+            betas=[0.9, 0.95],
+        )
+    elif name == 'lamb':
+        optimizer = FusedLamb(optimizer_grouped_params, lr=lr)
+    else:
+        raise ValueError(f'Unknown optimizer: {name}')
+
+    return optimizer
 
 
 def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
