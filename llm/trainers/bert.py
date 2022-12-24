@@ -7,6 +7,8 @@ import colossalai
 import torch.distributed as dist
 from colossalai.core import global_context as gpc
 
+from llm.datasets.nvidia import sharded_dataset
+
 
 def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     argv = argv if argv is not None else sys.argv[1:]
@@ -45,8 +47,26 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             'gradient accumulation',
         )
 
-    logger.info('Training completed')
+    step = 0
+    epoch = 0
 
+    while step < gpc.config.STEPS:
+        dataset = sharded_dataset(gpc.config.DATA_DIR, gpc.config.BATCH_SIZE)
+        for batch in dataset:
+            batch
+            # forward
+            # backward
+            # loss
+            # optimize
+
+            step += 1
+            if step >= gpc.config.STEPS:
+                # Break out of dataset loop, then while loop will also break
+                break
+
+        epoch += 1
+
+    logger.info('Training completed')
     return 0
 
 
