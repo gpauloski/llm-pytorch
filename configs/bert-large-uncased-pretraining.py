@@ -9,9 +9,6 @@ from colossalai.amp import AMP_TYPE
 
 from llm.models import bert as bert_models
 
-# Single-node with 4 GPUs, used to compute gradient accumulation
-WORKERS = 4
-
 PHASE = 1
 SEED = 42
 BERT_CONFIG = bert_models.BERT_LARGE
@@ -34,7 +31,7 @@ if PHASE == 1:
 elif PHASE == 2:
     MAX_SEQ_LENGTH = 512
     MAX_PREDICTIONS_PER_SEQ = 80
-    MASKED_TOKEN_FRACTION = 0.15
+    MASKED_TOKEN_FRACTION = 0.20
 
     DATA_DIR = '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_512_max_pred_80_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/'  # noqa: E501
     OUTPUT_DIR = 'results/bert-large-phase-2'
@@ -48,15 +45,8 @@ elif PHASE == 2:
 else:
     raise NotImplementedError
 
-# Validate user options
-if GLOBAL_BATCH_SIZE % (BATCH_SIZE * WORKERS) != 0:
-    raise ValueError(
-        'Global batch size must be divisible by the product of the local '
-        'batch size and workers',
-    )
-
 # Colossal-AI options
-accumulation_steps = GLOBAL_BATCH_SIZE // (BATCH_SIZE * WORKERS)
+# accumulation_steps is computed automatically by llm.trainers.bert
 clip_grad_norm = 1.0
 fp16 = dict(
     mode=AMP_TYPE.TORCH,

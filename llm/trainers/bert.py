@@ -101,6 +101,16 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     else:
         colossalai.launch_from_torch(config=args.config)
 
+    gradient_accumulation = gpc.config.GLOBAL_BATCH_SIZE / (
+        dist.get_world_size() * gpc.config.BATCH_SIZE
+    )
+    if gradient_accumulation != int(gradient_accumulation):
+        raise ValueError(
+            'Global batch size must be divisible by the product of the '
+            'world size and batch size.',
+        )
+    gpc.config.update({'accumulation_steps': int(gradient_accumulation)})
+
     colossalai.logging.disable_existing_loggers()
     logger = colossalai.logging.get_dist_logger()
     # TODO: https://github.com/hpcaitech/ColossalAI/issues/2109
@@ -111,16 +121,6 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         f'(debug: {args.debug})',
         ranks=[0],
     )
-
-    if gpc.config.WORKERS != dist.get_world_size():
-        logger.error(
-            f'Expected number of workers in the config ({gpc.config.WORKERS}) '
-            f'does not match the found number of workers '
-            f'({dist.get_world_size()}). This can result in incorrect '
-            'gradient accumulation.',
-            ranks=[0],
-        )
-        return 1
 
     model = bert.from_config(gpc.config.BERT_CONFIG)
     optimizer = get_optimizer(model, gpc.config.OPTIMIZER, gpc.config.LR)
