@@ -9,15 +9,13 @@ from colossalai.amp import AMP_TYPE
 
 from llm.models import bert as bert_models
 
-# Train with 16 nodes, each with 4 GPUs
-WORKERS = 16 * 4
+# Single-node with 4 GPUs, used to compute gradient accumulation
+WORKERS = 4
+
 PHASE = 1
 SEED = 42
-
 BERT_CONFIG = bert_models.BERT_LARGE
-
 OPTIMIZER = 'lamb'
-
 
 if PHASE == 1:
     MAX_SEQ_LENGTH = 128

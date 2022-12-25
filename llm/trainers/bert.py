@@ -9,11 +9,31 @@ import colossalai
 import torch
 import torch.distributed as dist
 from colossalai.core import global_context as gpc
+from colossalai.nn.lr_scheduler import LinearWarmupLR
 from colossalai.nn.optimizer import FusedAdam
-from colossalai.nn.optimizer import FusedLamb
+from colossalai.nn.optimizer import FusedLAMB
 from transformers import BertForPreTraining
 
+from llm.datasets.nvidia import Batch
 from llm.datasets.nvidia import sharded_dataset
+from llm.loss import BertPretrainingCriterion
+from llm.models import bert
+
+
+def log_step(
+    logger: colossalai.logger.DistributedLogger,
+    *,
+    epoch: int,
+    global_step: int,
+    step_loss: float,
+    step_time: float,
+    lr: float,
+) -> None:  # pragma: no cover
+    logger.info(
+        f'epoch: {epoch} | step: {global_step} | loss: {step_loss:.3f} | '
+        f'lr: {lr:.2e} | time (s): {step_time:.3f}',
+        ranks=[0],
+    )
 
 
 def get_optimizer_grouped_parameters(
@@ -55,7 +75,7 @@ def get_optimizer(
             betas=[0.9, 0.95],
         )
     elif name == 'lamb':
-        optimizer = FusedLamb(optimizer_grouped_params, lr=lr)
+        optimizer = FusedLAMB(optimizer_grouped_params, lr=lr)
     else:
         raise ValueError(f'Unknown optimizer: {name}')
 
@@ -89,36 +109,98 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     logger.info(
         f'Launching training from config at {args.config} '
         f'(debug: {args.debug})',
+        ranks=[0],
     )
 
     if gpc.config.WORKERS != dist.get_world_size():
-        logger.warning(
+        logger.error(
             f'Expected number of workers in the config ({gpc.config.WORKERS}) '
             f'does not match the found number of workers '
             f'({dist.get_world_size()}). This can result in incorrect '
-            'gradient accumulation',
+            'gradient accumulation.',
+            ranks=[0],
         )
+        return 1
 
-    step = 0
+    model = bert.from_config(gpc.config.BERT_CONFIG)
+    optimizer = get_optimizer(model, gpc.config.OPTIMIZER, gpc.config.LR)
+    criterion = BertPretrainingCriterion(gpc.config.BERT_CONFIG['vocab_size'])
+    scheduler = LinearWarmupLR(
+        optimizer,
+        gpc.config.STEPS,
+        gpc.config.WARMUP_STEPS,
+    )
+
+    engine, _, _, scheduler = colossalai.initialize(
+        model,
+        optimizer,
+        criterion=criterion,
+        lr_scheduler=scheduler,
+    )
+
+    micro_step = 0
+    global_step = 0
     epoch = 0
 
-    while step < gpc.config.STEPS:
-        dataset = sharded_dataset(gpc.config.DATA_DIR, gpc.config.BATCH_SIZE)
-        for batch in dataset:
-            batch
-            # forward
-            # backward
-            # loss
-            # optimize
+    global_step_timer = colossalai.utils.Timer()
+    step_loss = 0.0
 
-            step += 1
-            if step >= gpc.config.STEPS:
+    while global_step < gpc.config.STEPS:
+        dataset = sharded_dataset(
+            gpc.config.DATA_DIR,
+            gpc.config.BATCH_SIZE,
+            seed=gpc.config.SEED,
+        )
+        for batch in dataset:
+            if micro_step % gpc.config.accumulation_steps == 0:
+                global_step_timer.start()
+
+            batch = Batch(*[t.cuda() for t in batch])
+            engine.zero_grad()
+            output = engine(
+                input_ids=batch.input_ids,
+                token_type_ids=batch.segment_ids,
+                attention_mask=batch.input_mask,
+            )
+            loss = engine.criterion(
+                output.prediction_logits,
+                batch.masked_labels,
+                output.seq_relationship_logits,
+                batch.next_sentence_labels,
+            )
+            engine.backward(loss)
+            engine.step()
+
+            step_loss += loss.float().item()
+            micro_step += 1
+
+            if micro_step % gpc.config.accumulation_steps == 0:
+                global_step += 1
+                global_step_timer.stop(keep_in_history=True)
+                log_step(
+                    logger,
+                    epoch=epoch,
+                    global_step=global_step,
+                    step_loss=step_loss / gpc.config.accumulation_steps,
+                    step_time=global_step_timer.get_elapsed_time(),
+                    lr=scheduler.get_last_lr()[0],
+                )
+                step_loss = 0.0
+
+            # Wait to step scheduler until after we have logged current LR
+            scheduler.step()
+
+            if global_step >= gpc.config.STEPS:
                 # Break out of dataset loop, then while loop will also break
                 break
 
         epoch += 1
 
-    logger.info('Training completed')
+    logger.info(
+        'Training completed. Avg step time (s): '
+        f'{global_step_timer.get_history_mean()}',
+        ranks=[0],
+    )
     return 0
 
 
