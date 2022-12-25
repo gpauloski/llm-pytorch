@@ -25,8 +25,7 @@ from torch.utils.data.distributed import DistributedSampler
 class Batch(NamedTuple):
     input_ids: torch.LongTensor
     input_mask: torch.LongTensor
-    masked_lm_ids: torch.LongTensor
-    masked_lm_positions: torch.LongTensor
+    masked_labels: torch.LongTensor
     next_sentence_labels: torch.LongTensor
     segment_ids: torch.LongTensor
 
@@ -58,13 +57,39 @@ class NvidiaBertDataset(Dataset):
         sample = [
             self.input_ids[index].astype(np.int64),
             self.input_mask[index].astype(np.int64),
-            self.masked_lm_ids[index].astype(np.int64),
-            self.masked_lm_positions[index].astype(np.int64),
+            masked_labels(
+                len(self.input_ids[index]),
+                self.masked_lm_positions[index],
+                self.masked_lm_ids[index],
+            ),
             np.asarray(self.next_sentence_labels[index]).astype(np.int64),
             self.segment_ids[index].astype(np.int64),
         ]
 
         return [torch.from_numpy(x) for x in sample]
+
+
+def masked_labels(
+    seq_len: int,
+    masked_lm_positions: list[int],
+    masked_lm_ids: list[int],
+) -> np.ndarray:
+    """Create masked labels array.
+
+    Args:
+        seq_len (int)
+        masked_lm_positions (list[int]): index in sequence of masked tokens
+        masked_lm_ids (list[int]): true token value for each position in
+            masked_lm_position.
+
+    Returns:
+        List with length seq_len with the true value for each corresponding
+        masked token in input_ids and -1 for all tokens in input_ids which are
+        not masked.
+    """
+    masked_lm_labels = np.ones(seq_len, dtype=np.int64) * -1
+    masked_lm_labels[masked_lm_positions] = masked_lm_ids
+    return masked_lm_labels
 
 
 def get_shard_filepaths(input_dir: str) -> list[str]:

@@ -8,11 +8,13 @@ from typing import Any
 from typing import TypeVar
 
 import h5py
+import numpy as np
 import pytest
 
 from llm.datasets.nvidia import Batch
 from llm.datasets.nvidia import get_shard_filepaths
 from llm.datasets.nvidia import load_dataset_from_shard
+from llm.datasets.nvidia import masked_labels
 from llm.datasets.nvidia import NvidiaBertDataset
 from llm.datasets.nvidia import sharded_dataset
 from llm.datasets.nvidia import WorkerInitObj
@@ -21,12 +23,13 @@ from llm.datasets.nvidia import WorkerInitObj
 NUM_FILE = 3
 NUM_SAMPLES = 32
 SEQ_LEN = 128
+VOCAB_SIZE = 30000
 
 T = TypeVar('T', int, bool)
 
 
-def generate_int_sample(seq_len: int) -> list[int]:
-    return [random.randint(0, 30000) for _ in range(seq_len)]
+def generate_int_sample(seq_len: int, imin: int, imax: int) -> list[int]:
+    return [random.randint(imin, imax - 1) for _ in range(seq_len)]
 
 
 def generate_bool_sample(seq_len: int) -> list[int]:
@@ -35,11 +38,11 @@ def generate_bool_sample(seq_len: int) -> list[int]:
 
 def generate_data(samples: int, seq_len: int) -> tuple[list[Any], ...]:
     return (
-        [generate_int_sample(seq_len) for _ in range(samples)],
+        [generate_int_sample(seq_len, 0, VOCAB_SIZE) for _ in range(samples)],
         [generate_bool_sample(seq_len) for _ in range(samples)],
         [generate_bool_sample(seq_len) for _ in range(samples)],
-        [generate_int_sample(seq_len) for _ in range(samples)],
-        [generate_int_sample(seq_len) for _ in range(samples)],
+        [generate_int_sample(seq_len, 0, seq_len) for _ in range(samples)],
+        [generate_int_sample(seq_len, 0, VOCAB_SIZE) for _ in range(samples)],
         generate_bool_sample(samples),
     )
 
@@ -86,6 +89,26 @@ def data_dir() -> Generator[pathlib.Path, None, None]:
 def test_worker_init() -> None:
     init = WorkerInitObj(0)
     init(3)
+
+
+@pytest.mark.parametrize(
+    'seq_len,masked_lm_positions,masked_lm_ids,result',
+    (
+        (1, [0], [42], [42]),
+        (2, [1], [42], [-1, 42]),
+        (4, [0, 1], [42, 43], [42, 43, -1, -1]),
+    ),
+)
+def test_masked_labels(
+    seq_len: int,
+    masked_lm_positions: list[int],
+    masked_lm_ids: list[int],
+    result: list[int],
+) -> None:
+    assert np.array_equal(
+        masked_labels(seq_len, masked_lm_positions, masked_lm_ids),
+        result,
+    )
 
 
 def test_get_shard_filepaths(data_dir: pathlib.Path) -> None:
