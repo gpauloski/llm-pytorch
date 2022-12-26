@@ -14,6 +14,7 @@ from colossalai.core import global_context as gpc
 from colossalai.nn.lr_scheduler import PolynomialWarmupLR
 from colossalai.nn.optimizer import FusedAdam
 from colossalai.nn.optimizer import FusedLAMB
+from torch.utils.tensorboard import SummaryWriter
 from transformers import BertForPreTraining
 
 from llm.checkpoint import load_checkpoint
@@ -102,12 +103,17 @@ def log_step(
     step_loss: float,
     step_time: float,
     lr: float,
+    writer: SummaryWriter | None,
 ) -> None:  # pragma: no cover
     logger.info(
         f'phase: {gpc.config.PHASE} | epoch: {epoch} | step: {global_step} | '
         f'loss: {step_loss:.3f} | lr: {lr:.2e} | time (s): {step_time:.3f}',
         ranks=[0],
     )
+    if writer is not None:
+        writer.add_scalar('train/loss', step_loss, global_step)
+        writer.add_scalar('train/lr', lr, global_step)
+        writer.add_scalar('train/epoch', epoch, global_step)
 
 
 def get_optimizer_grouped_parameters(
@@ -182,6 +188,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         f'(debug: {args.debug})',
         ranks=[0],
     )
+    writer = SummaryWriter(gpc.config.TENSORBOARD_DIR)
 
     model = bert.from_config(gpc.config.BERT_CONFIG)
     if gpc.config.get('GRADIENT_CHECKPOINTING', False):
@@ -256,6 +263,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                     step_loss=step_loss / gpc.config.gradient_accumulation,
                     step_time=global_step_timer.get_elapsed_time(),
                     lr=scheduler.get_last_lr()[0],
+                    writer=writer,
                 )
 
                 if global_step % gpc.config.CHECKPOINT_STEPS == 0:
