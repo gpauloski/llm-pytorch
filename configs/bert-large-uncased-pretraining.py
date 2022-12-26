@@ -21,11 +21,12 @@ if PHASE == 1:
     MASKED_TOKEN_FRACTION = 0.15
 
     DATA_DIR = '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/'  # noqa: E501
-    OUTPUT_DIR = 'results/bert-large-phase-1'
+    CHECKPOINT_DIR = 'results/bert-large-pretraining/phase-1-checkpoints'
 
     GLOBAL_BATCH_SIZE = 8192
     BATCH_SIZE = 128
     STEPS = 7038
+    CHECKPOINT_STEPS = 500
 
     LR = 6e-3
     WARMUP_STEPS = 2000
@@ -35,11 +36,12 @@ elif PHASE == 2:
     MASKED_TOKEN_FRACTION = 0.20
 
     DATA_DIR = '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_512_max_pred_80_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/'  # noqa: E501
-    OUTPUT_DIR = 'results/bert-large-phase-2'
+    CHECKPOINT_DIR = 'results/bert-large-pretraining/phase-2-checkpoints'
 
     GLOBAL_BATCH_SIZE = 4096
     BATCH_SIZE = 16
     STEPS = 1563
+    CHECKPOINT_STEPS = 200
 
     LR = 4e-3
     WARMUP_STEPS = 200

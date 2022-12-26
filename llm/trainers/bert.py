@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import os
 import sys
+import time
 from collections.abc import Sequence
 from typing import Any
 from typing import Literal
@@ -14,10 +16,82 @@ from colossalai.nn.optimizer import FusedAdam
 from colossalai.nn.optimizer import FusedLAMB
 from transformers import BertForPreTraining
 
+from llm.checkpoint import load_checkpoint
+from llm.checkpoint import save_checkpoint
 from llm.datasets.nvidia import Batch
 from llm.datasets.nvidia import sharded_dataset
 from llm.loss import BertPretrainingCriterion
 from llm.models import bert
+
+
+def checkpoint(
+    global_step: int,
+    epoch: int,
+    model: torch.nn.Module,
+    optimizer: torch.optim.Optimizer,
+    scheduler: torch.optim.lr_scheduler.LRScheduler,
+    logger: colossalai.logging.DistributedLogger,
+) -> None:  # pragma: no cover
+    if dist.get_rank() == 0:
+        save_checkpoint(
+            checkpoint_dir=gpc.config.CHECKPOINT_DIR,
+            global_step=global_step,
+            model=model,
+            optimizer=optimizer,
+            scheduler=scheduler,
+            epoch=epoch,
+            phase=gpc.config.PHASE,
+        )
+    logger.info(
+        f'Saved checkpoint at global step {global_step}',
+        ranks=[0],
+    )
+
+
+def load_state(
+    model: torch.nn.Module,
+    optimizer: torch.optim.Optimizer,
+    scheduler: torch.optim.lr_scheduler.LRScheduler,
+    logger: colossalai.logging.DistributedLogger,
+) -> tuple[int, int]:  # pragma: no cover
+    global_step = 0
+    epoch = 0
+
+    os.makedirs(gpc.config.CHECKPOINT_DIR, exist_ok=True)
+    checkpoint = load_checkpoint(gpc.config.CHECKPOINT_DIR, map_location='cpu')
+    if checkpoint is not None:
+        logger.info(f'Loaded checkpoint from {checkpoint.filepath}', ranks=[0])
+        model.load_state_dict(checkpoint.model_state_dict)
+
+        if checkpoint.kwargs['phase'] == gpc.config.PHASE:
+            logger.info(
+                'Checkpoint from current phase. Loading optimizer state',
+                ranks=[0],
+            )
+            if checkpoint.optimizer_state_dict is not None:
+                optimizer.load_state_dict(checkpoint.optimizer_state_dict)
+                device = (
+                    f'cuda:{torch.cuda.current_device()}'
+                    if torch.cuda.is_available()
+                    else 'cpu'
+                )
+                for state in optimizer.state.values():
+                    for k, v in state.items():
+                        if isinstance(v, torch.Tensor):
+                            state[k] = v.to(device)
+            if checkpoint.scheduler_state_dict is not None:
+                scheduler.load_state_dict(checkpoint.scheduler_state_dict)
+            global_step = checkpoint.global_step
+            epoch = checkpoint.kwargs['epoch']
+        else:
+            logger.info(
+                'Checkpoint from new phase. Resetting optimizer state',
+                ranks=[0],
+            )
+    else:
+        logger.info('No checkpoint found to resume from.', ranks=[0])
+
+    return global_step, epoch
 
 
 def log_step(
@@ -30,8 +104,8 @@ def log_step(
     lr: float,
 ) -> None:  # pragma: no cover
     logger.info(
-        f'epoch: {epoch} | step: {global_step} | loss: {step_loss:.3f} | '
-        f'lr: {lr:.2e} | time (s): {step_time:.3f}',
+        f'phase: {gpc.config.PHASE} | epoch: {epoch} | step: {global_step} | '
+        f'loss: {step_loss:.3f} | lr: {lr:.2e} | time (s): {step_time:.3f}',
         ranks=[0],
     )
 
@@ -39,25 +113,16 @@ def log_step(
 def get_optimizer_grouped_parameters(
     model: BertForPreTraining,
 ) -> list[dict[str, Any]]:  # pragma: no cover
-    param_optimizer = list(model.named_parameters())
+    # configure the weight decay for bert models
+    params = list(model.named_parameters())
     no_decay = ['bias', 'gamma', 'beta', 'LayerNorm']
 
-    # configure the weight decay for bert models
+    params_decay = [p for n, p in params if not any(v in n for v in no_decay)]
+    params_no_decay = [p for n, p in params if any(v in n for v in no_decay)]
+
     return [
-        {
-            'params': [
-                p
-                for n, p in param_optimizer
-                if not any(v in n for v in no_decay)
-            ],
-            'weight_decay': 0.1,
-        },
-        {
-            'params': [
-                p for n, p in param_optimizer if any(v in n for v in no_decay)
-            ],
-            'weight_decay': 0.0,
-        },
+        {'params': params_decay, 'weight_decay': 0.1},
+        {'params': params_no_decay, 'weight_decay': 0.0},
     ]
 
 
@@ -66,16 +131,12 @@ def get_optimizer(
     name: Literal['lamb', 'adam'],
     lr: float,
 ) -> torch.optim.Optimizer:  # pragma: no cover
-    optimizer_grouped_params = get_optimizer_grouped_parameters(model)
+    grouped_params = get_optimizer_grouped_parameters(model)
 
     if name == 'adam':
-        optimizer = FusedAdam(
-            optimizer_grouped_params,
-            lr=lr,
-            betas=[0.9, 0.95],
-        )
+        optimizer = FusedAdam(grouped_params, lr=lr, betas=[0.9, 0.95])
     elif name == 'lamb':
-        optimizer = FusedLAMB(optimizer_grouped_params, lr=lr)
+        optimizer = FusedLAMB(grouped_params, lr=lr)
     else:
         raise ValueError(f'Unknown optimizer: {name}')
 
@@ -136,6 +197,8 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         power=0.5,
     )
 
+    global_step, epoch = load_state(model, optimizer, scheduler, logger)
+
     engine, _, _, scheduler = colossalai.initialize(
         model,
         optimizer,
@@ -147,11 +210,11 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     )
 
     micro_step = 0
-    global_step = 0
-    epoch = 0
-
     global_step_timer = colossalai.utils.Timer()
     step_loss = 0.0
+
+    model.train()
+    start_time = time.perf_counter()
 
     while global_step < gpc.config.STEPS:
         dataset = sharded_dataset(
@@ -184,6 +247,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
 
             if micro_step % gpc.config.gradient_accumulation == 0:
                 global_step += 1
+
                 global_step_timer.stop(keep_in_history=True)
                 log_step(
                     logger,
@@ -193,6 +257,17 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                     step_time=global_step_timer.get_elapsed_time(),
                     lr=scheduler.get_last_lr()[0],
                 )
+
+                if global_step % gpc.config.CHECKPOINT_STEPS == 0:
+                    checkpoint(
+                        global_step=global_step,
+                        epoch=epoch,
+                        model=model,
+                        optimizer=optimizer,
+                        scheduler=scheduler,
+                        logger=logger,
+                    )
+
                 step_loss = 0.0
 
             # Wait to step scheduler until after we have logged current LR
@@ -204,9 +279,15 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
 
         epoch += 1
 
+    step_time = (
+        f'{global_step_timer.get_history_mean():.3f}'
+        if global_step_timer.has_history
+        else 'N/A'
+    )
     logger.info(
-        'Training completed. Avg step time (s): '
-        f'{global_step_timer.get_history_mean()}',
+        'Training complete ('
+        f'total training time (s): {time.perf_counter() - start_time:.3f}, '
+        f'avg step time (s): {step_time})',
         ranks=[0],
     )
     return 0

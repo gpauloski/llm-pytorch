@@ -76,6 +76,6 @@ mpiexec --hostfile $PBS_NODEFILE -np $NNODES --env OMP_NUM_THREADS=8 --cpu-bind 
 ## Transitioning from Phase 1 to 2
 
 After phase 1 training is complete, set `PHASE = 2` in the config file.
-Then, copy the last checkpoint from the phase 1 directory to a new phase 2 checkpoint directory.
+Then, copy the last checkpoint from the `CHECKPOINT_DIR` for phase 1 to the new `CHECKPOINT_DIR` for phase 2 with the filename `global_step_0.pt`.
 
-*Note: checkpointing is still incomplete.*
+*Note: checkpointing is still incomplete. End of phase checkpoints work correctly but resuming training mid-phase does not correctly resume the position in the dataset.*
