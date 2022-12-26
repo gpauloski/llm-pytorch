@@ -15,10 +15,17 @@ $ pip install -r requirements.txt
 $ pip install .           # use -e for editable mode
 ```
 
-Tox is used for development and can also be used to configure a development environment.
-Pre-commit should be installed if developing within the `llm` package.
+### Development Install
+
+If you plan to develop within the `llm` package and contribute changes,
+we use Tox for testing and pre-commit for linting.
+Tox can be used to configure a development environment.
 ```
 $ tox --devenv venv -e py310
 $ . venv/bin/activate
 $ pre-commit install
 ```
+
+## Guides
+
+- [BERT Pretraining](guides/bert-pretraining.md)

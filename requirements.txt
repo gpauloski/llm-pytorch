@@ -1,5 +1,9 @@
---extra-index-url https://download.pytorch.org/whl/cu116
 
+--extra-index-url https://download.pytorch.org/whl/cu116
 -f https://release.colossalai.org
 colossalai==0.1.12+torch1.12cu11.3
+h5py
+tensorboard
+tokenizers==0.13.2
 torch>=1.12
+transformers==4.25.1
