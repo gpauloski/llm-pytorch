@@ -25,7 +25,7 @@ if PHASE == 1:
     DATA_DIR = '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/'  # noqa: E501
 
     GLOBAL_BATCH_SIZE = 8192
-    BATCH_SIZE = 128
+    BATCH_SIZE = 64
     STEPS = 7038
     CHECKPOINT_STEPS = 500
 
