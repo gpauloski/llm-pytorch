@@ -9,7 +9,7 @@ import colossalai
 import torch
 import torch.distributed as dist
 from colossalai.core import global_context as gpc
-from colossalai.nn.lr_scheduler import LinearWarmupLR
+from colossalai.nn.lr_scheduler import PolynomialWarmupLR
 from colossalai.nn.optimizer import FusedAdam
 from colossalai.nn.optimizer import FusedLAMB
 from transformers import BertForPreTraining
@@ -109,7 +109,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             'Global batch size must be divisible by the product of the '
             'world size and batch size.',
         )
-    gpc.config.update({'accumulation_steps': int(gradient_accumulation)})
+    gpc.config.update({'gradient_accumulation': int(gradient_accumulation)})
 
     colossalai.logging.disable_existing_loggers()
     logger = colossalai.logging.get_dist_logger()
@@ -123,12 +123,17 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     )
 
     model = bert.from_config(gpc.config.BERT_CONFIG)
+    if gpc.config.get('GRADIENT_CHECKPOINTING', False):
+        model.gradient_checkpointing_enable()
+    else:
+        model.gradient_checkpointing_disable()
     optimizer = get_optimizer(model, gpc.config.OPTIMIZER, gpc.config.LR)
     criterion = BertPretrainingCriterion(gpc.config.BERT_CONFIG['vocab_size'])
-    scheduler = LinearWarmupLR(
+    scheduler = PolynomialWarmupLR(
         optimizer,
         gpc.config.STEPS,
         gpc.config.WARMUP_STEPS,
+        power=0.5,
     )
 
     engine, _, _, scheduler = colossalai.initialize(
@@ -136,6 +141,9 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         optimizer,
         criterion=criterion,
         lr_scheduler=scheduler,
+        # Pass fake iterable for train_dataloader because setting
+        # gradient_accumulation requires initialize to have a dataloader
+        train_dataloader=list(range(0, 1024)),
     )
 
     micro_step = 0
@@ -152,7 +160,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             seed=gpc.config.SEED,
         )
         for batch in dataset:
-            if micro_step % gpc.config.accumulation_steps == 0:
+            if micro_step % gpc.config.gradient_accumulation == 0:
                 global_step_timer.start()
 
             batch = Batch(*[t.cuda() for t in batch])
@@ -174,14 +182,14 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             step_loss += loss.float().item()
             micro_step += 1
 
-            if micro_step % gpc.config.accumulation_steps == 0:
+            if micro_step % gpc.config.gradient_accumulation == 0:
                 global_step += 1
                 global_step_timer.stop(keep_in_history=True)
                 log_step(
                     logger,
                     epoch=epoch,
                     global_step=global_step,
-                    step_loss=step_loss / gpc.config.accumulation_steps,
+                    step_loss=step_loss / gpc.config.gradient_accumulation,
                     step_time=global_step_timer.get_elapsed_time(),
                     lr=scheduler.get_last_lr()[0],
                 )
