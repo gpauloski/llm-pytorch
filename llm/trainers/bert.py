@@ -23,6 +23,8 @@ from llm.datasets.nvidia import Batch
 from llm.datasets.nvidia import sharded_dataset
 from llm.loss import BertPretrainingCriterion
 from llm.models import bert
+from llm.utils import create_summary_writer
+from llm.utils import flattened_config
 
 
 def checkpoint(
@@ -188,7 +190,6 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         f'(debug: {args.debug})',
         ranks=[0],
     )
-    writer = SummaryWriter(gpc.config.TENSORBOARD_DIR)
 
     model = bert.from_config(gpc.config.BERT_CONFIG)
     if gpc.config.get('GRADIENT_CHECKPOINTING', False):
@@ -205,6 +206,13 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     )
 
     global_step, epoch = load_state(model, optimizer, scheduler, logger)
+
+    writer = create_summary_writer(
+        gpc.config.TENSORBOARD_DIR,
+        flattened_config(),
+        ['train/loss', 'train/lr', 'train/epoch'],
+        purge_step=global_step,
+    )
 
     engine, _, _, scheduler = colossalai.initialize(
         model,
@@ -286,6 +294,8 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                 break
 
         epoch += 1
+
+    writer.close()
 
     step_time = (
         f'{global_step_timer.get_history_mean():.3f}'

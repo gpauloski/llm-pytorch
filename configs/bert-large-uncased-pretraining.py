@@ -11,14 +11,16 @@ from colossalai.amp import AMP_TYPE
 
 from llm.models import bert as bert_models
 
+
 PHASE = 1
 SEED = 42
 BERT_CONFIG = bert_models.BERT_LARGE
 OPTIMIZER = 'lamb'
 GRADIENT_CHECKPOINTING = False
 OUTPUT_DIR = 'results/bert-large-pretraining'
-CHECKPOINT_DIR = os.path.join(OUTPUT_DIR, f'checkpoints/phase-{PHASE}')
-TENSORBOARD_DIR = os.path.join(OUTPUT_DIR, f'tensorboard/phase-{PHASE}')
+RUN_NAME = f'phase-{PHASE}'
+CHECKPOINT_DIR = os.path.join(OUTPUT_DIR, f'checkpoints/{RUN_NAME}')
+TENSORBOARD_DIR = os.path.join(OUTPUT_DIR, f'tensorboard/{RUN_NAME}')
 
 if PHASE == 1:
     MAX_SEQ_LENGTH = 128

@@ -1,5 +1,52 @@
 from __future__ import annotations
 
+import collections
+from collections.abc import Mapping
+from typing import Any
+from typing import Union
+
+import torch.distributed as dist
+from colossalai.core import global_context as gpc
+from torch.utils.tensorboard import SummaryWriter
+from torch.utils.tensorboard.summary import hparams
+
+HParamT = Union[bool, float, int, str, None]
+
+
+def create_summary_writer(
+    tensorboard_dir: str,
+    hparam_dict: dict[str, HParamT] | None = None,
+    metrics: list[str] | None = None,
+    **writer_kwargs: Any,
+) -> SummaryWriter:
+    """Create a SummaryWriter instance for the run annotated with hyperparams.
+
+    https://github.com/pytorch/pytorch/issues/37738#issuecomment-1124497827
+
+    Args:
+        tensorboard_dir (str): TensorBoard run directory.
+        hparam_dict (dict): optional hyperparam dictionary to log alongside
+            metrics (default: None).
+        metrics (list[str]): optional list of metric tags that will be used
+            with ``writer.add_scalar()`` (e.g., ['train/loss', 'train/lr']).
+            Must be provided if ``hparam_dict`` is provided (default: None).
+        **writer_kwargs: additional keyword arguments to pass to
+            ``SummaryWriter``.
+
+    Returns:
+        SummaryWriter
+    """
+    writer = SummaryWriter(tensorboard_dir, **writer_kwargs)
+
+    if hparam_dict is not None and metrics is not None:
+        metric_dict = {metric: 0 for metric in metrics}
+        exp, ssi, sei = hparams(hparam_dict, metric_dict=metric_dict)
+        writer.file_writer.add_summary(exp)
+        writer.file_writer.add_summary(ssi)
+        writer.file_writer.add_summary(sei)
+
+    return writer
+
 
 def gradient_accumulation_steps(
     global_batch_size: int,
@@ -16,3 +63,66 @@ def gradient_accumulation_steps(
         )
 
     return global_batch_size // effective_batch
+
+
+def flattened_config(
+    config: dict[str, HParamT] | None = None,
+) -> dict[str, HParamT]:
+    """Returns flattened global config as JSON.
+
+    Args:
+        config (dict): optional starting config. Note that ``gpc.config``
+            will override these values.
+
+    Returns:
+        flat dictionary containing only bool, float, int, str, or None values.
+    """
+    if config is None:
+        config = {}
+
+    if gpc.config is not None:
+        config.update(gpc.config)
+
+    if dist.is_initialized():
+        config['world_size'] = dist.get_world_size()
+
+    config = flatten_mapping(config)
+    for key in list(config.keys()):
+        if not isinstance(config[key], (bool, float, int, str, type(None))):
+            del config[key]
+
+    return config
+
+
+def flatten_mapping(
+    d: Mapping[str, Any],
+    parent: str | None = None,
+    sep: str = '_',
+) -> dict[str, Any]:
+    """Flatten mapping into dict by joining nested keys via a separator.
+
+    Warning:
+        This function does not check for key collisions. E.g.,
+        >>> flatten_mapping({'a': {'b_c': 1}, 'a_b': {'c': 2}})
+        {'a_b_c': 2}
+
+    Args:
+        d (Mapping): input mapping. All keys and nested keys must by strings.
+        parent (str, optional): parent key to prepend to top-level keys in
+            ``d`` (Default: None).
+        sep (str): separator between keys (Default: '_').
+
+    Returns:
+        flat dictionary.
+    """
+    # https://stackoverflow.com/questions/6027558
+    items: list[tuple[str, Any]] = []
+
+    for key, value in d.items():
+        new_key = f'{parent}{sep}{key}' if parent is not None else key
+        if isinstance(value, collections.abc.Mapping):
+            items.extend(flatten_mapping(value, new_key, sep).items())
+        else:
+            items.append((new_key, value))
+
+    return dict(items)
