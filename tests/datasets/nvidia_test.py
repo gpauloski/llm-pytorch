@@ -93,9 +93,15 @@ def test_worker_init() -> None:
 @pytest.mark.parametrize(
     'seq_len,masked_lm_positions,masked_lm_ids,result',
     (
-        (1, [0], [42], [42]),
+        (1, [], [], [-1]),
         (2, [1], [42], [-1, 42]),
-        (4, [0, 1], [42, 43], [42, 43, -1, -1]),
+        (4, [1, 3], [42, 43], [-1, 42, -1, 43]),
+        (
+            14,
+            [6, 12, 13],
+            [1997, 2074, 2151],
+            [-1, -1, -1, -1, -1, -1, 1997, -1, -1, -1, -1, -1, 2074, 2151],
+        ),
     ),
 )
 def test_masked_labels(
@@ -104,10 +110,8 @@ def test_masked_labels(
     masked_lm_ids: list[int],
     result: list[int],
 ) -> None:
-    assert np.array_equal(
-        masked_labels(seq_len, masked_lm_positions, masked_lm_ids),
-        result,
-    )
+    labels = masked_labels(seq_len, masked_lm_positions, masked_lm_ids)
+    assert np.array_equal(labels, result)
 
 
 def test_get_shard_filepaths(data_dir: pathlib.Path) -> None:

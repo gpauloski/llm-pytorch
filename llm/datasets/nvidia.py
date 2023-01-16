@@ -88,7 +88,14 @@ def masked_labels(
         not masked.
     """
     masked_lm_labels = np.ones(seq_len, dtype=np.int64) * -1
-    masked_lm_labels[masked_lm_positions] = masked_lm_ids
+    if len(masked_lm_positions) > 0:
+        # store number of  masked tokens in index
+        (padded_mask_indices,) = np.nonzero(np.array(masked_lm_positions) == 0)
+        if len(padded_mask_indices) != 0:
+            index = padded_mask_indices[0]
+        else:
+            index = len(masked_lm_positions)
+        masked_lm_labels[masked_lm_positions[:index]] = masked_lm_ids[:index]
     return masked_lm_labels
 
 
