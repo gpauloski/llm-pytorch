@@ -129,7 +129,7 @@ def get_optimizer_grouped_parameters(
     params_no_decay = [p for n, p in params if any(v in n for v in no_decay)]
 
     return [
-        {'params': params_decay, 'weight_decay': 0.1},
+        {'params': params_decay, 'weight_decay': 0.01},
         {'params': params_no_decay, 'weight_decay': 0.0},
     ]
 
