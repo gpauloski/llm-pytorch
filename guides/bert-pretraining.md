@@ -4,25 +4,25 @@ BERT pretraining based on [NVIDIA's configuration](https://github.com/NVIDIA/Dee
 
 This guide assumes you have installed the `llm` packages and its dependencies as described in the [README](../README.md).
 
-An example training configuration is provided in [configs/bert-large-uncased-pretraining.py](../configs/bert-large-uncased-pretraining.py).
-Typically, you will need to change at least the `DATA_DIR`, `OUTPUT_DIR`, and `PHASE` depending on your training state.
+An example training configuration is provided in [configs/bert-large/nvidia-lamb.py](../configs/bert-large/nvidia-lamb.py).
+Typically, you will need to change at least the `DATA_DIR`, `OUTPUT_DIR`, `RUN_NAME` and `PHASE` depending on your training state.
 
 ## Run Commands
 
 - **Single-GPU for Debugging:**
   ```bash
-  python -m llm.trainers.bert --config configs/bert-large-uncased-pretraining.py --debug
+  python -m llm.trainers.bert --config configs/bert-large/nvidia-lamb.py --debug
   ```
 - **Multi-GPU Single-Node:**
   ```bash
   torchrun --nnodes=1 --nproc_per_node=auto --standalone \
-      -m llm.trainers.bert --config configs/bert-large-uncased-pretraining.py
+      -m llm.trainers.bert --config configs/bert-large/nvidia-lamb.py
   ```
 - **Multi-Node Multi-GPU:**
   ```bash
   torchrun --nnodes $NNODES --nproc_per_node=auto --max_restarts 0 \
       --rdzv_backend=c10d --rdzv_endpoint=$PRIMARY_RANK \
-      -m llm.trainers.bert --config configs/bert-large-uncased-pretraining.py
+      -m llm.trainers.bert --config configs/bert-large/nvidia-lamb.py
   ```
 
 ### PBS Training
@@ -50,7 +50,7 @@ else
     NNODES=$(< $PBS_NODEFILE wc -l)
 fi
 
-CONFIG="configs/bert-large-uncased-pretraining.py"
+CONFIG="configs/bert-large/nvidia-lamb.py"
 
 # Commands to run prior to the Python script for setting up the environment
 module load cray-python

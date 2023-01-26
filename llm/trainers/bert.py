@@ -11,7 +11,7 @@ import colossalai
 import torch
 import torch.distributed as dist
 from colossalai.core import global_context as gpc
-from colossalai.nn.lr_scheduler import PolynomialWarmupLR
+from colossalai.nn.lr_scheduler import LinearWarmupLR
 from colossalai.nn.optimizer import FusedAdam
 from colossalai.nn.optimizer import FusedLAMB
 from torch.utils.tensorboard import SummaryWriter
@@ -142,7 +142,8 @@ def get_optimizer(
     grouped_params = get_optimizer_grouped_parameters(model)
 
     if name == 'adam':
-        optimizer = FusedAdam(grouped_params, lr=lr, betas=[0.9, 0.95])
+        # betas from BERT paper: https://arxiv.org/pdf/1810.04805.pdf
+        optimizer = FusedAdam(grouped_params, lr=lr, betas=[0.9, 0.999])
     elif name == 'lamb':
         optimizer = FusedLAMB(grouped_params, lr=lr)
     else:
@@ -191,18 +192,16 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         ranks=[0],
     )
 
-    model = bert.from_config(gpc.config.BERT_CONFIG)
-    if gpc.config.get('GRADIENT_CHECKPOINTING', False):
-        model.gradient_checkpointing_enable()
-    else:
-        model.gradient_checkpointing_disable()
+    model = bert.from_config(
+        gpc.config.BERT_CONFIG,
+        gpc.config.get('GRADIENT_CHECKPOINTING', False),
+    )
     optimizer = get_optimizer(model, gpc.config.OPTIMIZER, gpc.config.LR)
     criterion = BertPretrainingCriterion(gpc.config.BERT_CONFIG['vocab_size'])
-    scheduler = PolynomialWarmupLR(
+    scheduler = LinearWarmupLR(
         optimizer,
-        gpc.config.STEPS,
-        gpc.config.WARMUP_STEPS,
-        power=0.5,
+        total_steps=gpc.config.STEPS,
+        warmup_steps=gpc.config.WARMUP_STEPS,
     )
 
     global_step, epoch = load_state(model, optimizer, scheduler, logger)
@@ -235,30 +234,31 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         dataset = sharded_dataset(
             gpc.config.DATA_DIR,
             gpc.config.BATCH_SIZE,
-            seed=gpc.config.SEED,
+            seed=gpc.config.seed,
         )
         for batch in dataset:
-            if micro_step % gpc.config.gradient_accumulation == 0:
+            micro_step += 1
+
+            if micro_step % gpc.config.gradient_accumulation == 1:
                 global_step_timer.start()
 
             batch = Batch(*[t.cuda() for t in batch])
             engine.zero_grad()
             output = engine(
                 input_ids=batch.input_ids,
-                token_type_ids=batch.segment_ids,
-                attention_mask=batch.input_mask,
+                attention_mask=batch.attention_mask,
+                token_type_ids=batch.token_type_ids,
             )
             loss = engine.criterion(
-                output.prediction_logits,
-                batch.masked_labels,
-                output.seq_relationship_logits,
-                batch.next_sentence_labels,
+                prediction_scores=output.prediction_logits,
+                masked_lm_labels=batch.masked_labels,
+                seq_relationship_score=output.seq_relationship_logits,
+                next_sentence_labels=batch.next_sentence_labels,
             )
             engine.backward(loss)
             engine.step()
 
             step_loss += loss.float().item()
-            micro_step += 1
 
             if micro_step % gpc.config.gradient_accumulation == 0:
                 global_step += 1
