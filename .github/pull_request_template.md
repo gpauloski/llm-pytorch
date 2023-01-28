@@ -5,8 +5,8 @@
 ### Fixes
 <!--- List any issue numbers that this PR addresses (or remove) --->
 
-- Fixes #1
-- Fixes #2
+- Fixes #XX
+- Fixes #XX
 
 ### Type of Change
 <!--- Check which off the following types describe this PR --->
@@ -17,10 +17,12 @@
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation update (no changes to the code)
 - [ ] CI change (changes to CI workflows, packages, templates, etc.)
+- [ ] Version changes (changes to the package or dependency versions)
 
 ## Testing
 <!--- Please describe the test ran to verify changes --->
 
+N/A
 
 ## Pull Request Checklist
 

@@ -11,7 +11,6 @@ from colossalai.amp import AMP_TYPE
 
 from llm.models import bert as bert_models
 
-
 PHASE = 1
 SEED = 42
 BERT_CONFIG = bert_models.BERT_LARGE

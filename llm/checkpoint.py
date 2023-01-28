@@ -7,7 +7,6 @@ from typing import NamedTuple
 
 import torch
 
-
 CHECKPOINT_NAME_RE = re.compile(r'^global_step_(\d+).pt$')
 
 

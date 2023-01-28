@@ -5,7 +5,6 @@ from transformers import BertForPreTraining
 from llm.models.bert import from_config
 from testing.mock import mock_global_context
 
-
 TINY_CONFIG = dict(
     vocab_size=1000,
     hidden_size=32,
