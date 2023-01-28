@@ -1,0 +1,112 @@
+[build-system]
+requires = ["setuptools>=64.0", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm"
+version = "0.0.1"
+authors = [
+    {name = "Greg Pauloski", email = "jgpauloski@uchicago.edu"},
+]
+description = "Training code for large language models."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+#dynamic = ["dependencies"]
+dependencies = [
+    "colossalai @ https://release.colossalai.org/colossalai-0.1.12%2Btorch1.12cu11.3-cp310-cp310-linux_x86_64.whl ; python_version=='3.10'",
+    "colossalai @ https://release.colossalai.org/colossalai-0.1.12%2Btorch1.12cu11.3-cp39-cp39-linux_x86_64.whl ; python_version=='3.9'",
+    "h5py",
+    "tensorboard",
+    "tokenizers==0.13.2",
+    "torch @ https://download.pytorch.org/whl/cu116/torch-1.12.1%2Bcu116-cp310-cp310-linux_x86_64.whl ; python_version=='3.10'",
+    "torch @ https://download.pytorch.org/whl/cu116/torch-1.12.1%2Bcu116-cp39-cp39-linux_x86_64.whl ; python_version=='3.9'",
+    "transformers==4.25.1",
+]
+
+[project.urls]
+repository = "https://github.com/gpauloski/llm-colossal-ai"
+
+[tool.setuptools.packages.find]
+exclude = ["tests*", "testing*"]
+namespaces = false
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "covdefaults>=2.2",
+    "coverage",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "tox",
+    "virtualenv",
+]
+
+[tool.black]
+line-length = 79
+target-version = ["py39"]
+skip-string-normalization = true
+
+[tool.codespell]
+skip = """
+.git,
+.github,
+__pycache__,
+build,
+dist,
+.*egg-info
+"""
+
+[tool.coverage.run]
+plugins = ["covdefaults"]
+
+[tool.mypy]
+python_version = "3.10"
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = "testing.*"
+allow_incomplete_defs = true
+allow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+allow_incomplete_defs = true
+allow_untyped_defs = true
+
+[tool.pytest]
+filterwarnings = ["ignore::UserWarning:torch"]
+
+[tool.ruff]
+# pycodestyle, pyflakes, flake8-builtins, flake8-bugbear, isort, pep8-naming,
+# pydocstyle, flake8-debugger, flake8-commas
+select = ["E", "F", "A", "B", "I", "N", "D", "T10", "COM"]
+target-version = "py37"
+
+[tool.ruff.isort]
+force-single-line = true
+known-first-party = ["llm", "test", "testing"]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.per-file-ignores]
+"*/__init__.py" = ["F401"]
+"*/*_test.py" = ["D10"]
+
+[tool.ruff.pydocstyle]
+convention = "google"
