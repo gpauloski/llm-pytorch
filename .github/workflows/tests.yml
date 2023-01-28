@@ -2,14 +2,14 @@ name: tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, test-me-*]
     tags:
   pull_request:
   workflow_dispatch:
 
 jobs:
   tests:
-    timeout-minutes: 30
+    timeout-minutes: 15
 
     strategy:
       matrix:
@@ -39,12 +39,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.PIP_CACHE_DIR }}
-          key: ${{ matrix.os }}-pip-${{ matrix.python }}-${{ hashFiles('requirements.txt', 'requirements-dev.txt') }}
+          key: ${{ matrix.os }}-pip-${{ matrix.python }}-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
             ${{ matrix.os }}-pip-${{ matrix.python }}-
 
       - name: Install Packages
-        run: python -mpip install --upgrade setuptools pip tox virtualenv
+        run: python -mpip install --upgrade pip tox
 
       - name: Run Tox
         run: tox -e ${{ matrix.toxenv }}
