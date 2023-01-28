@@ -68,7 +68,7 @@ def gradient_accumulation_steps(
 def flattened_config(
     config: dict[str, HParamT] | None = None,
 ) -> dict[str, HParamT]:
-    """Returns flattened global config as JSON.
+    """Return flattened global config as JSON.
 
     Args:
         config (dict): optional starting config. Note that ``gpc.config``

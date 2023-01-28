@@ -97,7 +97,8 @@ filterwarnings = ["ignore::UserWarning:torch"]
 # pycodestyle, pyflakes, flake8-builtins, flake8-bugbear, isort, pep8-naming,
 # pydocstyle, flake8-debugger, flake8-commas
 select = ["E", "F", "A", "B", "I", "N", "D", "T10", "COM"]
-target-version = "py37"
+extend-ignore = ["D10"]
+target-version = "py39"
 
 [tool.ruff.isort]
 force-single-line = true

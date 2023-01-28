@@ -35,9 +35,9 @@ class WorkerInitObj:
     def __init__(self, seed: int) -> None:
         self.seed = seed
 
-    def __call__(self, id: int) -> None:
-        np.random.seed(seed=self.seed + id)
-        random.seed(self.seed + id)
+    def __call__(self, id_: int) -> None:
+        np.random.seed(seed=self.seed + id_)
+        random.seed(self.seed + id_)
 
 
 class NvidiaBertDataset(Dataset):
@@ -77,7 +77,7 @@ def masked_labels(
     """Create masked labels array.
 
     Args:
-        seq_len (int)
+        seq_len (int): sequence length.
         masked_lm_positions (list[int]): index in sequence of masked tokens
         masked_lm_ids (list[int]): true token value for each position in
             masked_lm_position.
