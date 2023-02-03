@@ -1,15 +1,18 @@
 from __future__ import annotations
 
+import logging
 import pathlib
 from typing import Any
 from unittest import mock
 
 import pytest
 
+from llm.utils import DistributedFilter
 from llm.utils import create_summary_writer
 from llm.utils import flatten_mapping
 from llm.utils import flattened_config
 from llm.utils import gradient_accumulation_steps
+from llm.utils import init_logging
 
 
 def test_create_summary_writer(tmp_path: pathlib.Path) -> None:
@@ -84,3 +87,47 @@ def test_flatten_mapping(
     kwargs: dict[str, Any],
 ) -> None:
     assert flatten_mapping(in_, **kwargs) == out
+
+
+@pytest.mark.parametrize('rich', (True, False))
+def test_logging(rich: bool) -> None:
+    init_logging(rich=rich)
+
+    logger = logging.getLogger('tests/logging::test_logging')
+    logger.info('test')
+
+
+def test_logging_file_handler(tmp_path: pathlib.Path) -> None:
+    init_logging(logfile=tmp_path / 'log.txt')
+
+    logger = logging.getLogger('tests/logging::test_logging_file_handler')
+    logger.info('test')
+
+
+def test_distributed_logging(caplog) -> None:
+    caplog.set_level(logging.INFO)
+    init_logging(distributed=True)
+
+    # Pytest replaces the logging handlers so there is not much to test here
+    logger = logging.getLogger('tests/logging::test_distributed_logging')
+
+    filter_ = DistributedFilter()
+
+    # Distributed not initialized
+    logger.info('test', extra={'ranks': [1]})
+    record = caplog.records.pop()
+    assert filter_.filter(record)
+
+    with mock.patch('torch.distributed.is_initialized', return_value=True):
+        with mock.patch('torch.distributed.get_rank', return_value=0):
+            logger.info('test')
+            record = caplog.records.pop()
+            assert filter_.filter(record)
+
+            logger.info('test', extra={'ranks': [0]})
+            record = caplog.records.pop()
+            assert filter_.filter(record)
+
+            logger.info('test', extra={'ranks': [1]})
+            record = caplog.records.pop()
+            assert not filter_.filter(record)

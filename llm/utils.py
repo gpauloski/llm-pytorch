@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 import collections
+import logging
+import pathlib
+import sys
 from collections.abc import Mapping
 from typing import Any
 from typing import Union
 
 import torch.distributed as dist
 from colossalai.core import global_context as gpc
+from rich.logging import RichHandler
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.tensorboard.summary import hparams
 
@@ -126,3 +130,60 @@ def flatten_mapping(
             items.append((new_key, value))
 
     return dict(items)
+
+
+class DistributedFilter(logging.Filter):
+    """Custom filter that allows specifying ranks to print to."""
+
+    def filter(self, record: logging.LogRecord) -> bool:  # noqa: A003
+        ranks = getattr(record, 'ranks', None)
+        if dist.is_initialized():
+            record.msg = f'[rank {dist.get_rank()}] {record.msg}'
+            return ranks is None or dist.get_rank() in ranks
+        else:
+            return True
+
+
+def init_logging(
+    level: int | str = logging.INFO,
+    logfile: pathlib.Path | str | None = None,
+    rich: bool = False,
+    distributed: bool = False,
+) -> None:
+    """Configure global logging.
+
+    Args:
+        level: default logging level.
+        logfile: optional path to write logs to.
+        rich: use rich for pretty stdout logging.
+        distributed: configure distributed formatters and filters.
+    """
+    if rich:
+        stdout_handler = RichHandler(rich_tracebacks=True)
+    else:
+        stdout_handler = logging.StreamHandler(sys.stdout)
+    handlers: list[logging.Handler] = [stdout_handler]
+
+    if logfile is not None:
+        path = pathlib.Path(logfile).resolve()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        handlers.append(logging.FileHandler(path))
+
+    formatter = logging.Formatter(
+        fmt='[%(asctime)s.%(msecs)03d] %(levelname)s (%(name)s): %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+    for handler in handlers:
+        handler.setFormatter(formatter)
+
+    if distributed:
+        filter_ = DistributedFilter()
+        for handler in handlers:
+            handler.addFilter(filter_)
+
+    logging.basicConfig(
+        level=level,
+        format='%(message)s',
+        datefmt='[%X]',
+        handlers=handlers,
+    )

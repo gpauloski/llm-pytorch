@@ -23,6 +23,7 @@ dependencies = [
     "colossalai @ https://release.colossalai.org/colossalai-0.1.12%2Btorch1.12cu11.3-cp310-cp310-linux_x86_64.whl ; python_version=='3.10'",
     "colossalai @ https://release.colossalai.org/colossalai-0.1.12%2Btorch1.12cu11.3-cp39-cp39-linux_x86_64.whl ; python_version=='3.9'",
     "h5py",
+    "rich",
     "tensorboard",
     "tokenizers==0.13.2",
     "torch @ https://download.pytorch.org/whl/cu116/torch-1.12.1%2Bcu116-cp310-cp310-linux_x86_64.whl ; python_version=='3.10'",
