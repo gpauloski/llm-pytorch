@@ -23,11 +23,18 @@ from torch.utils.data.distributed import DistributedSampler
 
 
 class Batch(NamedTuple):
+    # (batch_size, seq_len): indices of input sequence token in vocab
     input_ids: torch.LongTensor
-    input_mask: torch.LongTensor
+    # (batch_size, seq_len): indicates which tokens in input_ids should be
+    # attended to. Also know as the input_mask
+    attention_mask: torch.LongTensor
+    # (batch_size, seq_len): indicates first and second segments in input_ids.
+    # Also known as segment_ids
+    token_type_ids: torch.LongTensor
+    # (batch_size, seq_len): indices in vocab of masked tokens in input_ids
     masked_labels: torch.LongTensor
+    # (batch_size, ): boolean indicating next sentence label
     next_sentence_labels: torch.LongTensor
-    segment_ids: torch.LongTensor
 
 
 # Workaround because python functions are not picklable
@@ -45,10 +52,10 @@ class NvidiaBertDataset(Dataset):
         with h5py.File(input_file, 'r') as f:
             self.input_ids = f['input_ids'][:]
             self.input_mask = f['input_mask'][:]
+            self.segment_ids = f['segment_ids'][:]
             self.masked_lm_ids = f['masked_lm_ids'][:]
             self.masked_lm_positions = f['masked_lm_positions'][:]
             self.next_sentence_labels = f['next_sentence_labels'][:]
-            self.segment_ids = f['segment_ids'][:]
 
     def __len__(self) -> int:
         return len(self.input_ids)
@@ -57,13 +64,13 @@ class NvidiaBertDataset(Dataset):
         sample = [
             self.input_ids[index].astype(np.int64),
             self.input_mask[index].astype(np.int64),
+            self.segment_ids[index].astype(np.int64),
             masked_labels(
                 len(self.input_ids[index]),
                 self.masked_lm_positions[index],
                 self.masked_lm_ids[index],
             ),
             np.asarray(self.next_sentence_labels[index]).astype(np.int64),
-            self.segment_ids[index].astype(np.int64),
         ]
 
         return [torch.from_numpy(x) for x in sample]
@@ -88,7 +95,14 @@ def masked_labels(
         not masked.
     """
     masked_lm_labels = np.ones(seq_len, dtype=np.int64) * -1
-    masked_lm_labels[masked_lm_positions] = masked_lm_ids
+    if len(masked_lm_positions) > 0:
+        # store number of  masked tokens in index
+        (padded_mask_indices,) = np.nonzero(np.array(masked_lm_positions) == 0)
+        if len(padded_mask_indices) != 0:
+            index = padded_mask_indices[0]
+        else:
+            index = len(masked_lm_positions)
+        masked_lm_labels[masked_lm_positions[:index]] = masked_lm_ids[:index]
     return masked_lm_labels
 
 

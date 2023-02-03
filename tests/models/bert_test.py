@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 from transformers import BertForPreTraining
 
 from llm.models.bert import from_config
@@ -20,8 +21,9 @@ TINY_CONFIG = dict(
 )
 
 
-def test_from_passed_config() -> None:
-    model = from_config(config=TINY_CONFIG)
+@pytest.mark.parametrize('checkpointing', (True, False))
+def test_from_passed_config(checkpointing: bool) -> None:
+    model = from_config(config=TINY_CONFIG, checkpoint_gradients=checkpointing)
     assert isinstance(model, BertForPreTraining)
 
 
