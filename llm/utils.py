@@ -9,10 +9,11 @@ from typing import Any
 from typing import Union
 
 import torch.distributed as dist
-from colossalai.core import global_context as gpc
 from rich.logging import RichHandler
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.tensorboard.summary import hparams
+
+from llm.config import Config
 
 HParamT = Union[bool, float, int, str, None]
 
@@ -70,22 +71,18 @@ def gradient_accumulation_steps(
 
 
 def flattened_config(
-    config: dict[str, HParamT] | None = None,
+    config: dict[str, Any] | Config | None = None,
 ) -> dict[str, HParamT]:
     """Return flattened global config as JSON.
 
     Args:
-        config (dict): optional starting config. Note that ``gpc.config``
-            will override these values.
+        config (dict): optional starting config.
 
     Returns:
         flat dictionary containing only bool, float, int, str, or None values.
     """
     if config is None:
         config = {}
-
-    if gpc.config is not None:
-        config.update(gpc.config)
 
     if dist.is_initialized():
         config['world_size'] = dist.get_world_size()

@@ -7,6 +7,7 @@ from unittest import mock
 
 import pytest
 
+from llm.config import Config
 from llm.utils import DistributedFilter
 from llm.utils import create_summary_writer
 from llm.utils import flatten_mapping
@@ -45,28 +46,21 @@ def test_grad_accumulation_steps() -> None:
 
 
 def test_flattened_config() -> None:
-    with mock.patch('llm.utils.gpc') as mock_gpc:
-        mock_gpc.config = {}
-        assert flattened_config({'a': 1}) == {'a': 1}
+    assert flattened_config({'a': 1}) == {'a': 1}
 
-        mock_gpc.config = None
-        assert flattened_config({'a': 1}) == {'a': 1}
+    config = Config(**{'a': 1})
+    assert flattened_config(config) == {'a': 1}
 
-        # gpc overrides caller base config
-        mock_gpc.config = {'a': 2}
-        assert flattened_config({'a': 1}) == {'a': 2}
+    # test get world size
+    with mock.patch(
+        'torch.distributed.is_initialized',
+        return_value=True,
+    ), mock.patch('torch.distributed.get_world_size', return_value=4):
+        assert flattened_config() == {'world_size': 4}
 
-        # test get world size
-        mock_gpc.config = {}
-        with mock.patch(
-            'torch.distributed.is_initialized',
-            return_value=True,
-        ), mock.patch('torch.distributed.get_world_size', return_value=4):
-            assert flattened_config() == {'world_size': 4}
-
-        # test flattening and removing non-supported types
-        mock_gpc.config = {'a': {'b': 1, 'c': [1, 2]}}
-        assert flattened_config() == {'a_b': 1}
+    # test flattening and removing non-supported types
+    config = Config(**{'a': {'b': 1, 'c': [1, 2]}})
+    assert flattened_config(config) == {'a_b': 1}
 
 
 @pytest.mark.parametrize(

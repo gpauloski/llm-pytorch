@@ -7,7 +7,6 @@ from __future__ import annotations
 from typing import Any
 
 import transformers
-from colossalai.core import global_context as gpc
 
 BERT_BASE = dict(
     attention_probs_dropout_prob=0.1,
@@ -39,12 +38,9 @@ BERT_LARGE = dict(
 
 
 def from_config(
-    config: dict[str, Any] | None = None,
+    config: dict[str, Any],
     checkpoint_gradients: bool = False,
 ) -> transformers.BertForPreTraining:
-    if config is None:
-        config = gpc.config.bert_config
-
     config = transformers.BertConfig(**config)
     model = transformers.BertForPreTraining(config)
     if checkpoint_gradients:

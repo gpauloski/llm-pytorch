@@ -7,13 +7,8 @@ from collections.abc import Sequence
 from typing import Any
 from typing import Literal
 
-import colossalai
 import torch
 import torch.distributed as dist
-from colossalai.core import global_context as gpc
-from colossalai.nn.lr_scheduler import LinearWarmupLR
-from colossalai.nn.optimizer import FusedAdam
-from colossalai.nn.optimizer import FusedLAMB
 from torch.utils.tensorboard import SummaryWriter
 from transformers import BertForPreTraining
 
