@@ -80,7 +80,7 @@ class AMPOptimizer(BaseOptimizer):
 def initialize(
     model: torch.nn.Module,
     optimizer: Optimizer,
-    criterion: torch.nn.loss._Loss,
+    criterion: torch.nn.Module,
     dtype: torch.float16 | torch.bfloat16 = torch.float16,
     max_norm: float | None = None,
     **kwargs: Any,
