@@ -19,7 +19,7 @@ def test_amp_training() -> None:
     )
 
     losses = []
-    for _ in range(10):
+    for _ in range(100):
         batch = torch.rand(10, 1)
         target = 2 * batch
 

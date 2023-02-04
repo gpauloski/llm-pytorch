@@ -7,6 +7,8 @@ import torch
 from torch.cuda.amp import GradScaler
 from torch.optim import Optimizer
 
+from llm.engine.base import BaseOptimizer
+
 
 class AMPCriterion(torch.nn.Module):
     def __init__(
@@ -38,7 +40,7 @@ class AMPModel(torch.nn.Module):
             return self._model(*args, **kwargs)
 
 
-class AMPOptimizer(Optimizer):
+class AMPOptimizer(BaseOptimizer):
     def __init__(
         self,
         model: torch.nn.Module,
@@ -46,8 +48,8 @@ class AMPOptimizer(Optimizer):
         scaler: GradScaler,
         max_norm: float | None = None,
     ) -> None:
+        super().__init__(optimizer)
         self._model = model
-        self._optimizer = optimizer
         self._scaler = scaler
         self._max_norm = max_norm
 
@@ -73,9 +75,6 @@ class AMPOptimizer(Optimizer):
             )
         self._scaler.step(self._optimizer, closure=closure)
         self._scaler.update()
-
-    def zero_grad(self, set_to_none: bool = False) -> None:
-        self._optimizer.zero_grad(set_to_none)
 
 
 def initialize(
