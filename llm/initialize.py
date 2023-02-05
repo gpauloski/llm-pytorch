@@ -4,6 +4,7 @@ import argparse
 import logging
 import os
 import pathlib
+import pprint
 
 import torch
 
@@ -111,5 +112,7 @@ def initialize_from_args(args: argparse.Namespace) -> Config:
         logfile=config.get('logfile', None),
         rich=args.rich,
     )
+
+    logger.info(f'Config:\n{pprint.pformat(config, sort_dicts=True)}')
 
     return config
