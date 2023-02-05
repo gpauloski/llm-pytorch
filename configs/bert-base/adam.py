@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import os
 
-from colossalai.amp import AMP_TYPE
+import torch
 
 from llm.models import bert as bert_models
 
@@ -55,4 +55,5 @@ else:
 # accumulation_steps is computed automatically by llm.trainers.bert
 seed = 42
 clip_grad_norm = 1.0
-fp16 = dict(mode=AMP_TYPE.TORCH)
+# enable FP16 training with AMP
+dtype = torch.float16

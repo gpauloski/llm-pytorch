@@ -28,7 +28,7 @@ dependencies = [
 ]
 
 [project.urls]
-repository = "https://github.com/gpauloski/llm-colossal-ai"
+repository = "https://github.com/gpauloski/llm-pytorch"
 
 [tool.setuptools.packages.find]
 exclude = ["tests*", "testing*"]
