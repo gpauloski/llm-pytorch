@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+import collections
 import inspect
 import pathlib
 from importlib.machinery import SourceFileLoader
 from typing import Any
+from typing import Mapping
+from typing import Union
+
+import torch.distributed as dist
+
+HParamT = Union[bool, float, int, str, None]
 
 
 class Config(dict[str, Any]):
@@ -25,6 +32,65 @@ class Config(dict[str, Any]):
         if isinstance(value, dict):
             value = Config(**value)
         super().__setitem__(key, value)
+
+
+def flattened_config(
+    config: dict[str, Any] | Config | None = None,
+) -> dict[str, HParamT]:
+    """Return flattened global config as JSON.
+
+    Args:
+        config (dict): optional starting config.
+
+    Returns:
+        flat dictionary containing only bool, float, int, str, or None values.
+    """
+    if config is None:
+        config = {}
+
+    if dist.is_initialized():
+        config['world_size'] = dist.get_world_size()
+
+    config = flatten_mapping(config)
+    for key in list(config.keys()):
+        if not isinstance(config[key], (bool, float, int, str, type(None))):
+            del config[key]
+
+    return config
+
+
+def flatten_mapping(
+    d: Mapping[str, Any],
+    parent: str | None = None,
+    sep: str = '_',
+) -> dict[str, Any]:
+    """Flatten mapping into dict by joining nested keys via a separator.
+
+    Warning:
+        This function does not check for key collisions. E.g.,
+        >>> flatten_mapping({'a': {'b_c': 1}, 'a_b': {'c': 2}})
+        {'a_b_c': 2}
+
+    Args:
+        d (Mapping): input mapping. All keys and nested keys must by strings.
+        parent (str, optional): parent key to prepend to top-level keys in
+            ``d`` (Default: None).
+        sep (str): separator between keys (Default: '_').
+
+    Returns:
+        flat dictionary.
+    """
+    # https://stackoverflow.com/questions/6027558
+    items: list[tuple[str, Any]] = []
+
+    for key, value in d.items():
+        new_key = f'{parent}{sep}{key}' if parent is not None else key
+        if isinstance(value, collections.abc.Mapping):
+            items.extend(flatten_mapping(value, new_key, sep).items())
+        else:
+            items.append((new_key, value))
+
+    return dict(items)
 
 
 def load_config(filepath: pathlib.Path | str) -> Config:
