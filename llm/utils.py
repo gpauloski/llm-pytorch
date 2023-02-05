@@ -4,6 +4,7 @@ import logging
 import pathlib
 import sys
 from typing import Any
+from typing import Iterable
 from typing import Union
 
 import torch.distributed as dist
@@ -121,3 +122,28 @@ def init_logging(
         datefmt='[%X]',
         handlers=handlers,
     )
+
+
+def log_step(
+    logger: logging.Logger,
+    step: int,
+    *,
+    fmt_str: str | None = None,
+    log_level: int = logging.INFO,
+    ranks: Iterable[int] = (0,),
+    skip_tensorboard: Iterable[str] = (),
+    tensorboard_prefix: str = 'train',
+    writer: SummaryWriter | None = None,
+    **kwargs: Any,
+) -> None:
+    values = {'step': step, **kwargs}
+    if fmt_str is not None:
+        msg = fmt_str.format(**values)
+    else:
+        msg = ' | '.join(f'{name}: {value}' for name, value in values.items())
+
+    logger.log(log_level, msg, extra={'ranks': ranks})
+    if writer is not None:
+        for name, value in kwargs.items():
+            if name not in skip_tensorboard:
+                writer.add_scalar('{tensorboard_prefix}/{name}', value, step)
