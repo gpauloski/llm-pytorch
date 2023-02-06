@@ -18,20 +18,17 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: Implementation :: CPython",
 ]
-#dynamic = ["dependencies"]
 dependencies = [
-    "colossalai @ https://release.colossalai.org/colossalai-0.1.12%2Btorch1.12cu11.3-cp310-cp310-linux_x86_64.whl ; python_version=='3.10'",
-    "colossalai @ https://release.colossalai.org/colossalai-0.1.12%2Btorch1.12cu11.3-cp39-cp39-linux_x86_64.whl ; python_version=='3.9'",
     "h5py",
+    "rich",
     "tensorboard",
-    "tokenizers==0.13.2",
-    "torch @ https://download.pytorch.org/whl/cu116/torch-1.12.1%2Bcu116-cp310-cp310-linux_x86_64.whl ; python_version=='3.10'",
-    "torch @ https://download.pytorch.org/whl/cu116/torch-1.12.1%2Bcu116-cp39-cp39-linux_x86_64.whl ; python_version=='3.9'",
-    "transformers==4.25.1",
+    "tokenizers",
+    "torch",
+    "transformers",
 ]
 
 [project.urls]
-repository = "https://github.com/gpauloski/llm-colossal-ai"
+repository = "https://github.com/gpauloski/llm-pytorch"
 
 [tool.setuptools.packages.find]
 exclude = ["tests*", "testing*"]
@@ -92,6 +89,9 @@ allow_untyped_defs = true
 
 [tool.pytest]
 filterwarnings = ["ignore::UserWarning:torch"]
+
+[tool.pytest.ini_options]
+norecursedirs = ["apex/*"]
 
 [tool.ruff]
 # pycodestyle, pyflakes, flake8-builtins, flake8-bugbear, isort, pep8-naming,

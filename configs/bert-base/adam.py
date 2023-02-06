@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import os
 
-from colossalai.amp import AMP_TYPE
+import torch
 
 from llm.models import bert as bert_models
 
@@ -25,7 +25,11 @@ OUTPUT_DIR = 'runs/bert-base-pretraining'
 RUN_NAME = f'phase-{PHASE}'
 CHECKPOINT_DIR = os.path.join(OUTPUT_DIR, f'checkpoints/{RUN_NAME}')
 TENSORBOARD_DIR = os.path.join(OUTPUT_DIR, f'tensorboard/{RUN_NAME}')
+LOG_FILE = os.path.join(OUTPUT_DIR, f'logs/{RUN_NAME}.txt')
+CLIP_GRAD_NORM = 1.0
+DTYPE = torch.float16
 
+# ACCUMULATION_STEPS is computed automatically by llm.trainers.bert
 if PHASE == 1:
     MAX_SEQ_LENGTH = 128
     DATA_DIR = '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/'  # noqa: E501
@@ -50,9 +54,3 @@ elif PHASE == 2:
     WARMUP_STEPS = int(0.01 * STEPS)
 else:
     raise NotImplementedError
-
-# Colossal-AI options
-# accumulation_steps is computed automatically by llm.trainers.bert
-seed = 42
-clip_grad_norm = 1.0
-fp16 = dict(mode=AMP_TYPE.TORCH)

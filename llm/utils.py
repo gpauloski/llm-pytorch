@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-import collections
-from collections.abc import Mapping
+import logging
+import pathlib
+import sys
 from typing import Any
+from typing import Iterable
 from typing import Union
 
 import torch.distributed as dist
-from colossalai.core import global_context as gpc
+from rich.logging import RichHandler
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.tensorboard.summary import hparams
 
@@ -65,64 +67,84 @@ def gradient_accumulation_steps(
     return global_batch_size // effective_batch
 
 
-def flattened_config(
-    config: dict[str, HParamT] | None = None,
-) -> dict[str, HParamT]:
-    """Return flattened global config as JSON.
+class DistributedFilter(logging.Filter):
+    """Custom filter that allows specifying ranks to print to."""
 
-    Args:
-        config (dict): optional starting config. Note that ``gpc.config``
-            will override these values.
-
-    Returns:
-        flat dictionary containing only bool, float, int, str, or None values.
-    """
-    if config is None:
-        config = {}
-
-    if gpc.config is not None:
-        config.update(gpc.config)
-
-    if dist.is_initialized():
-        config['world_size'] = dist.get_world_size()
-
-    config = flatten_mapping(config)
-    for key in list(config.keys()):
-        if not isinstance(config[key], (bool, float, int, str, type(None))):
-            del config[key]
-
-    return config
-
-
-def flatten_mapping(
-    d: Mapping[str, Any],
-    parent: str | None = None,
-    sep: str = '_',
-) -> dict[str, Any]:
-    """Flatten mapping into dict by joining nested keys via a separator.
-
-    Warning:
-        This function does not check for key collisions. E.g.,
-        >>> flatten_mapping({'a': {'b_c': 1}, 'a_b': {'c': 2}})
-        {'a_b_c': 2}
-
-    Args:
-        d (Mapping): input mapping. All keys and nested keys must by strings.
-        parent (str, optional): parent key to prepend to top-level keys in
-            ``d`` (Default: None).
-        sep (str): separator between keys (Default: '_').
-
-    Returns:
-        flat dictionary.
-    """
-    # https://stackoverflow.com/questions/6027558
-    items: list[tuple[str, Any]] = []
-
-    for key, value in d.items():
-        new_key = f'{parent}{sep}{key}' if parent is not None else key
-        if isinstance(value, collections.abc.Mapping):
-            items.extend(flatten_mapping(value, new_key, sep).items())
+    def filter(self, record: logging.LogRecord) -> bool:  # noqa: A003
+        ranks = getattr(record, 'ranks', None)
+        if dist.is_initialized():
+            record.msg = f'[rank {dist.get_rank()}] {record.msg}'
+            return ranks is None or dist.get_rank() in ranks
         else:
-            items.append((new_key, value))
+            return True
 
-    return dict(items)
+
+def init_logging(
+    level: int | str = logging.INFO,
+    logfile: pathlib.Path | str | None = None,
+    rich: bool = False,
+    distributed: bool = False,
+) -> None:
+    """Configure global logging.
+
+    Args:
+        level: default logging level.
+        logfile: optional path to write logs to.
+        rich: use rich for pretty stdout logging.
+        distributed: configure distributed formatters and filters.
+    """
+    formatter = logging.Formatter(
+        fmt='[%(asctime)s.%(msecs)03d] %(levelname)s (%(name)s): %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+
+    if rich:
+        stdout_handler = RichHandler(rich_tracebacks=True)
+    else:
+        stdout_handler = logging.StreamHandler(sys.stdout)
+        stdout_handler.setFormatter(formatter)
+    handlers: list[logging.Handler] = [stdout_handler]
+
+    if logfile is not None:
+        path = pathlib.Path(logfile).resolve()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        file_handler = logging.FileHandler(path)
+        file_handler.setFormatter(formatter)
+        handlers.append(file_handler)
+
+    if distributed:
+        filter_ = DistributedFilter()
+        for handler in handlers:
+            handler.addFilter(filter_)
+
+    logging.basicConfig(
+        level=level,
+        format='%(message)s',
+        datefmt='[%X]',
+        handlers=handlers,
+    )
+
+
+def log_step(
+    logger: logging.Logger,
+    step: int,
+    *,
+    fmt_str: str | None = None,
+    log_level: int = logging.INFO,
+    ranks: Iterable[int] = (0,),
+    skip_tensorboard: Iterable[str] = (),
+    tensorboard_prefix: str = 'train',
+    writer: SummaryWriter | None = None,
+    **kwargs: Any,
+) -> None:
+    values = {'step': step, **kwargs}
+    if fmt_str is not None:
+        msg = fmt_str.format(**values)
+    else:
+        msg = ' | '.join(f'{name}: {value}' for name, value in values.items())
+
+    logger.log(log_level, msg, extra={'ranks': ranks})
+    if writer is not None:
+        for name, value in kwargs.items():
+            if name not in skip_tensorboard:
+                writer.add_scalar(f'{tensorboard_prefix}/{name}', value, step)

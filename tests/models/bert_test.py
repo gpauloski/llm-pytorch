@@ -4,7 +4,6 @@ import pytest
 from transformers import BertForPreTraining
 
 from llm.models.bert import from_config
-from testing.mock import mock_global_context
 
 TINY_CONFIG = dict(
     vocab_size=1000,
@@ -24,10 +23,4 @@ TINY_CONFIG = dict(
 @pytest.mark.parametrize('checkpointing', (True, False))
 def test_from_passed_config(checkpointing: bool) -> None:
     model = from_config(config=TINY_CONFIG, checkpoint_gradients=checkpointing)
-    assert isinstance(model, BertForPreTraining)
-
-
-def test_from_global_config() -> None:
-    with mock_global_context(bert_config=TINY_CONFIG):
-        model = from_config()
     assert isinstance(model, BertForPreTraining)

@@ -1,15 +1,16 @@
 from __future__ import annotations
 
+import logging
 import pathlib
-from typing import Any
 from unittest import mock
 
 import pytest
 
+from llm.utils import DistributedFilter
 from llm.utils import create_summary_writer
-from llm.utils import flatten_mapping
-from llm.utils import flattened_config
 from llm.utils import gradient_accumulation_steps
+from llm.utils import init_logging
+from llm.utils import log_step
 
 
 def test_create_summary_writer(tmp_path: pathlib.Path) -> None:
@@ -41,46 +42,85 @@ def test_grad_accumulation_steps() -> None:
         gradient_accumulation_steps(8, 3, 2)
 
 
-def test_flattened_config() -> None:
-    with mock.patch('llm.utils.gpc') as mock_gpc:
-        mock_gpc.config = {}
-        assert flattened_config({'a': 1}) == {'a': 1}
+@pytest.mark.parametrize('rich', (True, False))
+def test_logging(rich: bool) -> None:
+    init_logging(rich=rich)
 
-        mock_gpc.config = None
-        assert flattened_config({'a': 1}) == {'a': 1}
-
-        # gpc overrides caller base config
-        mock_gpc.config = {'a': 2}
-        assert flattened_config({'a': 1}) == {'a': 2}
-
-        # test get world size
-        mock_gpc.config = {}
-        with mock.patch(
-            'torch.distributed.is_initialized',
-            return_value=True,
-        ), mock.patch('torch.distributed.get_world_size', return_value=4):
-            assert flattened_config() == {'world_size': 4}
-
-        # test flattening and removing non-supported types
-        mock_gpc.config = {'a': {'b': 1, 'c': [1, 2]}}
-        assert flattened_config() == {'a_b': 1}
+    logger = logging.getLogger('tests/utils::test_logging')
+    logger.info('test')
 
 
-@pytest.mark.parametrize(
-    'in_,out,kwargs',
-    (
-        ({}, {}, {}),
-        ({'a': 1}, {'a': 1}, {}),
-        ({'a': {'b': 1}}, {'a_b': 1}, {}),
-        ({'a': {'b': 1}}, {'a-b': 1}, {'sep': '-'}),
-        ({'a': {'b': 1}}, {'x_a_b': 1}, {'parent': 'x'}),
-        ({'a': {'b': {'c': 1}}}, {'a_b_c': 1}, {}),
-        ({'a': {'b': 1}, 'c': 2}, {'a_b': 1, 'c': 2}, {}),
-    ),
-)
-def test_flatten_mapping(
-    in_: dict[str, Any],
-    out: dict[str, Any],
-    kwargs: dict[str, Any],
-) -> None:
-    assert flatten_mapping(in_, **kwargs) == out
+def test_logging_file_handler(tmp_path: pathlib.Path) -> None:
+    init_logging(logfile=tmp_path / 'log.txt')
+
+    logger = logging.getLogger('tests/utils::test_logging_file_handler')
+    logger.info('test')
+
+
+def test_distributed_logging(caplog) -> None:
+    caplog.set_level(logging.INFO)
+    init_logging(distributed=True)
+
+    # Pytest replaces the logging handlers so there is not much to test here
+    logger = logging.getLogger('tests/utils::test_distributed_logging')
+
+    filter_ = DistributedFilter()
+
+    # Distributed not initialized
+    logger.info('test', extra={'ranks': [1]})
+    record = caplog.records.pop()
+    assert filter_.filter(record)
+
+    with mock.patch('torch.distributed.is_initialized', return_value=True):
+        with mock.patch('torch.distributed.get_rank', return_value=0):
+            logger.info('test')
+            record = caplog.records.pop()
+            assert filter_.filter(record)
+
+            logger.info('test', extra={'ranks': [0]})
+            record = caplog.records.pop()
+            assert filter_.filter(record)
+
+            logger.info('test', extra={'ranks': [1]})
+            record = caplog.records.pop()
+            assert not filter_.filter(record)
+
+
+def test_log_step(caplog) -> None:
+    caplog.set_level(logging.DEBUG)
+    logger = logging.getLogger('tests/utils::test_log_step')
+
+    for i in range(10):
+        log_step(logger, i, log_level=logging.DEBUG)
+
+    for record in caplog.records:
+        assert record.levelno == logging.DEBUG
+    assert len(caplog.records) == 10
+
+
+def test_log_step_fmt(caplog) -> None:
+    caplog.set_level(logging.INFO)
+    logger = logging.getLogger('tests/utils::test_log_step_fmt')
+
+    fmt_str = 'step={step}, lr={lr}, epoch={epoch}'
+    log_step(logger, 0, lr=0.1, epoch=1, fmt_str=fmt_str)
+
+    record = caplog.records[0]
+    assert record.message == 'step=0, lr=0.1, epoch=1'
+
+
+def test_log_step_summary_writer(tmp_path: pathlib.Path) -> None:
+    logger = logging.getLogger('tests/utils::test_log_step_summary_writer')
+
+    writer = create_summary_writer(str(tmp_path))
+    log_step(
+        logger,
+        0,
+        lr=0.1,
+        epoch=1,
+        time=0.2,
+        writer=writer,
+        skip_tensorboard=['time'],
+        tensorboard_prefix='test',
+    )
+    writer.close()
