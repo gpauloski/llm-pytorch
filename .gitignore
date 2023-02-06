@@ -4,6 +4,9 @@ apex/
 # Example configs default to writing to runs/
 runs/
 
+# Example dataset scripts use data/
+data/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -44,11 +44,16 @@ dev = [
     "pre-commit",
     "pytest",
     "pytest-cov",
+    "types-requests",
     "ruff",
     "tox",
     "virtualenv",
 ]
 colossalai = ["colossalai"]
+preprocess = [
+    "datasets",
+    "nltk",
+]
 
 [tool.black]
 line-length = 79
