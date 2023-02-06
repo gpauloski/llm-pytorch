@@ -54,14 +54,16 @@ class AMPOptimizer(BaseOptimizer):
         self._max_norm = max_norm
 
     def state_dict(self) -> dict[str, Any]:
-        return {
-            '_optimizer': self._optimizer.state_dict(),
-            '_scaler': self._scaler.state_dict(),
-        }
+        state_dict = self._optimizer.state_dict()
+        assert 'grad_scaler' not in state_dict
+        state_dict['grad_scaler'] = self._scaler.state_dict()
+        return state_dict
 
     def load_state_dict(self, state_dict: dict[str, Any]) -> None:
-        self._optimizer.load_state_dict(state_dict['_optimizer'])
-        self._scaler.load_state_dict(state_dict['_scaler'])
+        scaler_state_dict = state_dict.pop('grad_scaler', None)
+        if scaler_state_dict is not None:  # pragma: no branch
+            self._scaler.load_state_dict(scaler_state_dict)
+        self._optimizer.load_state_dict(state_dict)
 
     def backward(self, loss: torch.Tensor) -> None:
         self._scaler.scale(loss).backward()
@@ -73,7 +75,7 @@ class AMPOptimizer(BaseOptimizer):
                 self._model.parameters(),
                 self._max_norm,
             )
-        self._scaler.step(self._optimizer, closure=closure)
+        self._scaler.step(self._optimizer)
         self._scaler.update()
 
 

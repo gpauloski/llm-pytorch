@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import dataclasses
 import logging
 import pprint
 import sys
@@ -35,15 +36,18 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     argv = argv if argv is not None else sys.argv[1:]
     parser = get_default_parser()
     args = parser.parse_args(argv)
-    config_dict = initialize_from_args(args)
-    config = parse_config(config_dict)
+    _config = initialize_from_args(args)
+    config = parse_config(_config)
 
     logger.info(
         f'Launching training from config at {args.config} '
-        f'(debug: {args.debug})',
+        f'(debug: {args.debug}).',
         extra={'ranks': [0]},
     )
-    logger.info(f'Config:\n{pprint.pformat(config)}')
+    logger.info(
+        f'Config:\n{pprint.pformat(dataclasses.asdict(config))}',
+        extra={'ranks': [0]},
+    )
 
     model = bert.from_config(
         config.BERT_CONFIG,
@@ -58,16 +62,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         warmup_steps=config.WARMUP_STEPS,
     )
 
-    global_step, epoch = load_state(config, model, optimizer, scheduler)
-
-    writer = create_summary_writer(
-        config.TENSORBOARD_DIR,
-        flattened_config(config_dict),
-        ['train/loss', 'train/lr', 'train/epoch'],
-        purge_step=global_step,
-    )
-
-    engine, optimizer, criterion, scheduler = engine_initialize(
+    model, optimizer, criterion, scheduler = engine_initialize(
         model,
         optimizer,
         criterion=criterion,
@@ -76,6 +71,15 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         dtype=config.DTYPE,
         max_norm=config.CLIP_GRAD_NORM,
     )
+
+    global_step, epoch = load_state(config, model, optimizer, scheduler)
+    writer = create_summary_writer(
+        config.TENSORBOARD_DIR,
+        flattened_config(dataclasses.asdict(config)),
+        ['train/loss', 'train/lr', 'train/epoch'],
+        purge_step=global_step,
+    )
+    logger.info(f'Writing TensorBoard logs to {config.TENSORBOARD_DIR}.')
 
     micro_step = 0
     global_step_timer = Timer()
@@ -124,6 +128,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                     fmt_str=LOG_FMT,
                     writer=writer,
                     tensorboard_prefix='train',
+                    skip_tensorboard=['phase', 'time'],
                 )
 
                 if (
@@ -161,7 +166,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     logger.info(
         'Training complete ('
         f'total training time (s): {total_time:.3f}, '
-        f'avg step time (s): {step_time:.3f})',
+        f'avg step time (s): {step_time:.3f}).',
         extra={'ranks': [0]},
     )
     return 0

@@ -1,3 +1,9 @@
+# Ignore apex incase cloned to this dir
+apex/
+
+# Example configs default to writing to runs/
+runs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -8,7 +8,7 @@ from typing import Literal
 import torch
 
 try:  # pragma: no cover
-    from apex.optimizer import FusedAdam
+    from apex.optimizers import FusedAdam
     from apex.optimizers import FusedLAMB
 
     APEX_IMPORT_ERROR = None

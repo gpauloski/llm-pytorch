@@ -93,23 +93,24 @@ def init_logging(
         rich: use rich for pretty stdout logging.
         distributed: configure distributed formatters and filters.
     """
+    formatter = logging.Formatter(
+        fmt='[%(asctime)s.%(msecs)03d] %(levelname)s (%(name)s): %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+
     if rich:
         stdout_handler = RichHandler(rich_tracebacks=True)
     else:
         stdout_handler = logging.StreamHandler(sys.stdout)
+        stdout_handler.setFormatter(formatter)
     handlers: list[logging.Handler] = [stdout_handler]
 
     if logfile is not None:
         path = pathlib.Path(logfile).resolve()
         path.parent.mkdir(parents=True, exist_ok=True)
-        handlers.append(logging.FileHandler(path))
-
-    formatter = logging.Formatter(
-        fmt='[%(asctime)s.%(msecs)03d] %(levelname)s (%(name)s): %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S',
-    )
-    for handler in handlers:
-        handler.setFormatter(formatter)
+        file_handler = logging.FileHandler(path)
+        file_handler.setFormatter(formatter)
+        handlers.append(file_handler)
 
     if distributed:
         filter_ = DistributedFilter()
@@ -146,4 +147,4 @@ def log_step(
     if writer is not None:
         for name, value in kwargs.items():
             if name not in skip_tensorboard:
-                writer.add_scalar('{tensorboard_prefix}/{name}', value, step)
+                writer.add_scalar(f'{tensorboard_prefix}/{name}', value, step)

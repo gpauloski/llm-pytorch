@@ -5,6 +5,7 @@ import inspect
 import pathlib
 from importlib.machinery import SourceFileLoader
 from typing import Any
+from typing import Iterable
 from typing import Mapping
 from typing import Union
 
@@ -16,7 +17,18 @@ HParamT = Union[bool, float, int, str, None]
 class Config(dict[str, Any]):
     """Dict-like configuration class with attribute access."""
 
-    def __init__(self, **kwargs: Any):
+    def __init__(
+        self,
+        mapping: Mapping[str, Any] | Iterable[tuple[str, Any]] | None = None,
+        /,
+        **kwargs: Any,
+    ):
+        if mapping is not None:
+            if isinstance(mapping, Mapping):
+                mapping = mapping.items()
+            for key, value in mapping:
+                self.__setattr__(key, value)
+
         for key, value in kwargs.items():
             self.__setattr__(key, value)
 

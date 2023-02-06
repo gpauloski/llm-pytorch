@@ -12,5 +12,6 @@ if __name__ == '__main__':
         ret = main()
     except Exception as e:
         logger.exception(e)
+        ret = 1
 
     raise SystemExit(ret)

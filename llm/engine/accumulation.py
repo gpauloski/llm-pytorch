@@ -48,9 +48,9 @@ class GradientAccumulationOptimizer(BaseOptimizer):
             self._accumulation_step = 0
             return self._optimizer.step(*args, **kwargs)
 
-    def zero_grad(self, set_to_none: bool = False) -> None:
+    def zero_grad(self, *args: Any, **kwargs: Any) -> None:
         if self._accumulation_step == 0:
-            self._optimizer.zero_grad(set_to_none)
+            self._optimizer.zero_grad(*args, **kwargs)
 
 
 class GradientAccumulationLRScheduler(_LRScheduler):

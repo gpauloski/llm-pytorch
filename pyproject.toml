@@ -90,6 +90,9 @@ allow_untyped_defs = true
 [tool.pytest]
 filterwarnings = ["ignore::UserWarning:torch"]
 
+[tool.pytest.ini_options]
+norecursedirs = ["apex/*"]
+
 [tool.ruff]
 # pycodestyle, pyflakes, flake8-builtins, flake8-bugbear, isort, pep8-naming,
 # pydocstyle, flake8-debugger, flake8-commas

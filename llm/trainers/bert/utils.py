@@ -5,6 +5,7 @@ import logging
 import os
 from typing import Any
 from typing import Literal
+from typing import Optional
 from typing import get_type_hints
 
 import torch
@@ -37,10 +38,10 @@ class TrainingConfig:
     ACCUMULATION_STEPS: int
 
     # Optional options
-    CLIP_GRAD_NORM: float | None = None
-    DTYPE: torch.dtype | None = None
+    CLIP_GRAD_NORM: Optional[float] = None
+    DTYPE: Optional[torch.dtype] = None
     GRADIENT_CHECKPOINTING: bool = False
-    LOG_FILE: str | None = None
+    LOG_FILE: Optional[str] = None
     SEED: int = 42
 
 
@@ -72,7 +73,11 @@ def parse_config(config: Config) -> TrainingConfig:
                 f'{field_type} but got {type(config[field_name])}.',
             )
 
-    return TrainingConfig(**config)
+    # Only take args that are fields of TrainingConfig
+    fields = {field.name for field in dataclasses.fields(TrainingConfig)}
+    config_ = {k: v for k, v in config.items() if k in fields}
+
+    return TrainingConfig(**config_)
 
 
 def checkpoint(
@@ -84,6 +89,10 @@ def checkpoint(
     scheduler: torch.optim.lr_scheduler.LRScheduler,
 ) -> None:
     if torch.distributed.get_rank() == 0:
+        # Extract from possible AMPModel
+        model = model._model if hasattr(model, '_model') else model
+        # Extract from possible DistributedDataParallel
+        model = model.module if hasattr(model, 'module') else model
         save_checkpoint(
             checkpoint_dir=config.CHECKPOINT_DIR,
             global_step=global_step,
@@ -106,15 +115,22 @@ def load_state(
     scheduler: torch.optim.lr_scheduler.LRScheduler,
 ) -> tuple[int, int]:
     global_step = 0
-    epoch = 0
+    epoch = 1
 
     os.makedirs(config.CHECKPOINT_DIR, exist_ok=True)
-    checkpoint = load_checkpoint(config.CHECKPOINT_DIR, map_location='cpu')
+    checkpoint = load_checkpoint(
+        config.CHECKPOINT_DIR,
+        map_location='cpu',  # next(model.parameters()).device,
+    )
     if checkpoint is not None:
         logger.info(
             f'Loaded checkpoint from {checkpoint.filepath}',
             extra={'ranks': [0]},
         )
+        # Load model to the model and not the AMP wrapper
+        model = model._model if hasattr(model, '_model') else model
+        # Load model to the model and not the DDP wrapper
+        model = model.module if hasattr(model, 'module') else model
         model.load_state_dict(checkpoint.model_state_dict)
 
         if checkpoint.kwargs['phase'] == config.PHASE:
@@ -126,15 +142,6 @@ def load_state(
                 checkpoint.optimizer_state_dict is not None
             ):
                 optimizer.load_state_dict(checkpoint.optimizer_state_dict)
-                device = (
-                    f'cuda:{torch.cuda.current_device()}'
-                    if torch.cuda.is_available()
-                    else 'cpu'
-                )
-                for state in optimizer.state.values():
-                    for k, v in state.items():  # pragma: no cover
-                        if isinstance(v, torch.Tensor):
-                            state[k] = v.to(device)
             if (  # pragma: no branch
                 checkpoint.scheduler_state_dict is not None
             ):

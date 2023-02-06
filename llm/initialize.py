@@ -44,7 +44,7 @@ def get_default_parser(
     parser.add_argument(
         '--loglevel',
         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
-        default=None,
+        default='INFO',
         help='minimum logging level',
     )
     parser.add_argument(
@@ -79,6 +79,8 @@ def initialize(
 
     if debug:
         os.environ['LOCAL_RANK'] = '0'
+        os.environ['MASTER_ADDR'] = 'localhost'
+        os.environ['MASTER_PORT'] = '29501'
         torch.distributed.init_process_group(
             backend=backend,
             world_size=1,
@@ -88,9 +90,9 @@ def initialize(
         torch.distributed.init_process_group(backend=backend)
 
     logger.info(
-        'distributed initialization complete: '
+        'Distributed initialization complete: '
         f'backend={torch.distributed.get_backend()}, '
-        f'world_size={torch.distributed.get_world_size()}',
+        f'world_size={torch.distributed.get_world_size()}.',
         extra={'ranks': [0]},
     )
 
@@ -98,7 +100,10 @@ def initialize(
         local_rank = int(os.environ['LOCAL_RANK'])
         torch.cuda.set_device(local_rank)
 
-        logger.info('cuda initialized', extra={'ranks': [0]})
+        logger.info(
+            f'Initialized CUDA local device to {local_rank}.',
+            extra={'ranks': [0]},
+        )
 
 
 def initialize_from_args(args: argparse.Namespace) -> Config:

@@ -113,7 +113,7 @@ def test_load_state_none(config: Config):
 
     global_step, epoch = load_state(train_config, model, optimizer, scheduler)
     assert global_step == 0
-    assert epoch == 0
+    assert epoch == 1
 
 
 def test_load_state_same_phase(config: Config):
@@ -154,7 +154,7 @@ def test_load_state_different_phase(config: Config):
     train_config.PHASE += 1
     global_step, epoch = load_state(train_config, model, optimizer, scheduler)
     assert global_step == 0
-    assert epoch == 0
+    assert epoch == 1
 
 
 def test_get_optimizer_grouped_parameters() -> None:

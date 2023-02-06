@@ -37,6 +37,14 @@ def test_config_nested_dict() -> None:
     assert config.a.b == 2
 
 
+def test_config_from_existing() -> None:
+    config = Config({'a': 1, 'b': 2})
+    assert config.a == 1
+
+    config = Config([('a', 1), ('b', 2)])
+    assert config.a == 1
+
+
 def test_flattened_config() -> None:
     assert flattened_config({'a': 1}) == {'a': 1}
 

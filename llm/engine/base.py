@@ -34,8 +34,8 @@ class BaseOptimizer(Optimizer):
     def step(self, *args: Any, **kwargs: Any) -> None:
         return self._optimizer.step(*args, **kwargs)
 
-    def zero_grad(self, set_to_none: bool = False) -> None:
-        self._optimizer.zero_grad(set_to_none)
+    def zero_grad(self, *args: Any, **kwargs: Any) -> None:
+        self._optimizer.zero_grad(*args, **kwargs)
 
     def backward(self, loss: torch.Tensor) -> None:
         loss.backward()
