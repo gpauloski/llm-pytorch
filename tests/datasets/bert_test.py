@@ -1,13 +1,9 @@
 from __future__ import annotations
 
 import pathlib
-import random
 import tempfile
 from collections.abc import Generator
-from typing import Any
-from typing import TypeVar
 
-import h5py
 import numpy as np
 import pytest
 
@@ -18,58 +14,12 @@ from llm.datasets.bert import get_shard_filepaths
 from llm.datasets.bert import load_dataset_from_shard
 from llm.datasets.bert import masked_labels
 from llm.datasets.bert import sharded_dataset
+from testing.datasets.bert import write_nvidia_bert_shard
 
 NUM_FILE = 3
 NUM_SAMPLES = 32
 SEQ_LEN = 128
 VOCAB_SIZE = 30000
-
-T = TypeVar('T', int, bool)
-
-
-def generate_int_sample(seq_len: int, imin: int, imax: int) -> list[int]:
-    return [random.randint(imin, imax - 1) for _ in range(seq_len)]
-
-
-def generate_bool_sample(seq_len: int) -> list[int]:
-    return [random.choice((True, False)) for _ in range(seq_len)]
-
-
-def generate_data(samples: int, seq_len: int) -> tuple[list[Any], ...]:
-    return (
-        [generate_int_sample(seq_len, 0, VOCAB_SIZE) for _ in range(samples)],
-        [generate_bool_sample(seq_len) for _ in range(samples)],
-        [generate_bool_sample(seq_len) for _ in range(samples)],
-        [generate_int_sample(seq_len, 0, seq_len) for _ in range(samples)],
-        [generate_int_sample(seq_len, 0, VOCAB_SIZE) for _ in range(samples)],
-        generate_bool_sample(samples),
-    )
-
-
-def write_hdf5(
-    filepath: pathlib.Path | str,
-    input_ids: list[list[int]],
-    input_mask: list[list[bool]],
-    segment_ids: list[list[bool]],
-    masked_lm_positions: list[list[int]],
-    masked_lm_ids: list[list[int]],
-    next_sentence_labels: list[int],
-) -> None:
-    with h5py.File(filepath, 'w') as f:
-        f.create_dataset('input_ids', data=input_ids, dtype='i4')
-        f.create_dataset('input_mask', data=input_mask, dtype='i1')
-        f.create_dataset('segment_ids', data=segment_ids, dtype='i1')
-        f.create_dataset(
-            'masked_lm_positions',
-            data=masked_lm_positions,
-            dtype='i4',
-        )
-        f.create_dataset('masked_lm_ids', data=masked_lm_ids, dtype='i4')
-        f.create_dataset(
-            'next_sentence_labels',
-            data=next_sentence_labels,
-            dtype='i1',
-        )
 
 
 @pytest.fixture(scope='module')
@@ -79,8 +29,12 @@ def data_dir() -> Generator[pathlib.Path, None, None]:
 
         for index in range(NUM_FILE):
             filepath = tmp_path / f'{index}.hdf5'
-            data = generate_data(NUM_SAMPLES, SEQ_LEN)
-            write_hdf5(filepath, *data)
+            write_nvidia_bert_shard(
+                filepath,
+                samples=NUM_SAMPLES,
+                seq_len=SEQ_LEN,
+                vocab_size=VOCAB_SIZE,
+            )
 
         yield tmp_path
 
