@@ -7,8 +7,8 @@ import sys
 from collections.abc import Sequence
 
 from llm.config import flattened_config
-from llm.datasets.nvidia import Batch
-from llm.datasets.nvidia import sharded_dataset
+from llm.datasets.bert import Batch
+from llm.datasets.bert import sharded_dataset
 from llm.engine.initialize import initialize as engine_initialize
 from llm.initialize import get_default_parser
 from llm.initialize import initialize_from_args

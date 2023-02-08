@@ -11,13 +11,13 @@ import h5py
 import numpy as np
 import pytest
 
-from llm.datasets.nvidia import Batch
-from llm.datasets.nvidia import NvidiaBertDataset
-from llm.datasets.nvidia import WorkerInitObj
-from llm.datasets.nvidia import get_shard_filepaths
-from llm.datasets.nvidia import load_dataset_from_shard
-from llm.datasets.nvidia import masked_labels
-from llm.datasets.nvidia import sharded_dataset
+from llm.datasets.bert import Batch
+from llm.datasets.bert import NvidiaBertDataset
+from llm.datasets.bert import WorkerInitObj
+from llm.datasets.bert import get_shard_filepaths
+from llm.datasets.bert import load_dataset_from_shard
+from llm.datasets.bert import masked_labels
+from llm.datasets.bert import sharded_dataset
 
 NUM_FILE = 3
 NUM_SAMPLES = 32
