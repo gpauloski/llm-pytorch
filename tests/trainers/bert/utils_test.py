@@ -10,9 +10,12 @@ import torch
 from llm.config import Config
 from llm.models.bert import from_config
 from llm.trainers.bert.utils import checkpoint
+from llm.trainers.bert.utils import get_dataloader
+from llm.trainers.bert.utils import get_dataset
 from llm.trainers.bert.utils import get_optimizer_grouped_parameters
 from llm.trainers.bert.utils import load_state
 from llm.trainers.bert.utils import parse_config
+from testing.datasets.bert import write_nvidia_bert_shard
 
 TINY_CONFIG = dict(
     vocab_size=1000,
@@ -71,6 +74,24 @@ def test_parse_config_bad_type(config: Config) -> None:
         parse_config(config)
 
 
+def test_load_dataset_and_get_dataloader(tmp_path: pathlib.Path) -> None:
+    write_nvidia_bert_shard(tmp_path / 'shard.h5', samples=11, seq_len=16)
+
+    with (
+        mock.patch('torch.distributed.get_rank', return_value=0),
+        mock.patch('torch.distributed.get_world_size', return_value=1),
+    ):
+        dataset = get_dataset(tmp_path)
+
+    assert len(dataset) == 11
+    dataloader = get_dataloader(
+        dataset,
+        torch.utils.data.SequentialSampler(dataset),
+        batch_size=2,
+    )
+    assert len(dataloader) == 5
+
+
 def test_checkpoint(config: Config):
     training_config = parse_config(config)
 
@@ -111,9 +132,15 @@ def test_load_state_none(config: Config):
     optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
     scheduler = torch.optim.lr_scheduler.ConstantLR(optimizer)
 
-    global_step, epoch = load_state(train_config, model, optimizer, scheduler)
+    global_step, epoch, sampler_index = load_state(
+        train_config,
+        model,
+        optimizer,
+        scheduler,
+    )
     assert global_step == 0
     assert epoch == 1
+    assert sampler_index == 0
 
 
 def test_load_state_same_phase(config: Config):
@@ -129,11 +156,18 @@ def test_load_state_same_phase(config: Config):
             model=model,
             optimizer=optimizer,
             scheduler=scheduler,
+            sampler_index=3,
         )
 
-    global_step, epoch = load_state(train_config, model, optimizer, scheduler)
+    global_step, epoch, sampler_index = load_state(
+        train_config,
+        model,
+        optimizer,
+        scheduler,
+    )
     assert global_step == 1
     assert epoch == 2
+    assert sampler_index == 3
 
 
 def test_load_state_different_phase(config: Config):
@@ -149,12 +183,19 @@ def test_load_state_different_phase(config: Config):
             model=model,
             optimizer=optimizer,
             scheduler=scheduler,
+            sampler_index=3,
         )
 
     train_config.PHASE += 1
-    global_step, epoch = load_state(train_config, model, optimizer, scheduler)
+    global_step, epoch, sampler_index = load_state(
+        train_config,
+        model,
+        optimizer,
+        scheduler,
+    )
     assert global_step == 0
     assert epoch == 1
+    assert sampler_index == 0
 
 
 def test_get_optimizer_grouped_parameters() -> None:

@@ -9,7 +9,6 @@ TODO:
 """  # noqa: D405, E501
 from __future__ import annotations
 
-import os
 import random
 from collections.abc import Generator
 from typing import NamedTuple
@@ -20,6 +19,8 @@ import torch
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 from torch.utils.data.distributed import DistributedSampler
+
+from llm.utils import get_filepaths
 
 
 class Batch(NamedTuple):
@@ -37,6 +38,21 @@ class Batch(NamedTuple):
     next_sentence_labels: torch.LongTensor
 
 
+class Sample(NamedTuple):
+    # (seq_len, ): indices of input sequence token in vocab
+    input_ids: torch.LongTensor
+    # (seq_len, ): indicates which tokens in input_ids should be
+    # attended to. Also know as the input_mask
+    attention_mask: torch.LongTensor
+    # (seq_len, ): indicates first and second segments in input_ids.
+    # Also known as segment_ids
+    token_type_ids: torch.LongTensor
+    # (seq_len, ): indices in vocab of masked tokens in input_ids
+    masked_labels: torch.LongTensor
+    # (1, ): boolean indicating next sentence label
+    next_sentence_label: torch.LongTensor
+
+
 # Workaround because python functions are not picklable
 class WorkerInitObj:
     def __init__(self, seed: int) -> None:
@@ -49,31 +65,52 @@ class WorkerInitObj:
 
 class NvidiaBertDataset(Dataset):
     def __init__(self, input_file: str) -> None:
-        with h5py.File(input_file, 'r') as f:
+        self.input_file = input_file
+
+        # We just inspect the file enough to find the size of the dataset
+        # then defer loading until we actually use the dataset. This is
+        # particularly helpful for the DistributedShardedDataset which needs
+        # to get the length of each shard
+        self.loaded = False
+        with h5py.File(self.input_file, 'r') as f:
+            self.samples = len(f['next_sentence_labels'])
+
+    def __len__(self) -> int:
+        return self.samples
+
+    def __getitem__(self, index: int) -> Sample:
+        if not self.loaded:
+            self._lazy_load()
+
+        input_ids = self.input_ids[index].astype(np.int64)
+        attention_mask = self.input_mask[index].astype(np.int64)
+        token_type_ids = self.segment_ids[index].astype(np.int64)
+        masked_labels_ = masked_labels(
+            len(self.input_ids[index]),
+            self.masked_lm_positions[index],
+            self.masked_lm_ids[index],
+        )
+        next_sentence_label = np.asarray(
+            self.next_sentence_labels[index],
+        ).astype(np.int64)
+
+        return Sample(
+            input_ids=torch.from_numpy(input_ids),
+            attention_mask=torch.from_numpy(attention_mask),
+            token_type_ids=torch.from_numpy(token_type_ids),
+            masked_labels=torch.from_numpy(masked_labels_),
+            next_sentence_label=torch.from_numpy(next_sentence_label),
+        )
+
+    def _lazy_load(self) -> None:
+        with h5py.File(self.input_file, 'r') as f:
             self.input_ids = f['input_ids'][:]
             self.input_mask = f['input_mask'][:]
             self.segment_ids = f['segment_ids'][:]
             self.masked_lm_ids = f['masked_lm_ids'][:]
             self.masked_lm_positions = f['masked_lm_positions'][:]
             self.next_sentence_labels = f['next_sentence_labels'][:]
-
-    def __len__(self) -> int:
-        return len(self.input_ids)
-
-    def __getitem__(self, index: int) -> list[torch.Tensor]:
-        sample = [
-            self.input_ids[index].astype(np.int64),
-            self.input_mask[index].astype(np.int64),
-            self.segment_ids[index].astype(np.int64),
-            masked_labels(
-                len(self.input_ids[index]),
-                self.masked_lm_positions[index],
-                self.masked_lm_ids[index],
-            ),
-            np.asarray(self.next_sentence_labels[index]).astype(np.int64),
-        ]
-
-        return [torch.from_numpy(x) for x in sample]
+        self.loaded = True
 
 
 def masked_labels(
@@ -106,15 +143,7 @@ def masked_labels(
     return masked_lm_labels
 
 
-def get_shard_filepaths(input_dir: str) -> list[str]:
-    return [
-        os.path.join(input_dir, f)
-        for f in os.listdir(input_dir)
-        if f.endswith('.h5') or f.endswith('.hdf5')
-    ]
-
-
-def load_dataset_from_shard(
+def get_dataloader_from_nvidia_bert_shard(
     input_file: str,
     batch_size: int,
     *,
@@ -143,7 +172,7 @@ def load_dataset_from_shard(
     return dataloader
 
 
-def sharded_dataset(
+def sharded_nvidia_bert_dataset(
     input_dir: str,
     batch_size: int,
     *,
@@ -152,11 +181,15 @@ def sharded_dataset(
     seed: int = 0,
     num_workers: int = 4,
 ) -> Generator[Batch, None, None]:
-    shard_filepaths = get_shard_filepaths(input_dir)
+    shard_filepaths = get_filepaths(
+        input_dir,
+        extensions=['.h5', '.hdf5'],
+        recursive=True,
+    )
     shard_filepaths.sort()
 
     for shard_filepath in shard_filepaths:
-        dataloader = load_dataset_from_shard(
+        dataloader = get_dataloader_from_nvidia_bert_shard(
             shard_filepath,
             batch_size,
             num_replicas=num_replicas,

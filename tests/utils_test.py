@@ -8,6 +8,7 @@ import pytest
 
 from llm.utils import DistributedFilter
 from llm.utils import create_summary_writer
+from llm.utils import get_filepaths
 from llm.utils import gradient_accumulation_steps
 from llm.utils import init_logging
 from llm.utils import log_step
@@ -31,6 +32,39 @@ def test_create_summary_writer_hparams(tmp_path: pathlib.Path) -> None:
     )
     writer.add_scalar('train/loss', 0.1)
     writer.close()
+
+
+def test_get_filepaths(tmp_path: pathlib.Path) -> None:
+    assert len(get_filepaths(tmp_path)) == 0
+
+    tmp_file = tmp_path / 'other.txt'
+    tmp_file.touch()
+    assert len(get_filepaths(tmp_path)) == 1
+    assert len(get_filepaths(tmp_path, extensions=['.txt'])) == 1
+    assert len(get_filepaths(tmp_path, extensions=['.pdf'])) == 0
+
+    tmp_dir = tmp_path / 'subdir'
+    tmp_dir.mkdir()
+    assert len(get_filepaths(tmp_path)) == 1
+    assert len(get_filepaths(tmp_path, recursive=True)) == 1
+
+    tmp_file = tmp_dir / 'other1.png'
+    tmp_file.touch()
+    tmp_file = tmp_dir / 'other2.pdf'
+    tmp_file.touch()
+    assert len(get_filepaths(tmp_path)) == 1
+    assert len(get_filepaths(tmp_path, recursive=True)) == 3
+    assert len(get_filepaths(tmp_path, recursive=True)) == 3
+    assert (
+        len(
+            get_filepaths(
+                tmp_path,
+                recursive=True,
+                extensions=['.png', '.txt'],
+            ),
+        )
+        == 2
+    )
 
 
 def test_grad_accumulation_steps() -> None:
