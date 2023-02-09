@@ -9,6 +9,7 @@ import pytest
 
 from llm.datasets.bert import Batch
 from llm.datasets.bert import NvidiaBertDataset
+from llm.datasets.bert import Sample
 from llm.datasets.bert import WorkerInitObj
 from llm.datasets.bert import get_dataloader_from_nvidia_bert_shard
 from llm.datasets.bert import masked_labels
@@ -72,7 +73,8 @@ def test_dataset(data_dir: pathlib.Path) -> None:
 
     dataset = NvidiaBertDataset(shard)
     assert len(dataset) == NUM_SAMPLES
-    assert isinstance(dataset[0], list)
+    assert isinstance(dataset[0], Sample)
+    assert isinstance(dataset[1], Sample)
 
 
 def test_get_dataloader_from_nvidia_bert_shard(data_dir: pathlib.Path) -> None:

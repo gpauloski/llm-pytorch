@@ -3,7 +3,9 @@ from __future__ import annotations
 import random
 from typing import Any
 from typing import Generic
+from typing import Iterator
 from typing import Mapping
+from typing import Sized
 from typing import TypeVar
 
 import torch
@@ -37,6 +39,8 @@ class DistributedShardedDataset(
         use PyTorch's DistributedSampler. If you want to be able to save the
         state of the DataLoader, use the SequentialSampler because this class
         already provides the support for partitioning samples across ranks.
+        This module provides a ResumableSequentialSampler to enable resuming
+        sampling from the last sampled index.
 
     Note:
         Samples at the end of the last shard will be dropped to ensure
@@ -163,3 +167,25 @@ class DistributedShardedDataset(
     def load_shard(self, shard_key: str) -> DatasetType:
         args, kwargs = self.shard_params[shard_key]
         return self.dataset_type(*args, **kwargs)
+
+
+class ResumableSequentialSampler(torch.utils.data.Sampler[int]):
+    """Resumable sequential sampler.
+
+    Args:
+        data_source: dataset to sample sequentially from.
+        start_index: index to resume sequential sampling from.
+    """
+
+    def __init__(self, data_source: Sized, start_index: int = 0) -> None:
+        self.data_length = len(data_source)
+        self.start_index = start_index
+        self.index = start_index
+
+    def __iter__(self) -> Iterator[int]:
+        while self.index < self.data_length:
+            yield self.index
+            self.index += 1
+
+    def __len__(self) -> int:
+        return self.data_length - self.start_index

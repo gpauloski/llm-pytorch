@@ -5,6 +5,7 @@ import torch
 
 from llm.datasets.sharded import DatasetParams
 from llm.datasets.sharded import DistributedShardedDataset
+from llm.datasets.sharded import ResumableSequentialSampler
 
 
 class SimpleDataset(torch.utils.data.Dataset):
@@ -124,3 +125,18 @@ def test_iterating_multiple_ranks() -> None:
     total_samples = sum(samples_per_shard)
     expected_samples = total_samples - (total_samples % ranks)
     assert set(samples) == set(range(expected_samples))
+
+
+def test_sequential_sampler() -> None:
+    dataset = range(100)
+    sampler = ResumableSequentialSampler(dataset)
+    samples = [i for i in sampler]
+    assert samples == list(dataset)
+    assert len(dataset) == 100
+
+
+def test_sequential_sampler_resume() -> None:
+    dataset = range(10)
+    sampler = ResumableSequentialSampler(dataset, start_index=1)
+    assert next(iter(sampler)) == 1
+    assert len(sampler) == 9

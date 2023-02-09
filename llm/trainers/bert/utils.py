@@ -3,6 +3,7 @@ from __future__ import annotations
 import dataclasses
 import logging
 import os
+import pathlib
 from typing import Any
 from typing import Literal
 from typing import Optional
@@ -14,6 +15,11 @@ import transformers
 from llm.checkpoint import load_checkpoint
 from llm.checkpoint import save_checkpoint
 from llm.config import Config
+from llm.datasets.bert import NvidiaBertDataset
+from llm.datasets.bert import Sample
+from llm.datasets.sharded import DatasetParams
+from llm.datasets.sharded import DistributedShardedDataset
+from llm.utils import get_filepaths
 from llm.utils import gradient_accumulation_steps
 
 logger = logging.getLogger('llm.trainers.bert')
@@ -80,6 +86,39 @@ def parse_config(config: Config) -> TrainingConfig:
     return TrainingConfig(**config_)
 
 
+def get_dataset(
+    directory: pathlib.Path | str,
+) -> DistributedShardedDataset[Sample]:
+    files = get_filepaths(
+        directory,
+        extensions=['.h5', '.hdf5'],
+        recursive=True,
+    )
+    params: dict[str, DatasetParams] = {file: ((file,), {}) for file in files}
+    return DistributedShardedDataset(
+        NvidiaBertDataset,
+        params,
+        rank=torch.distributed.get_rank(),
+        world_size=torch.distributed.get_world_size(),
+    )
+
+
+def get_dataloader(
+    dataset: DistributedShardedDataset[Sample],
+    sampler: torch.utils.data.Sampler,
+    batch_size: int,
+) -> torch.utils.data.DataLoader:
+    return torch.utils.data.DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        sampler=sampler,
+        num_workers=4,
+        pin_memory=True,
+        drop_last=True,
+    )
+
+
 def checkpoint(
     config: TrainingConfig,
     global_step: int,
@@ -87,6 +126,7 @@ def checkpoint(
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
     scheduler: torch.optim.lr_scheduler.LRScheduler,
+    sampler_index: int = 0,
 ) -> None:
     if torch.distributed.get_rank() == 0:
         # Extract from possible AMPModel
@@ -101,6 +141,7 @@ def checkpoint(
             scheduler=scheduler,
             epoch=epoch,
             phase=config.PHASE,
+            sampler_index=sampler_index,
         )
     logger.info(
         f'Saved checkpoint at global step {global_step}',
@@ -113,9 +154,10 @@ def load_state(
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
     scheduler: torch.optim.lr_scheduler.LRScheduler,
-) -> tuple[int, int]:
+) -> tuple[int, int, int]:
     global_step = 0
     epoch = 1
+    sampler_index = 0
 
     os.makedirs(config.CHECKPOINT_DIR, exist_ok=True)
     checkpoint = load_checkpoint(
@@ -138,16 +180,24 @@ def load_state(
                 'Checkpoint from current phase. Loading optimizer state',
                 extra={'ranks': [0]},
             )
+
             if (  # pragma: no branch
                 checkpoint.optimizer_state_dict is not None
             ):
                 optimizer.load_state_dict(checkpoint.optimizer_state_dict)
+
             if (  # pragma: no branch
                 checkpoint.scheduler_state_dict is not None
             ):
                 scheduler.load_state_dict(checkpoint.scheduler_state_dict)
+
             global_step = checkpoint.global_step
             epoch = checkpoint.kwargs['epoch']
+            sampler_index = (
+                checkpoint.kwargs['sampler_index']
+                if 'sampler_index' in checkpoint.kwargs
+                else 0
+            )
         else:
             logger.info(
                 'Checkpoint from new phase. Resetting optimizer state',
@@ -159,7 +209,7 @@ def load_state(
             extra={'ranks': [0]},
         )
 
-    return global_step, epoch
+    return global_step, epoch, sampler_index
 
 
 def get_optimizer_grouped_parameters(

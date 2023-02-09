@@ -8,7 +8,7 @@ from collections.abc import Sequence
 
 from llm.config import flattened_config
 from llm.datasets.bert import Batch
-from llm.datasets.bert import sharded_nvidia_bert_dataset
+from llm.datasets.sharded import ResumableSequentialSampler
 from llm.engine.initialize import initialize as engine_initialize
 from llm.initialize import get_default_parser
 from llm.initialize import initialize_from_args
@@ -18,6 +18,8 @@ from llm.optimizers import get_optimizer
 from llm.schedulers import LinearWarmupLR
 from llm.timer import Timer
 from llm.trainers.bert.utils import checkpoint
+from llm.trainers.bert.utils import get_dataloader
+from llm.trainers.bert.utils import get_dataset
 from llm.trainers.bert.utils import get_optimizer_grouped_parameters
 from llm.trainers.bert.utils import load_state
 from llm.trainers.bert.utils import parse_config
@@ -72,7 +74,12 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         max_norm=config.CLIP_GRAD_NORM,
     )
 
-    global_step, epoch = load_state(config, model, optimizer, scheduler)
+    global_step, epoch, sampler_index = load_state(
+        config,
+        model,
+        optimizer,
+        scheduler,
+    )
     writer = create_summary_writer(
         config.TENSORBOARD_DIR,
         flattened_config(dataclasses.asdict(config)),
@@ -81,6 +88,9 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     )
     logger.info(f'Writing TensorBoard logs to {config.TENSORBOARD_DIR}.')
 
+    dataset = get_dataset(config.DATA_DIR)
+    sampler = ResumableSequentialSampler(dataset, start_index=sampler_index)
+
     micro_step = 0
     global_step_timer = Timer()
     step_loss = 0.0
@@ -88,12 +98,9 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     model.train()
 
     while global_step < config.STEPS:
-        dataset = sharded_nvidia_bert_dataset(
-            config.DATA_DIR,
-            config.BATCH_SIZE,
-            seed=config.SEED,
-        )
-        for batch in dataset:
+        dataloader = get_dataloader(dataset, sampler, config.BATCH_SIZE)
+
+        for batch_index, batch in enumerate(dataloader):
             micro_step += 1
 
             batch = Batch(*[t.cuda() for t in batch])
@@ -142,6 +149,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                         model=model,
                         optimizer=optimizer,
                         scheduler=scheduler,
+                        sampler_index=(batch_index + 1) * config.BATCH_SIZE,
                     )
 
                 step_loss = 0.0
@@ -154,6 +162,9 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                 break
 
         epoch += 1
+
+        # Reset sampler for next epoch
+        sampler = ResumableSequentialSampler(dataset)
 
     writer.close()
 
