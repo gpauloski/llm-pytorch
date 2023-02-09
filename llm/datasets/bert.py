@@ -107,7 +107,7 @@ def masked_labels(
     return masked_lm_labels
 
 
-def load_dataset_from_shard(
+def get_dataloader_from_nvidia_bert_shard(
     input_file: str,
     batch_size: int,
     *,
@@ -136,7 +136,7 @@ def load_dataset_from_shard(
     return dataloader
 
 
-def sharded_dataset(
+def sharded_nvidia_bert_dataset(
     input_dir: str,
     batch_size: int,
     *,
@@ -153,7 +153,7 @@ def sharded_dataset(
     shard_filepaths.sort()
 
     for shard_filepath in shard_filepaths:
-        dataloader = load_dataset_from_shard(
+        dataloader = get_dataloader_from_nvidia_bert_shard(
             shard_filepath,
             batch_size,
             num_replicas=num_replicas,

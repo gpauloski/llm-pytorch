@@ -8,7 +8,7 @@ from collections.abc import Sequence
 
 from llm.config import flattened_config
 from llm.datasets.bert import Batch
-from llm.datasets.bert import sharded_dataset
+from llm.datasets.bert import sharded_nvidia_bert_dataset
 from llm.engine.initialize import initialize as engine_initialize
 from llm.initialize import get_default_parser
 from llm.initialize import initialize_from_args
@@ -88,7 +88,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     model.train()
 
     while global_step < config.STEPS:
-        dataset = sharded_dataset(
+        dataset = sharded_nvidia_bert_dataset(
             config.DATA_DIR,
             config.BATCH_SIZE,
             seed=config.SEED,
