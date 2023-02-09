@@ -9,7 +9,6 @@ TODO:
 """  # noqa: D405, E501
 from __future__ import annotations
 
-import os
 import random
 from collections.abc import Generator
 from typing import NamedTuple
@@ -20,6 +19,8 @@ import torch
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 from torch.utils.data.distributed import DistributedSampler
+
+from llm.utils import get_filepaths
 
 
 class Batch(NamedTuple):
@@ -106,14 +107,6 @@ def masked_labels(
     return masked_lm_labels
 
 
-def get_shard_filepaths(input_dir: str) -> list[str]:
-    return [
-        os.path.join(input_dir, f)
-        for f in os.listdir(input_dir)
-        if f.endswith('.h5') or f.endswith('.hdf5')
-    ]
-
-
 def load_dataset_from_shard(
     input_file: str,
     batch_size: int,
@@ -152,7 +145,11 @@ def sharded_dataset(
     seed: int = 0,
     num_workers: int = 4,
 ) -> Generator[Batch, None, None]:
-    shard_filepaths = get_shard_filepaths(input_dir)
+    shard_filepaths = get_filepaths(
+        input_dir,
+        extensions=['.h5', '.hdf5'],
+        recursive=True,
+    )
     shard_filepaths.sort()
 
     for shard_filepath in shard_filepaths:

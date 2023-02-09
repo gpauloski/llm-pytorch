@@ -50,6 +50,36 @@ def create_summary_writer(
     return writer
 
 
+def get_filepaths(
+    directory: pathlib.Path | str,
+    extensions: list[str] | None = None,
+    recursive: bool = False,
+) -> list[str]:
+    """Get list of filepaths in directory.
+
+    Note:
+        Only files (not sub-directories will be returned. Though
+        sub-directories will be recursed into if ``recursive=True``.
+
+    Args:
+        directory: pathlike object with the directory to search.
+        extensions: optionally only return files that match these extensions.
+            Each extension should include the dot. E.g., ['.pdf', '.txt'].
+            Match is case sensitive.
+        recursive: recursively search sub-directories.
+
+    Returns:
+        list of string paths of files in the directory.
+    """
+    directory = pathlib.Path(directory)
+    glob = '**/*' if recursive else '*'
+
+    files = [path for path in directory.glob(glob) if path.is_file()]
+    if extensions is not None:
+        files = [path for path in files if path.suffix in extensions]
+    return [str(path) for path in files]
+
+
 def gradient_accumulation_steps(
     global_batch_size: int,
     local_batch_size: int,

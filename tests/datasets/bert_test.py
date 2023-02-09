@@ -10,7 +10,6 @@ import pytest
 from llm.datasets.bert import Batch
 from llm.datasets.bert import NvidiaBertDataset
 from llm.datasets.bert import WorkerInitObj
-from llm.datasets.bert import get_shard_filepaths
 from llm.datasets.bert import load_dataset_from_shard
 from llm.datasets.bert import masked_labels
 from llm.datasets.bert import sharded_dataset
@@ -66,20 +65,6 @@ def test_masked_labels(
 ) -> None:
     labels = masked_labels(seq_len, masked_lm_positions, masked_lm_ids)
     assert np.array_equal(labels, result)
-
-
-def test_get_shard_filepaths(data_dir: pathlib.Path) -> None:
-    assert len(get_shard_filepaths(str(data_dir))) == NUM_FILE
-
-    tmp_file = data_dir / 'other'
-    tmp_file.touch()
-    assert len(get_shard_filepaths(str(data_dir))) == NUM_FILE
-    tmp_file.unlink()
-
-    tmp_file = data_dir / 'other.h5'
-    tmp_file.touch()
-    assert len(get_shard_filepaths(str(data_dir))) == NUM_FILE + 1
-    tmp_file.unlink()
 
 
 def test_dataset(data_dir: pathlib.Path) -> None:
