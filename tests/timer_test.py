@@ -28,6 +28,6 @@ def test_timer() -> None:
 def test_timer_cuda() -> None:
     with mock.patch('torch.cuda.is_available', return_value=True):
         with mock.patch('torch.cuda.synchronize'):
-            timer = Timer()
+            timer = Timer(synchronize=True)
             timer.start()
             timer.stop()

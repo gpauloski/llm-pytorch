@@ -6,17 +6,18 @@ import torch
 
 
 class Timer:
-    def __init__(self) -> None:
+    def __init__(self, synchronize: bool = False) -> None:
+        self._synchronize = synchronize
         self._history: list[float] = []
         self._start_time = time.time()
 
     def start(self) -> None:
-        if torch.cuda.is_available():
+        if torch.cuda.is_available() and self._synchronize:
             torch.cuda.synchronize()
         self._start_time = time.time()
 
     def stop(self) -> float:
-        if torch.cuda.is_available():
+        if torch.cuda.is_available() and self._synchronize:
             torch.cuda.synchronize()
 
         elapsed = time.time() - self._start_time

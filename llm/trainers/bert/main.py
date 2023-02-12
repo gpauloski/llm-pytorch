@@ -86,13 +86,16 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         ['train/loss', 'train/lr', 'train/epoch'],
         purge_step=global_step,
     )
-    logger.info(f'Writing TensorBoard logs to {config.TENSORBOARD_DIR}.')
+    logger.info(
+        f'Writing TensorBoard logs to {config.TENSORBOARD_DIR}.',
+        extra={'ranks': [0]},
+    )
 
     dataset = get_dataset(config.DATA_DIR)
     sampler = ResumableSequentialSampler(dataset, start_index=sampler_index)
 
     micro_step = 0
-    global_step_timer = Timer()
+    global_step_timer = Timer(synchronize=True)
     step_loss = 0.0
 
     model.train()
@@ -123,6 +126,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
 
             if micro_step % config.ACCUMULATION_STEPS == 0:
                 global_step += 1
+                step_time = global_step_timer.lap()
 
                 log_step(
                     logger,
@@ -130,7 +134,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                     phase=config.PHASE,
                     epoch=epoch,
                     loss=step_loss / config.ACCUMULATION_STEPS,
-                    time=global_step_timer.lap(),
+                    time=step_time,
                     lr=scheduler.get_last_lr()[0],
                     fmt_str=LOG_FMT,
                     writer=writer,
