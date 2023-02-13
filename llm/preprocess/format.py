@@ -44,6 +44,31 @@ def get_sent_tokenizer() -> Callable[[str], list[str]]:
     return nltk.tokenize.sent_tokenize
 
 
+def read_documents_bytes(
+    files: Iterable[pathlib.Path | str] | pathlib.Path | str,
+) -> list[bytes]:
+    if not isinstance(files, Iterable):
+        files = [files]
+
+    documents: list[bytes] = []
+    document_lines: list[bytes] = []
+
+    for current_file in files:
+        with open(current_file, 'rb') as f:
+            for line in f.readlines():
+                line = line.strip()
+                if len(line) == 0 and len(document_lines) > 0:
+                    documents.append(b'\n'.join(document_lines))
+                    document_lines = []
+                elif len(line) > 0:
+                    document_lines.append(line)
+
+    if len(document_lines) > 0:
+        documents.append(b'\n'.join(document_lines))
+
+    return documents
+
+
 def write_documents(path: pathlib.Path | str, documents: list[str]) -> None:
     path = pathlib.Path(path)
     path.parent.mkdir(exist_ok=True)
