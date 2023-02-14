@@ -13,8 +13,8 @@ class BertPretrainingCriterion(torch.nn.Module):
         self,
         prediction_scores: torch.FloatTensor,
         masked_lm_labels: torch.LongTensor,
-        seq_relationship_score: torch.FloatTensor = None,
-        next_sentence_labels: torch.LongTensor = None,
+        seq_relationship_score: torch.FloatTensor | None = None,
+        next_sentence_labels: torch.LongTensor | None = None,
     ) -> float:
         masked_lm_loss = self.loss_fn(
             prediction_scores.view(-1, self.vocab_size),

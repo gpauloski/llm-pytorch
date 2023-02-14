@@ -105,9 +105,9 @@ def get_dataset(
 
 def get_dataloader(
     dataset: DistributedShardedDataset[Sample],
-    sampler: torch.utils.data.Sampler,
+    sampler: torch.utils.data.Sampler[int],
     batch_size: int,
-) -> torch.utils.data.DataLoader:
+) -> torch.utils.data.DataLoader[Sample]:
     return torch.utils.data.DataLoader(
         dataset,
         batch_size=batch_size,
@@ -125,14 +125,23 @@ def checkpoint(
     epoch: int,
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
-    scheduler: torch.optim.lr_scheduler.LRScheduler,
+    scheduler: torch.optim.lr_scheduler._LRScheduler,
     sampler_index: int = 0,
 ) -> None:
     if torch.distributed.get_rank() == 0:
         # Extract from possible AMPModel
-        model = model._model if hasattr(model, '_model') else model
+        model = (
+            model._model  # type: ignore[assignment]
+            if hasattr(model, '_model')
+            else model
+        )
         # Extract from possible DistributedDataParallel
-        model = model.module if hasattr(model, 'module') else model
+        model = (
+            model.module  # type: ignore[assignment]
+            if hasattr(model, 'module')
+            else model
+        )
+
         save_checkpoint(
             checkpoint_dir=config.CHECKPOINT_DIR,
             global_step=global_step,
@@ -153,7 +162,7 @@ def load_state(
     config: TrainingConfig,
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
-    scheduler: torch.optim.lr_scheduler.LRScheduler,
+    scheduler: torch.optim.lr_scheduler._LRScheduler,
 ) -> tuple[int, int, int]:
     global_step = 0
     epoch = 1
@@ -170,9 +179,17 @@ def load_state(
             extra={'ranks': [0]},
         )
         # Load model to the model and not the AMP wrapper
-        model = model._model if hasattr(model, '_model') else model
+        model = (
+            model._model  # type: ignore[assignment]
+            if hasattr(model, '_model')
+            else model
+        )
         # Load model to the model and not the DDP wrapper
-        model = model.module if hasattr(model, 'module') else model
+        model = (
+            model.module  # type: ignore[assignment]
+            if hasattr(model, 'module')
+            else model
+        )
         model.load_state_dict(checkpoint.model_state_dict)
 
         if checkpoint.kwargs['phase'] == config.PHASE:

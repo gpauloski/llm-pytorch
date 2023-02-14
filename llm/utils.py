@@ -43,6 +43,7 @@ def create_summary_writer(
     if hparam_dict is not None and metrics is not None:
         metric_dict = {metric: 0 for metric in metrics}
         exp, ssi, sei = hparams(hparam_dict, metric_dict=metric_dict)
+        assert writer.file_writer is not None
         writer.file_writer.add_summary(exp)
         writer.file_writer.add_summary(ssi)
         writer.file_writer.add_summary(sei)
@@ -128,6 +129,7 @@ def init_logging(
         datefmt='%Y-%m-%d %H:%M:%S',
     )
 
+    stdout_handler: logging.Handler
     if rich:
         stdout_handler = RichHandler(rich_tracebacks=True)
     else:

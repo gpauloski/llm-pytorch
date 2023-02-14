@@ -2,22 +2,19 @@ from __future__ import annotations
 
 import random
 from typing import Any
-from typing import Generic
 from typing import Iterator
 from typing import Mapping
 from typing import Sized
 from typing import TypeVar
 
 import torch
+from torch.utils.data import Dataset
 
-DatasetType = TypeVar('DatasetType', bound=torch.utils.data.Dataset)
+SampleType = TypeVar('SampleType', covariant=True)
 DatasetParams = tuple[tuple[Any, ...], Mapping[str, Any]]
 
 
-class DistributedShardedDataset(
-    torch.utils.data.Dataset,
-    Generic[DatasetType],
-):
+class DistributedShardedDataset(Dataset[SampleType]):
     """Dataset wrapper for sharded datasets in distributed environments.
 
     The DistributedShardedDataset manages a set of datasets (shards) and
@@ -67,7 +64,7 @@ class DistributedShardedDataset(
 
     def __init__(
         self,
-        dataset_type: type[DatasetType],
+        dataset_type: type[Dataset[SampleType]],
         shard_params: dict[str, DatasetParams],
         *,
         rank: int,
@@ -102,6 +99,7 @@ class DistributedShardedDataset(
         index = 0
         for shard_key in shard_keys:
             shard = self.load_shard(shard_key)
+            assert isinstance(shard, Sized)
             shard_indices[shard_key] = (index, index + len(shard))
             index += len(shard)
             del shard
@@ -122,12 +120,12 @@ class DistributedShardedDataset(
         assert len(self) * self.world_size == self.total_samples
 
         self._current_shard_key: str | None = None
-        self._current_shard: DatasetType | None = None
+        self._current_shard: Dataset[SampleType] | None = None
 
     def __len__(self) -> int:
         return self.total_samples // self.world_size
 
-    def __getitem__(self, rank_index: int) -> Any:
+    def __getitem__(self, rank_index: int) -> SampleType:
         if rank_index >= len(self):
             raise IndexError(
                 f'Requested sample index {rank_index} exceeds dataset size of'
@@ -164,7 +162,7 @@ class DistributedShardedDataset(
             f'dataset ({self.total_samples}).',
         )
 
-    def load_shard(self, shard_key: str) -> DatasetType:
+    def load_shard(self, shard_key: str) -> Dataset[SampleType]:
         args, kwargs = self.shard_params[shard_key]
         return self.dataset_type(*args, **kwargs)
 

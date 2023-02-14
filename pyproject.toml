@@ -53,6 +53,7 @@ colossalai = ["colossalai"]
 preprocess = [
     "datasets",
     "nltk",
+    "requests",
 ]
 
 [tool.black]

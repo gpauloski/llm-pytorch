@@ -11,7 +11,9 @@ from __future__ import annotations
 
 import random
 from collections.abc import Generator
+from typing import Any
 from typing import NamedTuple
+from typing import cast
 
 import h5py
 import numpy as np
@@ -63,7 +65,7 @@ class WorkerInitObj:
         random.seed(self.seed + id_)
 
 
-class NvidiaBertDataset(Dataset):
+class NvidiaBertDataset(Dataset[Sample]):
     def __init__(self, input_file: str) -> None:
         self.input_file = input_file
 
@@ -85,7 +87,7 @@ class NvidiaBertDataset(Dataset):
         input_ids = self.input_ids[index].astype(np.int64)
         attention_mask = self.input_mask[index].astype(np.int64)
         token_type_ids = self.segment_ids[index].astype(np.int64)
-        masked_labels_ = masked_labels(
+        masked_labels = get_masked_labels(
             len(self.input_ids[index]),
             self.masked_lm_positions[index],
             self.masked_lm_ids[index],
@@ -94,12 +96,30 @@ class NvidiaBertDataset(Dataset):
             self.next_sentence_labels[index],
         ).astype(np.int64)
 
+        input_ids_ = cast(torch.LongTensor, torch.from_numpy(input_ids))
+        attention_mask_ = cast(
+            torch.LongTensor,
+            torch.from_numpy(attention_mask),
+        )
+        token_type_ids_ = cast(
+            torch.LongTensor,
+            torch.from_numpy(token_type_ids),
+        )
+        masked_labels_ = cast(
+            torch.LongTensor,
+            torch.from_numpy(masked_labels),
+        )
+        next_sentence_label_ = cast(
+            torch.LongTensor,
+            torch.from_numpy(next_sentence_label),
+        )
+
         return Sample(
-            input_ids=torch.from_numpy(input_ids),
-            attention_mask=torch.from_numpy(attention_mask),
-            token_type_ids=torch.from_numpy(token_type_ids),
-            masked_labels=torch.from_numpy(masked_labels_),
-            next_sentence_label=torch.from_numpy(next_sentence_label),
+            input_ids=input_ids_,
+            attention_mask=attention_mask_,
+            token_type_ids=token_type_ids_,
+            masked_labels=masked_labels_,
+            next_sentence_label=next_sentence_label_,
         )
 
     def _lazy_load(self) -> None:
@@ -113,11 +133,11 @@ class NvidiaBertDataset(Dataset):
         self.loaded = True
 
 
-def masked_labels(
+def get_masked_labels(
     seq_len: int,
     masked_lm_positions: list[int],
     masked_lm_ids: list[int],
-) -> np.ndarray:
+) -> np.ndarray[Any, Any]:
     """Create masked labels array.
 
     Args:
@@ -151,9 +171,9 @@ def get_dataloader_from_nvidia_bert_shard(
     rank: int | None = None,
     seed: int = 0,
     num_workers: int = 4,
-) -> DataLoader:
+) -> DataLoader[Sample]:
     dataset = NvidiaBertDataset(input_file)
-    sampler = DistributedSampler(
+    sampler: DistributedSampler[int] = DistributedSampler(
         dataset,
         num_replicas=num_replicas,
         rank=rank,

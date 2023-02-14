@@ -23,9 +23,14 @@ def test_initalize_default(cuda: bool, dist: bool) -> None:
         mock.patch('torch.nn.parallel.DistributedDataParallel'),
         mock.patch.object(model, 'cuda'),
     ):
-        _, optimizer, _, _ = initialize(model, optimizer, criterion, scheduler)
+        _, optimizer_, _, _ = initialize(
+            model,
+            optimizer,
+            criterion,
+            scheduler,
+        )
 
-    assert isinstance(optimizer, BaseOptimizer)
+    assert isinstance(optimizer_, BaseOptimizer)
 
 
 def test_initialize_full() -> None:

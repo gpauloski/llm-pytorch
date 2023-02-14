@@ -27,7 +27,7 @@ def download_wikipedia(
     cache_dir = (pathlib.Path(output_dir) / _CACHE_DIR).absolute()
     cache_dir.mkdir(parents=True, exist_ok=True)
 
-    version = '20220301.en'
+    version = '20220301.simple'
 
     # This function will download a preprocessed dataset so we don't need
     # apache_beam but it will still try and import it
@@ -45,6 +45,7 @@ def download_wikipedia(
     output_file = (
         pathlib.Path(output_dir) / f'wikipedia-{version}.txt'
     ).absolute()
+    assert isinstance(dataset, dict)
     documents = [document['text'] for document in dataset['train']]
     write_documents(output_file, documents)
 

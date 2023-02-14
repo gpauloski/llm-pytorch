@@ -6,14 +6,14 @@ from llm.engine import amp
 
 
 def test_amp_training() -> None:
-    module = torch.nn.Linear(1, 1)
-    optimizer = torch.optim.Adam(module.parameters(), lr=0.1)
-    criterion = torch.nn.MSELoss()
+    module_ = torch.nn.Linear(1, 1)
+    optimizer_ = torch.optim.Adam(module_.parameters(), lr=0.1)
+    criterion_ = torch.nn.MSELoss()
 
     module, optimizer, criterion = amp.initialize(
-        module,
-        optimizer,
-        criterion,
+        module_,
+        optimizer_,
+        criterion_,
         # float16 casting not supported on CPU yet
         dtype=torch.bfloat16,
     )
@@ -31,21 +31,21 @@ def test_amp_training() -> None:
 
 def test_amp_optimizer_state_dict() -> None:
     module = torch.nn.Linear(1, 1)
-    optimizer = torch.optim.SGD(module.parameters(), lr=0.1)
+    optimizer_ = torch.optim.SGD(module.parameters(), lr=0.1)
     scaler = torch.cuda.amp.GradScaler(enabled=False)
 
-    optimizer = amp.AMPOptimizer(module, optimizer, scaler)
+    optimizer = amp.AMPOptimizer(module, optimizer_, scaler)
     state_dict = optimizer.state_dict()
     optimizer.load_state_dict(state_dict)
 
 
 def test_amp_optimizer_grad_clip() -> None:
     module = torch.nn.Linear(1, 1)
-    optimizer = torch.optim.SGD(module.parameters(), lr=0.1)
+    optimizer_ = torch.optim.SGD(module.parameters(), lr=0.1)
     scaler = torch.cuda.amp.GradScaler(enabled=False)
     criterion = torch.nn.MSELoss()
 
-    optimizer = amp.AMPOptimizer(module, optimizer, scaler, max_norm=0.001)
+    optimizer = amp.AMPOptimizer(module, optimizer_, scaler, max_norm=0.001)
 
     batch = torch.rand(10, 1)
     target = 2 * batch

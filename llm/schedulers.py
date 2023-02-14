@@ -17,7 +17,7 @@ class LinearWarmupLR(_LRScheduler):
         self.warmup_steps = warmup_steps
         super().__init__(optimizer, last_epoch)
 
-    def get_lr(self) -> list[float]:
+    def get_lr(self) -> list[float]:  # type: ignore[override]
         if self.last_epoch < self.warmup_steps:
             factor = (self.last_epoch + 1) / (self.warmup_steps + 1)
             return [base_lr * factor for base_lr in self.base_lrs]

@@ -8,17 +8,17 @@ from llm.engine.base import BaseOptimizer
 
 def test_accumulation_training() -> None:
     module = torch.nn.Linear(1, 1)
-    optimizer = torch.optim.Adam(module.parameters(), lr=0.1)
-    scheduler = torch.optim.lr_scheduler.MultiplicativeLR(
-        optimizer,
+    optimizer_ = torch.optim.Adam(module.parameters(), lr=0.1)
+    scheduler_ = torch.optim.lr_scheduler.MultiplicativeLR(
+        optimizer_,
         lambda x: 0.9,
     )
     criterion = torch.nn.MSELoss()
 
     optimizer, scheduler = accumulation.initialize(
         module,
-        BaseOptimizer(optimizer),
-        scheduler,
+        BaseOptimizer(optimizer_),
+        scheduler_,
         accumulation_steps=10,
     )
 

@@ -11,11 +11,11 @@ class BaseOptimizer(Optimizer):
         self._optimizer = optimizer
 
     @property
-    def defaults(self) -> Any:
+    def defaults(self) -> Any:  # type: ignore[override]
         return self._optimizer.defaults
 
     @property
-    def param_groups(self) -> Any:
+    def param_groups(self) -> Any:  # type: ignore[override]
         return self._optimizer.param_groups
 
     def add_param_group(
@@ -32,7 +32,7 @@ class BaseOptimizer(Optimizer):
         return self._optimizer.state_dict()
 
     def step(self, *args: Any, **kwargs: Any) -> None:
-        return self._optimizer.step(*args, **kwargs)
+        self._optimizer.step(*args, **kwargs)
 
     def zero_grad(self, *args: Any, **kwargs: Any) -> None:
         self._optimizer.zero_grad(*args, **kwargs)

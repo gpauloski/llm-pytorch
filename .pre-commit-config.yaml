@@ -33,4 +33,10 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies:
+          - '--extra-index-url=https://download.pytorch.org/whl/cpu'
+          - 'datasets'
+          - 'rich'
+          - 'tokenizers'
+          - 'torch'
+          - 'transformers'
           - 'types-requests'

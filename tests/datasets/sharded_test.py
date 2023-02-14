@@ -8,7 +8,7 @@ from llm.datasets.sharded import DistributedShardedDataset
 from llm.datasets.sharded import ResumableSequentialSampler
 
 
-class SimpleDataset(torch.utils.data.Dataset):
+class SimpleDataset(torch.utils.data.Dataset[int]):
     def __init__(self, samples: int, shard_offset: int) -> None:
         self.samples = samples
         self.shard_offset = shard_offset
