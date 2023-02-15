@@ -61,8 +61,14 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     argv = argv if argv is not None else sys.argv[1:]
     parser = argparse.ArgumentParser(
         prog='llm.preprocess.vocab',
-        description='Vocabulary builder',
-        usage='python -m llm.preprocess.vocab --help',
+        description=(
+            'Vocabulary builder. Arguments default to the standard '
+            'uncased BERT configuration with wordpiece.'
+        ),
+        usage=(
+            'python -m llm.preprocess.vocab --input [input files] '
+            '--output [output file]'
+        ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

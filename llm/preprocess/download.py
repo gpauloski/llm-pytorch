@@ -99,16 +99,19 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     parser = argparse.ArgumentParser(
         prog='llm.preprocess.download',
         description='Pretraining dataset downloader',
-        usage='python -m llm.preprocess.download --help',
+        usage=(
+            'python -m llm.preprocess.download --dataset [dataset] '
+            '--directory [data directory]'
+        ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
-        'dataset',
+        '--dataset',
         choices=list(DATASETS.keys()),
         help='dataset to download',
     )
     parser.add_argument(
-        'directory',
+        '--output',
         help='output directory',
     )
     parser.add_argument(
@@ -127,7 +130,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     init_logging(args.loglevel, rich=not args.no_rich)
 
     downloader = DATASETS[args.dataset]
-    downloader(args.directory)
+    downloader(args.output)
 
     return 0
 

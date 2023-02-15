@@ -83,7 +83,10 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     parser = argparse.ArgumentParser(
         prog='llm.preprocess.shard',
         description='Text file sharder',
-        usage='python -m llm.preprocess.shard --help',
+        usage=(
+            'python -m llm.preprocess.shard --input [input files] '
+            '--output [output directory] --size [max size]'
+        ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
