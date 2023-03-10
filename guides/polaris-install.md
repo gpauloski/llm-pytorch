@@ -26,22 +26,19 @@
    ```bash
    pip install -e .  # Use the [dev] extras install for developing
    ```
-5. Install NVIDIA Apex.
+5. Install ColossalAI.
+   This can be done directly from pip (`pip install colossalai`) which will
+   JIT compile the CUDA extensions, or you can install with CUDA extensions
+   pre-build.
    This must be done from a compute node.
    E.g., `qsub -A [ALLOCATION] -l select=1:system=polaris -l walltime=1:00:00 -I -q debug -l filesystems=home:grand`.
-   The `apex` repository can be cloned anywhere.
    ```bash
    # Activate your modules and virtual environment
    module load cray-python/3.9.12.1 cudatoolkit-standalone/11.7.1
    . /path/to/venv/bin/activate
 
-   # Install and load extra requirements
-   pip install packaging
    module load gcc
 
-   # Clone and install
-   git clone git@github.com:NVIDIA/apex
-   cd apex
-   pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+   CUDA_EXT=1 pip install colossalai
    ```
 6. Done!

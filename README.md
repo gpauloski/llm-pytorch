@@ -28,8 +28,8 @@ $ pip install torch       # torch install instructions may differ
 $ pip install .           # use -e for editable mode
 ```
 PyTorch installation instructions vary by system and CUDA versions so check the latest instructions [here](https://pytorch.org/get-started/locally/).
-NVIDIA Apex can be installed to use the `FusedAdam` and `FusedLAMB` optimizers.
-See the directions [here](https://github.com/NVIDIA/apex#from-source).
+ColossalAI can be installed to use the `FusedAdam` and `FusedLAMB` optimizers.
+See the directions [here](https://github.com/hpcaitech/ColossalAI/tree/main#installation).
 
 ### System Specific Guides
 
