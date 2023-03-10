@@ -47,6 +47,7 @@ dev = [
     "tox",
     "virtualenv",
 ]
+colossalai = ["colossalai"]
 
 [tool.black]
 line-length = 79

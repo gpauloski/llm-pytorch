@@ -8,12 +8,12 @@ from typing import Literal
 import torch
 
 try:  # pragma: no cover
-    from apex.optimizers import FusedAdam
-    from apex.optimizers import FusedLAMB
+    from colossalai.nn.optimizer import FusedAdam
+    from colossalai.nn.optimizer import FusedLAMB
 
-    APEX_IMPORT_ERROR = None
+    FUSED_IMPORT_ERROR = None
 except ImportError as e:
-    APEX_IMPORT_ERROR = e
+    FUSED_IMPORT_ERROR = e
 
 logger = logging.getLogger(__name__)
 
@@ -25,22 +25,23 @@ def get_optimizer(
     **kwargs: Any,
 ) -> torch.optim.Optimizer:
     if name == 'adam':  # pragma: no cover
-        if APEX_IMPORT_ERROR is None:
+        if FUSED_IMPORT_ERROR is None:
             optimizer = FusedAdam(params, lr=lr, **kwargs)
         else:
             logger.warning(
-                'NVIDIA Apex is not installed so defaulting to native PyTorch '
-                'Adam. Better performance can be enabled with Apex\'s '
-                'FusedAdam.',
+                'ColossalAI with CUDA extensions is not installed so '
+                'defaulting to native PyTorch Adam. Better performance can be '
+                'enabled with ColossalAI\'s FusedAdam.',
             )
             optimizer = torch.optim.Adam(params, lr=lr, **kwargs)
     elif name == 'lamb':  # pragma: no cover
-        if APEX_IMPORT_ERROR is None:
+        if FUSED_IMPORT_ERROR is None:
             optimizer = FusedLAMB(params, lr=lr, **kwargs)
         else:
             raise ImportError(
-                'FusedLamb is not available. NVIDIA Apex is not installed.',
-            ) from APEX_IMPORT_ERROR
+                'FusedLamb is not available. ColossalAI with CUDA extensions '
+                'is not installed.',
+            ) from FUSED_IMPORT_ERROR
     else:
         raise ValueError(f'Unknown optimizer: {name}')
 
