@@ -37,7 +37,7 @@ def initialize(
 
     if torch.distributed.is_initialized():
         local_rank = (
-            [int(os.environ.get('LOCAL_RANK', '0'))]
+            int(os.environ['LOCAL_RANK'])
             if torch.cuda.is_available()
             else None
         )
@@ -48,7 +48,8 @@ def initialize(
         )
         model = torch.nn.parallel.DistributedDataParallel(
             model,
-            device_ids=local_rank,
+            device_ids=[local_rank],
+            output_device=local_rank,
         )
 
     optimizer = BaseOptimizer(optimizer)
