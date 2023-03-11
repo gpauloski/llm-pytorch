@@ -10,7 +10,7 @@ import transformers
 
 BERT_BASE = dict(
     attention_probs_dropout_prob=0.1,
-    hidden_act='gelu',
+    hidden_act='gelu_new',
     hidden_dropout_prob=0.1,
     hidden_size=768,
     initializer_range=0.02,
@@ -24,7 +24,7 @@ BERT_BASE = dict(
 
 BERT_LARGE = dict(
     attention_probs_dropout_prob=0.1,
-    hidden_act='gelu',
+    hidden_act='gelu_new',
     hidden_dropout_prob=0.1,
     hidden_size=1024,
     initializer_range=0.02,
