@@ -20,8 +20,8 @@ RUN_NAME = f'phase-{PHASE}'
 CHECKPOINT_DIR = os.path.join(OUTPUT_DIR, f'checkpoints/{RUN_NAME}')
 TENSORBOARD_DIR = os.path.join(OUTPUT_DIR, f'tensorboard/{RUN_NAME}')
 LOG_FILE = os.path.join(OUTPUT_DIR, f'logs/{RUN_NAME}.txt')
-CLIP_GRAD_NORM = 1.0
 DTYPE = torch.float16
+SEED = 42
 
 # ACCUMULATION_STEPS is computed automatically by llm.trainers.bert
 if PHASE == 1:
