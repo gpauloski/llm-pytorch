@@ -44,5 +44,5 @@ def test_initialize_cuda(cuda, distributed) -> None:
         mock.patch('torch.cuda.is_available', return_value=cuda),
         mock.patch('torch.cuda.set_device') as mock_device,
     ):
-        initialize()
+        initialize(seed=42)
         assert mock_device.called == cuda

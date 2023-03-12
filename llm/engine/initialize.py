@@ -43,7 +43,7 @@ def initialize(
         )
         logger.debug(
             'Wrapping model with DistributedDataParallel with '
-            f'local_rank {local_rank}.',
+            f'local_rank {local_rank}',
             extra={'ranks': [0]},
         )
         model = torch.nn.parallel.DistributedDataParallel(
@@ -56,7 +56,7 @@ def initialize(
 
     if dtype is not None:
         logger.debug(
-            f'Initializing model for AMP training with dtype {dtype}.',
+            f'Initializing model for AMP training with dtype {dtype}',
             extra={'ranks': [0]},
         )
         model, optimizer, criterion = amp.initialize(
@@ -71,7 +71,7 @@ def initialize(
     if accumulation_steps > 1:
         logger.debug(
             'Initializing model gradient accumulation steps = '
-            f'{accumulation_steps}.',
+            f'{accumulation_steps}',
             extra={'ranks': [0]},
         )
         optimizer, scheduler = accumulation.initialize(

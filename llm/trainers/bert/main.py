@@ -6,10 +6,13 @@ import pprint
 import sys
 from collections.abc import Sequence
 
+import torch.distributed as dist
+
 from llm.config import flattened_config
 from llm.datasets.bert import Batch
 from llm.datasets.sharded import ResumableSequentialSampler
 from llm.engine.initialize import initialize as engine_initialize
+from llm.environment import log_environment
 from llm.initialize import get_default_parser
 from llm.initialize import initialize_from_args
 from llm.loss import BertPretrainingCriterion
@@ -29,8 +32,8 @@ from llm.utils import log_step
 logger = logging.getLogger('llm.trainers.bert')
 
 LOG_FMT = (
-    'phase: {phase} | epoch: {epoch} | step: {step} | '
-    'loss: {loss:.3f} | lr: {lr:.2e} | time (s): {time:.3f}'
+    'phase: {phase} | epoch: {epoch} | step: {step} | loss: {loss:.3f} | '
+    'lr: {lr:.2e} | samples/s: {samples_per_second:.2f} | time (s): {time:.3f}'
 )
 
 
@@ -39,11 +42,12 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     parser = get_default_parser()
     args = parser.parse_args(argv)
     _config = initialize_from_args(args)
+    log_environment()
     config = parse_config(_config)
 
     logger.info(
         f'Launching training from config at {args.config} '
-        f'(debug: {args.debug}).',
+        f'(debug: {args.debug})',
         extra={'ranks': [0]},
     )
     logger.info(
@@ -83,15 +87,19 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     writer = create_summary_writer(
         config.TENSORBOARD_DIR,
         flattened_config(dataclasses.asdict(config)),
-        ['train/loss', 'train/lr', 'train/epoch'],
+        ['train/loss', 'train/lr', 'train/epoch', 'train/samples_per_second'],
         purge_step=global_step,
     )
     logger.info(
-        f'Writing TensorBoard logs to {config.TENSORBOARD_DIR}.',
+        f'Writing TensorBoard logs to {config.TENSORBOARD_DIR}',
         extra={'ranks': [0]},
     )
 
     dataset = get_dataset(config.DATA_DIR)
+    logger.info(
+        f'Dataset size on rank 0: {len(dataset)}',
+        extra={'ranks': [0]},
+    )
     sampler = ResumableSequentialSampler(dataset, start_index=sampler_index)
 
     micro_step = 0
@@ -102,6 +110,10 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
 
     while global_step < config.STEPS:
         dataloader = get_dataloader(dataset, sampler, config.BATCH_SIZE)
+        logger.info(
+            f'Initialized new dataloader {len(dataloader)} batches',
+            extra={'ranks': [0]},
+        )
 
         for batch_index, batch in enumerate(dataloader):
             micro_step += 1
@@ -128,12 +140,14 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                 global_step += 1
                 step_time = global_step_timer.lap()
 
+                samples = config.GLOBAL_BATCH_SIZE * dist.get_world_size()
                 log_step(
                     logger,
                     step=global_step,
                     phase=config.PHASE,
                     epoch=epoch,
                     loss=step_loss / config.ACCUMULATION_STEPS,
+                    samples_per_second=samples / step_time,
                     time=step_time,
                     lr=scheduler.get_last_lr()[0],
                     fmt_str=LOG_FMT,
@@ -181,7 +195,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     logger.info(
         'Training complete ('
         f'total training time (s): {total_time:.3f}, '
-        f'avg step time (s): {step_time:.3f}).',
+        f'avg step time (s): {step_time:.3f})',
         extra={'ranks': [0]},
     )
     return 0

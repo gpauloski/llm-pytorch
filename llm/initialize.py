@@ -4,7 +4,9 @@ import argparse
 import logging
 import os
 import pathlib
+import random
 
+import numpy
 import torch
 
 from llm.config import Config
@@ -60,6 +62,7 @@ def initialize(
     debug: bool = False,
     loglevel: int | str = 'INFO',
     logfile: pathlib.Path | str | None = None,
+    seed: int | None = None,
     rich: bool = False,
 ) -> None:
     """Initialize the distributed context.
@@ -71,6 +74,7 @@ def initialize(
         debug: initialize torch distributed for debugging (single worker).
         loglevel: minimum logging level.
         logfile: log filepath.
+        seed: random seed.
         rich: use rich formatting for stdout logging.
     """
     init_logging(loglevel, logfile=logfile, rich=rich, distributed=True)
@@ -92,7 +96,7 @@ def initialize(
     logger.info(
         'Distributed initialization complete: '
         f'backend={torch.distributed.get_backend()}, '
-        f'world_size={torch.distributed.get_world_size()}.',
+        f'world_size={torch.distributed.get_world_size()}',
         extra={'ranks': [0]},
     )
 
@@ -101,9 +105,17 @@ def initialize(
         torch.cuda.set_device(local_rank)
 
         logger.info(
-            f'Initialized CUDA local device to {local_rank}.',
+            f'Initialized CUDA local device to {local_rank}',
             extra={'ranks': [0]},
         )
+
+    if seed is not None:
+        local_rank = int(os.environ.get('LOCAL_RANK', 0))
+        random.seed(seed + local_rank)
+        numpy.random.seed(seed + local_rank)
+        torch.manual_seed(seed + local_rank)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed(seed + local_rank)
 
 
 def initialize_from_args(args: argparse.Namespace) -> Config:
@@ -114,6 +126,7 @@ def initialize_from_args(args: argparse.Namespace) -> Config:
         debug=args.debug,
         loglevel=args.loglevel or config.get('LOG_LEVEL', None),
         logfile=config.get('LOG_FILE', None),
+        seed=config.get('SEED', None),
         rich=args.rich,
     )
 
