@@ -33,12 +33,11 @@ This is an example submission script for a PBS scheduler.
 #PBS -A __ALLOCATION__
 #PBS -q __QUEUE__
 #PBS -M __EMAIL__
-#PBS -m e
+#PBS -m abe
 #PBS -l select=16:system=polaris
 #PBS -l walltime=6:00:00
 #PBS -l filesystems=home:grand
-#PBS -o pbs-logs
-#PBS -j eo
+#PBS -j oe
 
 # Figure out training environment based on PBS_NODEFILE existence
 if [[ -z "${PBS_NODEFILE}" ]]; then
@@ -48,6 +47,7 @@ else
     PRIMARY_RANK=$(head -n 1 $PBS_NODEFILE)
     RANKS=$(tr '\n' ' ' < $PBS_NODEFILE)
     NNODES=$(< $PBS_NODEFILE wc -l)
+    cat $PBS_NODEFILE
 fi
 
 CONFIG="configs/bert-large/nvidia-lamb.py"
@@ -63,11 +63,11 @@ LAUNCHER+="--nnodes=$NNODES --nproc_per_node=auto --max_restarts 0 "
 if [[ "$NNODES" -eq 1 ]]; then
     LAUNCHER+="--standalone "
 else
-    LAUNCHER+="--rdzv_backend=c10d --rdzv_endpoint=$PRIMARY_RANK "
+    LAUNCHER+="--rdzv_backend=c10d --rdzv_endpoint=$PRIMARY_RANK"
 fi
 
 # Training script and parameters
-CMD=" $LAUNCHER -m llm.trainers.bert --config $CONFIG "
+CMD="$LAUNCHER -m llm.trainers.bert --config $CONFIG"
 echo "Training Command: $CMD"
 
 mpiexec --hostfile $PBS_NODEFILE -np $NNODES --env OMP_NUM_THREADS=8 --cpu-bind none $CMD
