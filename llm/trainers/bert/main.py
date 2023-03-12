@@ -10,6 +10,7 @@ from llm.config import flattened_config
 from llm.datasets.bert import Batch
 from llm.datasets.sharded import ResumableSequentialSampler
 from llm.engine.initialize import initialize as engine_initialize
+from llm.environment import log_environment
 from llm.initialize import get_default_parser
 from llm.initialize import initialize_from_args
 from llm.loss import BertPretrainingCriterion
@@ -39,11 +40,12 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     parser = get_default_parser()
     args = parser.parse_args(argv)
     _config = initialize_from_args(args)
+    log_environment()
     config = parse_config(_config)
 
     logger.info(
         f'Launching training from config at {args.config} '
-        f'(debug: {args.debug}).',
+        f'(debug: {args.debug})',
         extra={'ranks': [0]},
     )
     logger.info(
@@ -87,11 +89,15 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         purge_step=global_step,
     )
     logger.info(
-        f'Writing TensorBoard logs to {config.TENSORBOARD_DIR}.',
+        f'Writing TensorBoard logs to {config.TENSORBOARD_DIR}',
         extra={'ranks': [0]},
     )
 
     dataset = get_dataset(config.DATA_DIR)
+    logger.info(
+        f'Dataset size on rank 0: {len(dataset)}',
+        extra={'ranks': [0]},
+    )
     sampler = ResumableSequentialSampler(dataset, start_index=sampler_index)
 
     micro_step = 0
@@ -102,6 +108,10 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
 
     while global_step < config.STEPS:
         dataloader = get_dataloader(dataset, sampler, config.BATCH_SIZE)
+        logger.info(
+            f'Initialized new dataloader {len(dataloader)} batches',
+            extra={'ranks': [0]},
+        )
 
         for batch_index, batch in enumerate(dataloader):
             micro_step += 1
@@ -181,7 +191,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     logger.info(
         'Training complete ('
         f'total training time (s): {total_time:.3f}, '
-        f'avg step time (s): {step_time:.3f}).',
+        f'avg step time (s): {step_time:.3f})',
         extra={'ranks': [0]},
     )
     return 0

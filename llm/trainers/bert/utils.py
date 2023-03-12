@@ -69,7 +69,7 @@ def parse_config(config: Config) -> TrainingConfig:
             # support isinstance checks so we just log the error and skip
             match = True
             logger.debug(
-                f'Unable to verify config option {field_name}: {field_type}.'
+                f'Unable to verify config option {field_name}: {field_type}\n'
                 f'{e}',
             )
 
@@ -205,7 +205,7 @@ def load_state(
             )
     else:
         logger.info(
-            'No checkpoint found to resume from.',
+            'No checkpoint found to resume from',
             extra={'ranks': [0]},
         )
 
