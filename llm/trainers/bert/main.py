@@ -6,6 +6,8 @@ import pprint
 import sys
 from collections.abc import Sequence
 
+import torch.distributed as dist
+
 from llm.config import flattened_config
 from llm.datasets.bert import Batch
 from llm.datasets.sharded import ResumableSequentialSampler
@@ -30,8 +32,8 @@ from llm.utils import log_step
 logger = logging.getLogger('llm.trainers.bert')
 
 LOG_FMT = (
-    'phase: {phase} | epoch: {epoch} | step: {step} | '
-    'loss: {loss:.3f} | lr: {lr:.2e} | time (s): {time:.3f}'
+    'phase: {phase} | epoch: {epoch} | step: {step} | loss: {loss:.3f} | '
+    'lr: {lr:.2e} | samples/s: {samples_per_second:.2f} | time (s): {time:.3f}'
 )
 
 
@@ -85,7 +87,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     writer = create_summary_writer(
         config.TENSORBOARD_DIR,
         flattened_config(dataclasses.asdict(config)),
-        ['train/loss', 'train/lr', 'train/epoch'],
+        ['train/loss', 'train/lr', 'train/epoch', 'train/samples_per_second'],
         purge_step=global_step,
     )
     logger.info(
@@ -138,12 +140,14 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                 global_step += 1
                 step_time = global_step_timer.lap()
 
+                samples = config.GLOBAL_BATCH_SIZE * dist.get_world_size()
                 log_step(
                     logger,
                     step=global_step,
                     phase=config.PHASE,
                     epoch=epoch,
                     loss=step_loss / config.ACCUMULATION_STEPS,
+                    samples_per_second=samples / step_time,
                     time=step_time,
                     lr=scheduler.get_last_lr()[0],
                     fmt_str=LOG_FMT,
