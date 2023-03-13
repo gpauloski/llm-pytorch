@@ -48,7 +48,7 @@ def initialize(
         )
         model = torch.nn.parallel.DistributedDataParallel(
             model,
-            device_ids=[local_rank],
+            device_ids=[local_rank] if local_rank is not None else None,
             output_device=local_rank,
         )
 
