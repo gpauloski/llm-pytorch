@@ -1,8 +1,8 @@
-"""BERT pretraining encoder.
+"""RoBERTa pretraining encoder.
 
 This implements the DOC-SENTENCES sampling strategy of RoBERTa. Samples are
 not pre-masked as in Devlin et al. and are rather dynamically masked at
-runtime as in RoBERTa.
+runtime as in RoBERTa. Next sentence prediction is also not used.
 """
 from __future__ import annotations
 
@@ -11,15 +11,16 @@ import functools
 import glob
 import logging
 import multiprocessing
+import os
 import pathlib
 import random
 import sys
 import time
 from typing import List
-from typing import NamedTuple
 from typing import Sequence
 
 import h5py
+import tokenizers
 from tokenizers.implementations.base_tokenizer import BaseTokenizer
 
 from llm.preprocess.tokenize import get_tokenizer
@@ -27,63 +28,18 @@ from llm.utils import init_logging
 
 logger = logging.getLogger(__name__)
 
+SequenceT = List[str]
 SentenceT = List[str]
 DocumentT = List[SentenceT]
 
-CLS_TOKEN = '[CLS]'
-SEP_TOKEN = '[SEP]'
-PAD_TOKEN = '[PAD]'
-
-
-class Sample(NamedTuple):
-    tokens: list[str]
-    special_token_positions: list[int]
-    next_sentence_label: bool
-
-    @classmethod
-    def from_single_segment(
-        cls,
-        segment: list[str],
-        max_seq_len: int,
-    ) -> Sample:
-        if max_seq_len < 2:
-            raise ValueError('Max sequence length cannot be less than 2.')
-        tokens = segment[: max_seq_len - 2]
-        tokens = [CLS_TOKEN, *tokens, SEP_TOKEN]
-        special_token_positions = [0, len(tokens) - 1]
-        tokens.extend([PAD_TOKEN] * (max_seq_len - len(tokens)))
-        assert len(tokens) == max_seq_len
-        return cls(tokens, special_token_positions, False)
-
-    @classmethod
-    def from_two_segments(
-        cls,
-        first_segment: list[str],
-        second_segment: list[str],
-        next_sentence_label: bool,
-        max_seq_len: int,
-    ) -> Sample:
-        if max_seq_len < 3:
-            raise ValueError('Max sequence length cannot be less than 3.')
-        while len(first_segment) + len(second_segment) > max_seq_len - 3:
-            if len(second_segment) > 1:
-                second_segment.pop(-1)
-            else:
-                raise ValueError(
-                    'Max sequence length constraints will result the second '
-                    'segment being removed entirely.',
-                )
-        tokens: list[str] = [
-            CLS_TOKEN,
-            *first_segment,
-            SEP_TOKEN,
-            *second_segment,
-            SEP_TOKEN,
-        ]
-        special_token_positions = [0, len(first_segment) + 1, len(tokens) - 1]
-        tokens.extend([PAD_TOKEN] * (max_seq_len - len(tokens)))
-        assert len(tokens) == max_seq_len
-        return cls(tokens, special_token_positions, next_sentence_label)
+# This silences the error:
+#
+# The current process just got forked, after parallelism has already been used.
+# Disabling parallelism to avoid deadlocks...
+# To disable this warning, you can either:
+#   - Avoid using `tokenizers` before the fork if possible
+#   - Explicitly set the environment variable TOKENIZERS_PARALLELISM=false
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 
 def read_documents(
@@ -92,6 +48,14 @@ def read_documents(
 ) -> list[DocumentT]:
     documents: list[DocumentT] = []
     document: DocumentT = []
+
+    max_length = (
+        None
+        if tokenizer.truncation is None
+        else tokenizer.truncation['max_length']
+    )
+    tokenizer.no_padding()
+    tokenizer.no_truncation()
 
     with open(input_file, 'r') as f:
         for line in f.readlines():
@@ -107,6 +71,9 @@ def read_documents(
     if len(document) > 0:  # pragma: no branch
         documents.append(document)
 
+    tokenizer.enable_padding()
+    tokenizer.enable_truncation(max_length=max_length)
+
     return documents
 
 
@@ -114,38 +81,24 @@ def create_samples_from_document(
     document: DocumentT,
     max_seq_len: int,
     short_seq_prob: float,
-) -> list[Sample]:
-    samples: list[Sample] = []
+) -> list[SequenceT]:
+    samples: list[SequenceT] = []
 
-    current_tokens: list[str] = []
-
-    # Account for [CLS], [SEP]
-    max_tokens = max_seq_len - 2
-
-    # Randomly reduce max seq length
     if random.random() < short_seq_prob:
-        target_tokens = random.randint(2, max_tokens)
+        max_tokens = random.randint(2, max_seq_len - 2)
     else:
-        target_tokens = max_tokens
+        max_tokens = max_seq_len - 2
 
     for sentence in document:
-        if (
-            len(sentence) + len(current_tokens) > target_tokens
-            and len(current_tokens) > 0
-        ):
-            sample = Sample.from_single_segment(current_tokens, max_seq_len)
-            samples.append(sample)
-            # Randomly reduce max seq length for next sample
+        if len(samples) == 0 or len(samples[-1]) > max_tokens:
+            # Starting new sample and randomly update max seq length
+            samples.append([])
             if random.random() < short_seq_prob:
-                target_tokens = random.randint(2, max_tokens)
+                max_tokens = random.randint(2, max_seq_len - 2)
             else:
-                target_tokens = max_tokens
-            current_tokens = []
+                max_tokens = max_seq_len - 2
 
-        current_tokens.extend(sentence)
-
-    if len(current_tokens) > 0:  # pragma: no branch
-        samples.append(Sample.from_single_segment(current_tokens, max_seq_len))
+        samples[-1].extend(sentence)
 
     return samples
 
@@ -154,8 +107,8 @@ def create_samples_from_documents(
     documents: list[DocumentT],
     max_seq_len: int,
     short_seq_prob: float,
-) -> list[Sample]:
-    samples: list[Sample] = []
+) -> list[SequenceT]:
+    samples: list[SequenceT] = []
 
     for _i, document in enumerate(documents):
         document_samples = create_samples_from_document(
@@ -169,25 +122,11 @@ def create_samples_from_documents(
 
 
 def write_samples(
-    samples: list[Sample],
+    samples: list[tokenizers.Encoding],
     output_file: str | pathlib.Path,
-    tokenizer: BaseTokenizer,
 ) -> None:
-    input_ids: list[list[int]] = [
-        tokenizer.encode(sample.tokens, is_pretokenized=True).ids
-        for sample in samples
-    ]
-    special_token_positions: list[list[int]] = [
-        sample.special_token_positions for sample in samples
-    ]
-    next_sentence_labels: list[bool] = [
-        sample.next_sentence_label for sample in samples
-    ]
-    import numpy
-
-    print(numpy.asarray(input_ids).shape)
-    print(numpy.asarray(special_token_positions).shape)
-    print(numpy.asarray(next_sentence_labels).shape)
+    input_ids = [sample.ids for sample in samples]
+    attention_masks = [sample.attention_mask for sample in samples]
 
     with h5py.File(output_file, 'w') as f:
         f.create_dataset(
@@ -197,14 +136,8 @@ def write_samples(
             compression='gzip',
         )
         f.create_dataset(
-            'special_token_positions',
-            data=special_token_positions,
-            dtype='i4',
-            compression='gzip',
-        )
-        f.create_dataset(
-            'next_sentence_labels',
-            data=next_sentence_labels,
+            'attention_masks',
+            data=attention_masks,
             dtype='i1',
             compression='gzip',
         )
@@ -228,7 +161,9 @@ def encode_file(
         short_seq_prob=short_seq_prob,
     )
     random.shuffle(samples)
-    write_samples(samples, output_file, tokenizer)
+
+    encoded_samples = tokenizer.encode_batch(samples, is_pretokenized=True)
+    write_samples(encoded_samples, output_file)
 
     total_time = time.monotonic() - start
     logger.info(f'Finished {output_file} in {total_time:.0f} seconds')
@@ -348,7 +283,15 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     init_logging(args.loglevel, rich=not args.no_rich)
 
     input_files = glob.glob(args.input, recursive=True)
-    tokenizer = get_tokenizer(args.tokenizer, args.vocab, not args.cased)
+
+    tokenizer = get_tokenizer(
+        args.tokenizer,
+        args.vocab,
+        not args.cased,
+        padding_options={'length': args.max_seq_len},
+        truncation_options={'max_length': args.max_seq_len},
+    )
+
     encode_files(
         input_files=input_files,
         output_dir=args.output_dir,
