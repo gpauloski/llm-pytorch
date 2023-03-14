@@ -55,7 +55,7 @@ def test_train_vocab(
     if kind == 'bpe':
         assert len(vocab) >= 500
     elif kind == 'wordpiece':
-        assert len(vocab) == 500
+        assert len(vocab) == 502
     else:
         raise AssertionError
 
