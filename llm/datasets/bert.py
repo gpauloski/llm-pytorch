@@ -1,11 +1,6 @@
 """NVIDIA BERT dataset provider.
 
 Source: https://github.com/hpcaitech/ColossalAI-Examples/blob/e0830ccc1bbc57f9c50bb1c00f3e23239bf1e231/language/roberta/pretraining/nvidia_bert_dataset_provider.py
-
-TODO:
-  - shard prefetching in separate thread
-  - resume from shard
-  - saving shard sampler state for state dict
 """  # noqa: D405, E501
 from __future__ import annotations
 
@@ -37,7 +32,7 @@ class Batch(NamedTuple):
     # (batch_size, seq_len): indices in vocab of masked tokens in input_ids
     masked_labels: torch.LongTensor
     # (batch_size, ): boolean indicating next sentence label
-    next_sentence_labels: torch.LongTensor
+    next_sentence_labels: torch.LongTensor | None
 
 
 class Sample(NamedTuple):
@@ -52,7 +47,7 @@ class Sample(NamedTuple):
     # (seq_len, ): indices in vocab of masked tokens in input_ids
     masked_labels: torch.LongTensor
     # (1, ): boolean indicating next sentence label
-    next_sentence_label: torch.LongTensor
+    next_sentence_label: torch.LongTensor | None
 
 
 # Workaround because python functions are not picklable
