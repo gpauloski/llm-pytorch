@@ -1,10 +1,10 @@
 # BERT Pretraining
 
-BERT pretraining based on [NVIDIA's configuration](https://github.com/NVIDIA/DeepLearningExamples/blob/ca5ae20e3d1af3464159754f758768052c41c607/PyTorch/LanguageModeling/BERT/scripts/configs/pretrain_config.sh).
+BERT pretraining based on [NVIDIA's configuration](https://github.com/NVIDIA/DeepLearningExamples/blob/ca5ae20e3d1af3464159754f758768052c41c607/PyTorch/LanguageModeling/BERT/scripts/configs/pretrain_config.sh){target=_blank}.
 
-This guide assumes you have installed the `llm` packages and its dependencies as described in the [README](../README.md).
+This guide assumes you have installed the `llm` packages and its dependencies as described in the [Installation Guide](../installation/index.md).
 
-An example training configuration is provided in [configs/bert-large/nvidia-lamb.py](../configs/bert-large/nvidia-lamb.py).
+An example training configuration is provided in [configs/bert-large/nvidia-lamb.py](https://github.com/gpauloski/llm-pytorch/blob/main/configs/bert-large/nvidia-lamb.py){target=_blank}.
 Typically, you will need to change at least the `DATA_DIR`, `OUTPUT_DIR`, `RUN_NAME` and `PHASE` depending on your training state.
 
 ## Run Commands
@@ -77,5 +77,3 @@ mpiexec --hostfile $PBS_NODEFILE -np $NNODES --env OMP_NUM_THREADS=8 --cpu-bind 
 
 After phase 1 training is complete, set `PHASE = 2` in the config file.
 Then, copy the last checkpoint from the `CHECKPOINT_DIR` for phase 1 to the new `CHECKPOINT_DIR` for phase 2 with the filename `global_step_0.pt`.
-
-*Note: checkpointing is still incomplete. End of phase checkpoints work correctly but resuming training mid-phase does not correctly resume the position in the dataset.*
