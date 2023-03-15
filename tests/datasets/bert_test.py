@@ -12,7 +12,7 @@ from llm.datasets.bert import NvidiaBertDataset
 from llm.datasets.bert import Sample
 from llm.datasets.bert import WorkerInitObj
 from llm.datasets.bert import get_dataloader_from_nvidia_bert_shard
-from llm.datasets.bert import masked_labels
+from llm.datasets.bert import get_masked_labels
 from llm.datasets.bert import sharded_nvidia_bert_dataset
 from testing.datasets.bert import write_nvidia_bert_shard
 
@@ -58,13 +58,13 @@ def test_worker_init() -> None:
         ),
     ),
 )
-def test_masked_labels(
+def test_get_masked_labels(
     seq_len: int,
     masked_lm_positions: list[int],
     masked_lm_ids: list[int],
     result: list[int],
 ) -> None:
-    labels = masked_labels(seq_len, masked_lm_positions, masked_lm_ids)
+    labels = get_masked_labels(seq_len, masked_lm_positions, masked_lm_ids)
     assert np.array_equal(labels, result)
 
 

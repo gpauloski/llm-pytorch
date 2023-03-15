@@ -68,7 +68,7 @@ class AMPOptimizer(BaseOptimizer):
     def backward(self, loss: torch.Tensor) -> None:
         self._scaler.scale(loss).backward()
 
-    def step(self, closure: Callable[[], torch.Tensor] | None = None) -> None:
+    def step(self, closure: Callable[[], float] | None = None) -> None:
         if self._max_norm is not None:
             self._scaler.unscale_(self._optimizer)
             torch.nn.utils.clip_grad_norm_(
@@ -83,7 +83,7 @@ def initialize(
     model: torch.nn.Module,
     optimizer: Optimizer,
     criterion: torch.nn.Module,
-    dtype: torch.float16 | torch.bfloat16 = torch.float16,
+    dtype: torch.dtype = torch.float16,
     max_norm: float | None = None,
     **kwargs: Any,
 ) -> tuple[AMPModel, AMPOptimizer, AMPCriterion]:

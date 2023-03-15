@@ -44,11 +44,17 @@ dev = [
     "pre-commit",
     "pytest",
     "pytest-cov",
+    "types-requests",
     "ruff",
     "tox",
     "virtualenv",
 ]
 colossalai = ["colossalai"]
+preprocess = [
+    "datasets",
+    "nltk",
+    "requests",
+]
 
 [tool.black]
 line-length = 79
@@ -67,6 +73,8 @@ dist,
 
 [tool.coverage.run]
 plugins = ["covdefaults"]
+concurrency = ["multiprocessing", "thread"]
+parallel = true
 
 [tool.mypy]
 python_version = "3.10"

@@ -32,4 +32,6 @@ repos:
     rev: v1.1.1
     hooks:
       - id: mypy
-        additional_dependencies: []
+        additional_dependencies:
+          - 'rich'
+          - 'types-requests'

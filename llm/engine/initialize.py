@@ -19,7 +19,7 @@ def initialize(
     criterion: torch.nn.Module,
     scheduler: torch.optim.lr_scheduler._LRScheduler,
     accumulation_steps: int = 1,
-    dtype: torch.float16 | torch.bfloat16 | None = None,
+    dtype: torch.dtype | None = None,
     max_norm: float | None = None,
     **kwargs: Any,
 ) -> tuple[
@@ -48,7 +48,7 @@ def initialize(
         )
         model = torch.nn.parallel.DistributedDataParallel(
             model,
-            device_ids=[local_rank],
+            device_ids=[local_rank] if local_rank is not None else None,
             output_device=local_rank,
         )
 

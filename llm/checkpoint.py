@@ -83,7 +83,7 @@ def save_checkpoint(
     global_step: int,
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer | None = None,
-    scheduler: torch.optim.lr_scheduler.LRScheduler | None = None,
+    scheduler: torch.optim.lr_scheduler._LRScheduler | None = None,
     **kwargs: Any,
 ) -> None:
     """Save checkpoint to directory.

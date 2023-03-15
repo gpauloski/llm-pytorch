@@ -39,14 +39,12 @@ class GradientAccumulationOptimizer(BaseOptimizer):
 
         with context:
             scaled_loss = loss / self._accumulation_steps
-            self._optimizer.backward(scaled_loss)
+            scaled_loss.backward()
 
     def step(self, *args: Any, **kwargs: Any) -> None:
-        if self._accumulation_step < self._accumulation_steps:
-            return None
-        else:
+        if self._accumulation_step == self._accumulation_steps:
             self._accumulation_step = 0
-            return self._optimizer.step(*args, **kwargs)
+            self._optimizer.step(*args, **kwargs)
 
     def zero_grad(self, *args: Any, **kwargs: Any) -> None:
         if self._accumulation_step == 0:

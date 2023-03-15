@@ -32,7 +32,7 @@ class BaseOptimizer(Optimizer):
         return self._optimizer.state_dict()
 
     def step(self, *args: Any, **kwargs: Any) -> None:
-        return self._optimizer.step(*args, **kwargs)
+        self._optimizer.step(*args, **kwargs)
 
     def zero_grad(self, *args: Any, **kwargs: Any) -> None:
         self._optimizer.zero_grad(*args, **kwargs)

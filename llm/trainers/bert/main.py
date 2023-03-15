@@ -6,6 +6,7 @@ import pprint
 import sys
 from collections.abc import Sequence
 
+import torch
 import torch.distributed as dist
 
 from llm.config import flattened_config
@@ -61,8 +62,10 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     )
     grouped_params = get_optimizer_grouped_parameters(model)
     optimizer = get_optimizer(config.OPTIMIZER, grouped_params, config.LR)
-    criterion = BertPretrainingCriterion(config.BERT_CONFIG['vocab_size'])
-    scheduler = LinearWarmupLR(
+    criterion: torch.nn.Module = BertPretrainingCriterion(
+        config.BERT_CONFIG['vocab_size'],
+    )
+    scheduler_ = LinearWarmupLR(
         optimizer,
         total_steps=config.STEPS,
         warmup_steps=config.WARMUP_STEPS,
@@ -72,7 +75,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         model,
         optimizer,
         criterion=criterion,
-        scheduler=scheduler,
+        scheduler=scheduler_,
         accumulation_steps=config.ACCUMULATION_STEPS,
         dtype=config.DTYPE,
         max_norm=config.CLIP_GRAD_NORM,

@@ -35,7 +35,7 @@ def test_save_load(
     step: int,
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer | None,
-    scheduler: torch.optim.lr_scheduler.LRScheduler | None,
+    scheduler: torch.optim.lr_scheduler._LRScheduler | None,
     kwargs: dict[str, Any],
 ) -> None:
     save_checkpoint(tmp_path, step, model, optimizer, scheduler, **kwargs)

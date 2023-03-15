@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 def get_optimizer(
     name: Literal['lamb', 'adam'],
-    params: Iterable[torch.Tensor | dict[str, Any]],
+    params: Iterable[torch.Tensor] | Iterable[dict[str, Any]],
     lr: float,
     **kwargs: Any,
 ) -> torch.optim.Optimizer:

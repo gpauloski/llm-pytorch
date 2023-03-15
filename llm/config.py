@@ -3,6 +3,7 @@ from __future__ import annotations
 import collections
 import inspect
 import pathlib
+import types
 from importlib.machinery import SourceFileLoader
 from typing import Any
 from typing import Iterable
@@ -122,10 +123,9 @@ def load_config(filepath: pathlib.Path | str) -> Config:
             f'{filepath} is not a Python file. Only .py files are supported.',
         )
 
-    module = SourceFileLoader(
-        fullname=filepath.stem,
-        path=str(filepath),
-    ).load_module()
+    loader = SourceFileLoader(fullname=filepath.stem, path=str(filepath))
+    module = types.ModuleType(loader.name)
+    loader.exec_module(module)
 
     attrs: dict[str, Any] = {}
     for key, value in module.__dict__.items():

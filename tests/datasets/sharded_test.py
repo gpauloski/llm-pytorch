@@ -8,7 +8,7 @@ from llm.datasets.sharded import DistributedShardedDataset
 from llm.datasets.sharded import ResumableSequentialSampler
 
 
-class SimpleDataset(torch.utils.data.Dataset):
+class SimpleDataset(torch.utils.data.Dataset[int]):
     def __init__(self, samples: int, shard_offset: int) -> None:
         self.samples = samples
         self.shard_offset = shard_offset
@@ -64,7 +64,7 @@ def test_local_size(
 ) -> None:
     for rank in range(ranks):
         params = simple_dataset_params(shard_samples)
-        dataset = DistributedShardedDataset(
+        dataset = DistributedShardedDataset(  # type: ignore[var-annotated]
             SimpleDataset,
             params,
             rank=rank,
@@ -76,7 +76,7 @@ def test_local_size(
 def test_index_out_of_range() -> None:
     samples = 10
     params = simple_dataset_params([samples])
-    dataset = DistributedShardedDataset(
+    dataset = DistributedShardedDataset(  # type: ignore[var-annotated]
         SimpleDataset,
         params,
         rank=0,
@@ -91,7 +91,7 @@ def test_index_out_of_range() -> None:
 def test_iterating_single_rank(shuffle: bool) -> None:
     samples_per_shard = [10, 20, 30]
     params = simple_dataset_params(samples_per_shard)
-    dataset = DistributedShardedDataset(
+    dataset = DistributedShardedDataset(  # type: ignore[var-annotated]
         SimpleDataset,
         params,
         rank=0,
@@ -111,7 +111,7 @@ def test_iterating_multiple_ranks() -> None:
     samples_per_rank: list[int] = []
 
     for rank in range(ranks):
-        dataset = DistributedShardedDataset(
+        dataset = DistributedShardedDataset(  # type: ignore[var-annotated]
             SimpleDataset,
             params,
             rank=rank,

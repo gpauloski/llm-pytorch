@@ -25,7 +25,7 @@ class Environment(NamedTuple):
     cpu_info: str
     total_ram_gb: float
     cuda_is_available: bool
-    cuda_compiled_version: str
+    cuda_compiled_version: str | None
     cuda_runtime_version: str
     cuda_module_loading: str
     nvidia_gpu_models: str
