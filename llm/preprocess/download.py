@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-import argparse
 import logging
 import pathlib
 import sys
-from typing import Callable
-from typing import Sequence
+from typing import Literal
 from unittest import mock
 
+import click
 import datasets
 import requests
 
@@ -88,52 +87,49 @@ def download_bookscorpus(
     logger.info(f'Dataset written to {output_file}.')
 
 
-DATASETS: dict[str, Callable[[str], None]] = {
-    'wikipedia': download_wikipedia,
-    'bookcorpus': download_bookscorpus,
-}
+@click.command()
+@click.option(
+    '--dataset',
+    type=click.Choice(['wikipedia', 'bookscorpus'], case_sensitive=False),
+    required=True,
+    help='Dataset to download.',
+)
+@click.option(
+    '--output',
+    metavar='DIR',
+    required=True,
+    help='Output directory.',
+)
+@click.option(
+    '--log-level',
+    default='INFO',
+    type=click.Choice(
+        ['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+        case_sensitive=False,
+    ),
+    help='Minimum logging level.',
+)
+@click.option(
+    '--rich/--no-rich',
+    default=False,
+    help='Use rich output formatting.',
+)
+def cli(
+    dataset: Literal['wikipedia', 'bookcorpus'],
+    output: str,
+    log_level: str,
+    rich: bool,
+) -> None:
+    """Pretraining text downloader."""
+    init_logging(log_level, rich=rich)
 
-
-def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
-    argv = argv if argv is not None else sys.argv[1:]
-    parser = argparse.ArgumentParser(
-        prog='llm.preprocess.download',
-        description='Pretraining dataset downloader',
-        usage=(
-            'python -m llm.preprocess.download --dataset [dataset] '
-            '--directory [data directory]'
-        ),
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        '--dataset',
-        choices=list(DATASETS.keys()),
-        help='dataset to download',
-    )
-    parser.add_argument(
-        '--output',
-        help='output directory',
-    )
-    parser.add_argument(
-        '--loglevel',
-        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
-        default='INFO',
-        help='minimum logging level',
-    )
-    parser.add_argument(
-        '--no-rich',
-        action='store_true',
-        help='disable rich stdout formatting',
-    )
-    args = parser.parse_args(argv)
-
-    init_logging(args.loglevel, rich=not args.no_rich)
-
-    downloader = DATASETS[args.dataset]
-    downloader(args.output)
-
-    return 0
+    if dataset == 'wikipedia':
+        download_wikipedia(output)
+    elif dataset == 'bookscorpus':
+        download_bookscorpus(output)
+    else:
+        raise AssertionError('Unreachable.')
 
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    cli()

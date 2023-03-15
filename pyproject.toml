@@ -51,6 +51,7 @@ dev = [
 ]
 colossalai = ["colossalai"]
 preprocess = [
+    "click",
     "datasets",
     "nltk",
     "requests",

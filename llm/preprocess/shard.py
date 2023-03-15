@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import argparse
+import glob
 import logging
 import pathlib
 import random
@@ -8,6 +8,8 @@ import sys
 from typing import Generator
 from typing import Iterable
 from typing import Sequence
+
+import click
 
 from llm.preprocess.format import read_documents_bytes
 from llm.preprocess.utils import readable_to_bytes
@@ -78,62 +80,66 @@ def shard(
     logger.info('Completed.')
 
 
-def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
-    argv = argv if argv is not None else sys.argv[1:]
-    parser = argparse.ArgumentParser(
-        prog='llm.preprocess.shard',
-        description='Text file sharder',
-        usage=(
-            'python -m llm.preprocess.shard --input [input files] '
-            '--output [output directory] --size [max size]'
-        ),
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        '--input',
-        nargs='+',
-        help='input text files to shard',
-    )
-    parser.add_argument(
-        '--output',
-        help='output directory for shards',
-    )
-    parser.add_argument(
-        '--size',
-        help='max size (bytes) of each shard',
-    )
-    parser.add_argument(
-        '--format',
-        default='shard-{index}.txt',
-        help='shard name format where {index} is with the shard index',
-    )
-    parser.add_argument(
-        '--shuffle',
-        default=False,
-        action='store_true',
-        help='shuffle documents in input files before sharding',
-    )
-    parser.add_argument(
-        '--loglevel',
-        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
-        default='INFO',
-        help='minimum logging level',
-    )
-    parser.add_argument(
-        '--no-rich',
-        action='store_true',
-        help='disable rich stdout formatting',
-    )
-    args = parser.parse_args(argv)
+@click.command()
+@click.option(
+    '--input',
+    metavar='PATH',
+    required=True,
+    help='Glob of input shards to encode.',
+)
+@click.option(
+    '--output',
+    metavar='PATH',
+    required=True,
+    help='Output directory for encoded shards.',
+)
+@click.option(
+    '--size',
+    metavar='SIZE',
+    required=True,
+    help='Max data size of each shard.',
+)
+@click.option(
+    '--format',
+    default='shard-{index}.txt',
+    help='Shard name format where {index} is replaced by shard index.',
+)
+@click.option(
+    '--shuffle/--no-shuffle',
+    default=False,
+    help='Shuffle documents before sharding.',
+)
+@click.option(
+    '--log-level',
+    default='INFO',
+    type=click.Choice(
+        ['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+        case_sensitive=False,
+    ),
+    help='Minimum logging level.',
+)
+@click.option(
+    '--rich/--no-rich',
+    default=False,
+    help='Use rich output formatting.',
+)
+def cli(
+    input: str,  # noqa: A002
+    output: str,
+    size: str,
+    format: str,  # noqa: A002
+    shuffle: bool,
+    log_level: str,
+    rich: bool,
+) -> None:
+    """Pre-training text sharder."""
+    init_logging(log_level, rich=rich)
 
-    init_logging(args.loglevel, rich=not args.no_rich)
+    glob.glob(input)
+    size_bytes = readable_to_bytes(size)
 
-    size_bytes = readable_to_bytes(args.size)
-
-    shard(args.input, args.output, args.format, size_bytes, args.shuffle)
-
-    return 0
+    shard(input, output, format, size_bytes, shuffle)
 
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    cli()

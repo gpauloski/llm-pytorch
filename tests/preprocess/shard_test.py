@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import pathlib
 import sys
+from unittest import mock
 
+import click.testing
 import pytest
 
+from llm.preprocess.shard import cli
 from llm.preprocess.shard import get_document_shards
 from llm.preprocess.shard import shard
 from testing.preprocess.text import random_document
@@ -56,3 +59,16 @@ def test_shard(shuffle: bool, tmp_path: pathlib.Path) -> None:
 def test_shard_bad_format(tmp_path: pathlib.Path) -> None:
     with pytest.raises(ValueError):
         shard([tmp_path], tmp_path, 'shard.txt', 100)
+
+
+def test_cli() -> None:
+    runner = click.testing.CliRunner()
+    with (
+        mock.patch('llm.preprocess.shard.shard'),
+        mock.patch('llm.preprocess.shard.init_logging'),
+    ):
+        result = runner.invoke(
+            cli,
+            ['--input', 'x', '--output', 'y', '--size', '30 MB'],
+        )
+        assert result.exit_code == 0
