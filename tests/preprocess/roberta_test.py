@@ -83,10 +83,12 @@ def test_write_samples(tmp_path: pathlib.Path) -> None:
     with h5py.File(filepath, 'r') as f:
         input_ids = f['input_ids'][:]
         attention_masks = f['attention_masks'][:]
+        special_tokens_masks = f['special_tokens_masks'][:]
 
     assert len(input_ids) == len(attention_masks) == len(samples)
     assert input_ids.shape == (len(samples), MAX_SEQ_LEN)
     assert attention_masks.shape == (len(samples), MAX_SEQ_LEN)
+    assert special_tokens_masks.shape == (len(samples), MAX_SEQ_LEN)
 
 
 def test_encode_files(tmp_path: pathlib.Path) -> None:

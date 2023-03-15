@@ -127,6 +127,7 @@ def write_samples(
 ) -> None:
     input_ids = [sample.ids for sample in samples]
     attention_masks = [sample.attention_mask for sample in samples]
+    special_tokens_masks = [sample.special_tokens_mask for sample in samples]
 
     with h5py.File(output_file, 'w') as f:
         f.create_dataset(
@@ -138,6 +139,12 @@ def write_samples(
         f.create_dataset(
             'attention_masks',
             data=attention_masks,
+            dtype='i1',
+            compression='gzip',
+        )
+        f.create_dataset(
+            'special_tokens_masks',
+            data=special_tokens_masks,
             dtype='i1',
             compression='gzip',
         )
