@@ -29,7 +29,7 @@ class GradientAccumulationOptimizer(BaseOptimizer):
         self._accumulation_step += 1
 
         context = (
-            self._model.no_sync()  # type: ignore[operator]
+            self._model.no_sync()
             if (
                 self._accumulation_step < self._accumulation_steps
                 and isinstance(self._model, DistributedDataParallel)

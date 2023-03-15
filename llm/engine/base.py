@@ -11,11 +11,11 @@ class BaseOptimizer(Optimizer):
         self._optimizer = optimizer
 
     @property
-    def defaults(self) -> Any:  # type: ignore[override]
+    def defaults(self) -> Any:
         return self._optimizer.defaults
 
     @property
-    def param_groups(self) -> Any:  # type: ignore[override]
+    def param_groups(self) -> Any:
         return self._optimizer.param_groups
 
     def add_param_group(

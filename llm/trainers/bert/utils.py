@@ -130,17 +130,9 @@ def checkpoint(
 ) -> None:
     if torch.distributed.get_rank() == 0:
         # Extract from possible AMPModel
-        model = (
-            model._model  # type: ignore[assignment]
-            if hasattr(model, '_model')
-            else model
-        )
+        model = model._model if hasattr(model, '_model') else model
         # Extract from possible DistributedDataParallel
-        model = (
-            model.module  # type: ignore[assignment]
-            if hasattr(model, 'module')
-            else model
-        )
+        model = model.module if hasattr(model, 'module') else model
 
         save_checkpoint(
             checkpoint_dir=config.CHECKPOINT_DIR,
@@ -179,17 +171,9 @@ def load_state(
             extra={'ranks': [0]},
         )
         # Load model to the model and not the AMP wrapper
-        model = (
-            model._model  # type: ignore[assignment]
-            if hasattr(model, '_model')
-            else model
-        )
+        model = model._model if hasattr(model, '_model') else model
         # Load model to the model and not the DDP wrapper
-        model = (
-            model.module  # type: ignore[assignment]
-            if hasattr(model, 'module')
-            else model
-        )
+        model = model.module if hasattr(model, 'module') else model
         model.load_state_dict(checkpoint.model_state_dict)
 
         if checkpoint.kwargs['phase'] == config.PHASE:

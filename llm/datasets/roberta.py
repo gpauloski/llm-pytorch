@@ -92,7 +92,7 @@ def bert_mask_sequence(
     masked_labels = cast(torch.LongTensor, token_ids.clone())
 
     probability_matrix = torch.full(token_ids.shape, mask_token_prob)
-    special_tokens_mask = special_tokens_mask.bool()  # type: ignore[assignment]
+    special_tokens_mask = special_tokens_mask.bool()
     probability_matrix.masked_fill_(special_tokens_mask, value=0.0)
     masked_indices = torch.bernoulli(probability_matrix).bool()
 
