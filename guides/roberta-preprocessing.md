@@ -29,7 +29,7 @@ $ mkdir datasets/
 Download the datasets.
 ```
 $ python -m llm.preprocess.download --dataset wikipedia --output datasets/downloaded/
-$ python -m llm.preprocess.download --dataset bookcorpus --output datasets/downloaded/
+$ python -m llm.preprocess.download --dataset bookscorpus --output datasets/downloaded/
 ```
 This will result in two files: `datasets/downloaded/wikipedia-{date}.en.txt`
 and `datasets/downloaded/bookcorpus.txt`.

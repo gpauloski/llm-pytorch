@@ -33,5 +33,6 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies:
+          - 'click'
           - 'rich'
           - 'types-requests'

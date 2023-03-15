@@ -3,9 +3,12 @@ from __future__ import annotations
 import pathlib
 from typing import Generator
 from typing import Literal
+from unittest import mock
 
+import click.testing
 import pytest
 
+from llm.preprocess.vocab import cli
 from llm.preprocess.vocab import train_vocab
 from testing.preprocess.text import random_document
 
@@ -60,3 +63,13 @@ def test_train_vocab(
         raise AssertionError
 
     assert vocab[: len(special)] == special
+
+
+def test_cli() -> None:
+    runner = click.testing.CliRunner()
+    with (
+        mock.patch('llm.preprocess.vocab.train_vocab'),
+        mock.patch('llm.preprocess.vocab.init_logging'),
+    ):
+        result = runner.invoke(cli, ['--input', 'x', '--output', 'y'])
+        assert result.exit_code == 0

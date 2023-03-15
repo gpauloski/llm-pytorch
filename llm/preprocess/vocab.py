@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-import argparse
+import glob
 import logging
 import pathlib
-import sys
 from typing import Literal
 from typing import Sequence
+
+import click
 
 from llm.preprocess.tokenize import get_tokenizer
 from llm.utils import init_logging
@@ -57,79 +58,84 @@ def train_vocab(
     logger.info(f'Vocab file written to {output_file}.')
 
 
-def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
-    argv = argv if argv is not None else sys.argv[1:]
-    parser = argparse.ArgumentParser(
-        prog='llm.preprocess.vocab',
-        description=(
-            'Vocabulary builder. Arguments default to the standard '
-            'uncased BERT configuration with wordpiece.'
-        ),
-        usage=(
-            'python -m llm.preprocess.vocab --input [input files] '
-            '--output [output file]'
-        ),
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        '--input',
-        nargs='+',
-        help='input text files to generate vocabulary from',
-    )
-    parser.add_argument(
-        '--output',
-        help='output vocabulary file',
-    )
-    parser.add_argument(
-        '--size',
-        type=int,
-        default=30522,
-        help='size of vocabulary',
-    )
-    parser.add_argument(
-        '--tokenizer',
-        choices=['bpe', 'wordpiece'],
-        default='wordpiece',
-        help='tokenizer type',
-    )
-    parser.add_argument(
-        '--cased',
-        default=False,
-        action='store_true',
-        help='build a case-sensitive vocabulary',
-    )
-    parser.add_argument(
-        '--special-tokens',
-        nargs='*',
-        default=['[PAD]', '[UNK]', '[CLS]', '[SEP]', '[MASK]'],
-        help='special tokens to put at front of vocab',
-    )
-    parser.add_argument(
-        '--loglevel',
-        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
-        default='INFO',
-        help='minimum logging level',
-    )
-    parser.add_argument(
-        '--no-rich',
-        action='store_true',
-        help='disable rich stdout formatting',
-    )
-    args = parser.parse_args(argv)
+@click.command()
+@click.option(
+    '--input',
+    metavar='PATH',
+    required=True,
+    help='Glob of input text files to build vocab from.',
+)
+@click.option(
+    '--output',
+    metavar='PATH',
+    required=True,
+    help='Output filepath for vocabulary.',
+)
+@click.option(
+    '--size',
+    default=30522,
+    type=int,
+    help='Size of vocabulary.',
+)
+@click.option(
+    '--tokenizer',
+    type=click.Choice(['bpe', 'wordpiece'], case_sensitive=False),
+    default='wordpiece',
+    help='Tokenizer type.',
+)
+@click.option(
+    '--cased/--uncased',
+    default=False,
+    help='Vocab/tokenizer is case-sensitive.',
+)
+@click.option(
+    '-s',
+    '--special-token',
+    multiple=True,
+    default=['[PAD]', '[UNK]', '[CLS]', '[SEP]', '[MASK]'],
+    help='Special tokens to prepend to vocab.',
+)
+@click.option(
+    '--log-level',
+    default='INFO',
+    type=click.Choice(
+        ['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+        case_sensitive=False,
+    ),
+    help='Minimum logging level.',
+)
+@click.option(
+    '--rich/--no-rich',
+    default=False,
+    help='Use rich output formatting.',
+)
+def cli(
+    input: str,  # noqa: A002
+    output: str,
+    size: int,
+    tokenizer: Literal['bpe', 'wordpiece'],
+    cased: bool,
+    special_token: list[str],
+    log_level: str,
+    rich: bool,
+) -> None:
+    """Pre-training vocabulary builder.
 
-    init_logging(args.loglevel, rich=not args.no_rich)
+    Arguments default to the standard uncased BERT with wordpiece method.
+    """
+    init_logging(log_level, rich=rich)
+
+    input_files = glob.glob(input)
 
     train_vocab(
-        args.tokenizer,
-        input_files=args.input,
-        output_file=args.output,
-        size=args.size,
-        lowercase=not args.cased,
-        special_tokens=args.special_tokens,
+        tokenizer,
+        input_files=input_files,
+        output_file=output,
+        size=size,
+        lowercase=not cased,
+        special_tokens=special_token,
     )
-
-    return 0
 
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    cli()

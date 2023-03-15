@@ -6,7 +6,6 @@ runtime as in RoBERTa. Next sentence prediction is also not used.
 """
 from __future__ import annotations
 
-import argparse
 import functools
 import glob
 import logging
@@ -14,11 +13,12 @@ import multiprocessing
 import os
 import pathlib
 import random
-import sys
 import time
 from typing import List
+from typing import Literal
 from typing import Sequence
 
+import click
 import h5py
 import tokenizers
 from tokenizers.implementations.base_tokenizer import BaseTokenizer
@@ -218,98 +218,103 @@ def encode_files(
     logger.info(f'Finished processing in {total_time:.0f} seconds')
 
 
-def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
-    argv = argv if argv is not None else sys.argv[1:]
-    parser = argparse.ArgumentParser(
-        prog='llm.preprocess.encode',
-        description='Pretraining dataset encoder',
-        usage=(
-            'python -m llm.preprocess.encode --input [files] '
-            '--output-dir [directory] --vocab [file] ...'
-        ),
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        '--input',
-        help='glob of input shards to encode',
-    )
-    parser.add_argument(
-        '--output-dir',
-        help='output directory for encodes shards',
-    )
-    parser.add_argument(
-        '--loglevel',
-        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
-        default='INFO',
-        help='minimum logging level',
-    )
-    parser.add_argument(
-        '--no-rich',
-        action='store_true',
-        help='disable rich stdout formatting',
-    )
+@click.command()
+@click.option(
+    '--input',
+    metavar='PATH',
+    required=True,
+    help='Glob of input shards to encode.',
+)
+@click.option(
+    '--output-dir',
+    metavar='PATH',
+    required=True,
+    help='Output directory for encoded shards.',
+)
+@click.option(
+    '--vocab',
+    metavar='PATH',
+    required=True,
+    help='Vocabulary file.',
+)
+@click.option(
+    '--tokenizer',
+    type=click.Choice(['bpe', 'wordpiece'], case_sensitive=False),
+    required=True,
+    help='Tokenizer type.',
+)
+@click.option(
+    '--cased/--uncased',
+    default=False,
+    help='Vocab/tokenizer is case-sensitive.',
+)
+@click.option(
+    '--max-seq-len',
+    type=int,
+    default=512,
+    help='Maximum sequence length.',
+)
+@click.option(
+    '--short-seq-prob',
+    type=float,
+    default=0.1,
+    help='Probablity to create shorter sequences.',
+)
+@click.option(
+    '-p',
+    '--processes',
+    type=int,
+    default=4,
+    help='Number of processes for concurrent shard encoding.',
+)
+@click.option(
+    '--log-level',
+    default='INFO',
+    type=click.Choice(
+        ['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+        case_sensitive=False,
+    ),
+    help='Minimum logging level.',
+)
+@click.option(
+    '--rich/--no-rich',
+    default=False,
+    help='Use rich output formatting.',
+)
+def cli(
+    input: str,  # noqa: A002
+    output_dir: str,
+    vocab: str,
+    tokenizer: Literal['bpe', 'wordpiece'],
+    cased: bool,
+    max_seq_len: int,
+    short_seq_prob: float,
+    processes: int,
+    log_level: str,
+    rich: bool,
+) -> None:
+    """RoBERTa pre-training dataset encoder."""
+    init_logging(log_level, rich=rich)
 
-    tokenizer_group = parser.add_argument_group(title='Tokenizer')
-    tokenizer_group.add_argument('--vocab', help='vocabulary file')
-    tokenizer_group.add_argument(
-        '--tokenizer',
-        choices=['bpe', 'wordpiece'],
-        default='wordpiece',
-        help='tokenizer type',
-    )
-    parser.add_argument(
-        '--cased',
-        default=False,
-        action='store_true',
-        help='vocabulary/tokenizer is case-sensitive',
-    )
-
-    encoder_group = parser.add_argument_group(title='Encoder')
-    encoder_group.add_argument(
-        '--max-seq-len',
-        type=int,
-        default=512,
-        help='maximum sequence length',
-    )
-    encoder_group.add_argument(
-        '--short-seq-prob',
-        type=float,
-        default=0.1,
-        help='probablity to create shorter sequences',
-    )
-    parser.add_argument(
-        '-p',
-        '--processes',
-        type=int,
-        default=4,
-        help='number of processes to use for concurrent shard encoding',
-    )
-
-    args = parser.parse_args(argv)
-
-    init_logging(args.loglevel, rich=not args.no_rich)
-
-    input_files = glob.glob(args.input, recursive=True)
+    input_files = glob.glob(input, recursive=True)
 
     tokenizer = get_tokenizer(
-        args.tokenizer,
-        args.vocab,
-        not args.cased,
-        padding_options={'length': args.max_seq_len},
-        truncation_options={'max_length': args.max_seq_len},
+        tokenizer,
+        vocab,
+        not cased,
+        padding_options={'length': max_seq_len},
+        truncation_options={'max_length': max_seq_len},
     )
 
     encode_files(
         input_files=input_files,
-        output_dir=args.output_dir,
+        output_dir=output_dir,
         tokenizer=tokenizer,
-        max_seq_len=args.max_seq_len,
-        short_seq_prob=args.short_seq_prob,
-        processes=args.processes,
+        max_seq_len=max_seq_len,
+        short_seq_prob=short_seq_prob,
+        processes=processes,
     )
-
-    return 0
 
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    cli()

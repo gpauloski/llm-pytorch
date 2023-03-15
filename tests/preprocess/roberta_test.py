@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import pathlib
+from unittest import mock
 
+import click.testing
 import h5py
 
+from llm.preprocess.roberta import cli
 from llm.preprocess.roberta import create_samples_from_document
 from llm.preprocess.roberta import create_samples_from_documents
 from llm.preprocess.roberta import encode_files
@@ -94,3 +97,26 @@ def test_encode_files(tmp_path: pathlib.Path) -> None:
     )
 
     assert len(list(output_dir.glob('*.hdf5'))) == 8
+
+
+def test_cli() -> None:
+    runner = click.testing.CliRunner()
+    with (
+        mock.patch('llm.preprocess.roberta.encode_files'),
+        mock.patch('llm.preprocess.roberta.get_tokenizer'),
+        mock.patch('llm.preprocess.roberta.init_logging'),
+    ):
+        result = runner.invoke(
+            cli,
+            [
+                '--input',
+                'x',
+                '--output-dir',
+                'y',
+                '--vocab',
+                'z',
+                '--tokenizer',
+                'bpe',
+            ],
+        )
+        assert result.exit_code == 0
