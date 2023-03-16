@@ -1,6 +1,6 @@
 """Utilities for loading BERT models from HuggingFace.
 
-Source: https://github.com/hpcaitech/ColossalAI-Examples/blob/e0830ccc1bbc57f9c50bb1c00f3e23239bf1e231/language/bert/colotensor/model/__init__.py
+Source: [ColossalAI-Examples](https://github.com/hpcaitech/ColossalAI-Examples/blob/e0830ccc1bbc57f9c50bb1c00f3e23239bf1e231/language/bert/colotensor/model/__init__.py){target=_blank}
 """  # noqa: E501
 from __future__ import annotations
 
@@ -21,6 +21,7 @@ BERT_BASE = dict(
     type_vocab_size=2,
     vocab_size=30522,
 )
+"""BERT-base HuggingFace configuration."""
 
 BERT_LARGE = dict(
     attention_probs_dropout_prob=0.1,
@@ -35,12 +36,22 @@ BERT_LARGE = dict(
     type_vocab_size=2,
     vocab_size=30522,
 )
+"""BERT-large HuggingFace configuration."""
 
 
 def from_config(
     config: dict[str, Any],
     checkpoint_gradients: bool = False,
 ) -> transformers.BertForPreTraining:
+    """Load a BERT model from the configuration.
+
+    Args:
+        config: BERT configuration.
+        checkpoint_gradients: Enable gradient checkpointing.
+
+    Returns:
+        BERT model.
+    """
     config = transformers.BertConfig(**config)
     model = transformers.BertForPreTraining(config)
     if checkpoint_gradients:

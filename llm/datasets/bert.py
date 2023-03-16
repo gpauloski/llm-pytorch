@@ -21,33 +21,67 @@ from llm.utils import get_filepaths
 
 
 class Batch(NamedTuple):
-    # (batch_size, seq_len): indices of input sequence token in vocab
+    """BERT pretraining batch."""
+
     input_ids: torch.LongTensor
-    # (batch_size, seq_len): indicates which tokens in input_ids should be
-    # attended to. Also know as the input_mask
+    """Input sequence token IDs (`(batch_size, seq_len)`)."""
     attention_mask: torch.LongTensor
-    # (batch_size, seq_len): indicates first and second segments in input_ids.
-    # Also known as segment_ids
+    """Input sequence attention mask (`(batch_size, seq_len)`).
+
+    Indicates which tokens in `input_ids` should be attended to (i.e., are not
+    padding tokens). Also known as the input mask.
+    """
     token_type_ids: torch.LongTensor
-    # (batch_size, seq_len): indices in vocab of masked tokens in input_ids
+    """Token IDs indicating the segment labels (`(batch_size, seq_len)`).
+
+    E.g. if `input_ids` is composed of two distinct segments, the first segment
+    will have token IDs set to 0 and the second to 1. Also known as the
+    segment ids.
+    """
     masked_labels: torch.LongTensor
-    # (batch_size, ): boolean indicating next sentence label
+    """True token ID of masked tokens in `input_ids` (`(batch_size, seq_len)`).
+
+    Indices corresponding to non-masked tokens in `input_ids` are typically
+    set to `-100` to avoid contributing to the MLM loss.
+    """
     next_sentence_labels: torch.LongTensor | None
+    """Boolean tensor indicating the next sentence label (`(batch_size,)`).
+
+    A true (`1`) value indicates the next sentence/segment logically follows
+    the first. If there is only one segment in `input_ids`, this can be
+    set to `None`.
+    """
 
 
 class Sample(NamedTuple):
-    # (seq_len, ): indices of input sequence token in vocab
     input_ids: torch.LongTensor
-    # (seq_len, ): indicates which tokens in input_ids should be
-    # attended to. Also know as the input_mask
+    """Input sequence token IDs (`(seq_len,)`)."""
     attention_mask: torch.LongTensor
-    # (seq_len, ): indicates first and second segments in input_ids.
-    # Also known as segment_ids
+    """Input sequence attention mask (`(seq_len,)`).
+
+    Indicates which tokens in `input_ids` should be attended to (i.e., are not
+    padding tokens). Also known as the input mask.
+    """
     token_type_ids: torch.LongTensor
-    # (seq_len, ): indices in vocab of masked tokens in input_ids
+    """Token IDs indicating the segment labels (`(seq_len,)`).
+
+    E.g. if `input_ids` is composed of two distinct segments, the first segment
+    will have token IDs set to 0 and the second to 1. Also known as the
+    segment ids.
+    """
     masked_labels: torch.LongTensor
-    # (1, ): boolean indicating next sentence label
+    """True token ID of masked tokens in `input_ids` (`(seq_len,)`).
+
+    Indices corresponding to non-masked tokens in `input_ids` are typically
+    set to `-100` to avoid contributing to the MLM loss.
+    """
     next_sentence_label: torch.LongTensor | None
+    """Boolean scalar tensor indicating the next sentence label.
+
+    A true (`1`) value indicates the next sentence/segment logically follows
+    the first. If there is only one segment in `input_ids`, this can be
+    set to `None`.
+    """
 
 
 # Workaround because python functions are not picklable
@@ -61,6 +95,23 @@ class WorkerInitObj:
 
 
 class NvidiaBertDataset(Dataset[Sample]):
+    """NVIDIA BERT dataset.
+
+    Like the PyTorch [`Dataset`][torch.utils.data.Dataset], this dataset is
+    indexable returning a [`Sample`][llm.datasets.bert.Sample].
+
+    Example:
+        ```python
+        >>> from llm.datasets.bert import NvidiaBertDataset
+        >>> dataset = NvidiaBertDataset('/path/to/shard')
+        >>> dataset[5]
+        Sample(...)
+        ```
+
+    Args:
+        input_file: HDF5 file to load.
+    """
+
     def __init__(self, input_file: str) -> None:
         self.input_file = input_file
 
@@ -136,17 +187,17 @@ def get_masked_labels(
     """Create masked labels array.
 
     Args:
-        seq_len (int): sequence length.
-        masked_lm_positions (list[int]): index in sequence of masked tokens
-        masked_lm_ids (list[int]): true token value for each position in
-            masked_lm_position.
+        seq_len: Sequence length.
+        masked_lm_positions: Index in sequence of masked tokens
+        masked_lm_ids: True token value for each position in
+            `masked_lm_position`.
 
     Returns:
-        List with length seq_len with the true value for each corresponding
-        masked token in input_ids and -1 for all tokens in input_ids which are
-        not masked.
+        List with length `seq_len` with the true value for each corresponding \
+        masked token in `input_ids` and -100 for all tokens in input_ids \
+        which are not masked.
     """
-    masked_lm_labels = np.ones(seq_len, dtype=np.int64) * -1
+    masked_lm_labels = np.ones(seq_len, dtype=np.int64) * -100
     if len(masked_lm_positions) > 0:
         # store number of  masked tokens in index
         (padded_mask_indices,) = np.nonzero(np.array(masked_lm_positions) == 0)
@@ -166,7 +217,21 @@ def get_dataloader_from_nvidia_bert_shard(
     rank: int | None = None,
     seed: int = 0,
     num_workers: int = 4,
-) -> DataLoader[Sample]:
+) -> DataLoader[Batch]:
+    """Create a dataloader from a dataset shard.
+
+    Args:
+        input_file: HDF5 file to load.
+        batch_size: Size of batches yielded by the dataloader.
+        num_replicas: Number of processes participating in distributed training.
+        rank: Rank of the current process within `num_replicas`.
+        seed: Random seed used to shuffle the sampler.
+        num_workers: Number of subprocesses to use for data loading.
+
+    Returns:
+        Dataloader which can be iterated over to yield \
+        [`Batch`][llm.datasets.bert.Batch].
+    """
     dataset = NvidiaBertDataset(input_file)
     sampler: DistributedSampler[int] = DistributedSampler(
         dataset,
@@ -196,6 +261,19 @@ def sharded_nvidia_bert_dataset(
     seed: int = 0,
     num_workers: int = 4,
 ) -> Generator[Batch, None, None]:
+    """Simple generator which yields pretraining batches.
+
+    Args:
+        input_dir: Directory of HDF5 shards to load samples from.
+        batch_size: Size of batches yielded.
+        num_replicas: Number of processes participating in distributed training.
+        rank: Rank of the current process within `num_replicas`.
+        seed: Random seed used to shuffle the sampler.
+        num_workers: Number of subprocesses to use for data loading.
+
+    Yields:
+        Batches of pretraining data.
+    """
     shard_filepaths = get_filepaths(
         input_dir,
         extensions=['.h5', '.hdf5'],

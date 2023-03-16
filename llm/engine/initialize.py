@@ -28,6 +28,25 @@ def initialize(
     torch.nn.Module,
     torch.optim.lr_scheduler._LRScheduler,
 ]:
+    """Enable advanced training features.
+
+    This method allows you to easily wrap your training objects with
+    transparent wrappers that enable advanced training features.
+
+    Args:
+        model: Model being trained.
+        optimizer: Training optimizer.
+        criterion: Training loss function.
+        scheduler: LR scheduler.
+        accumulation_steps: Number of forward/backward passes between
+            optimizer steps.
+        dtype: Optional data type for mixed precision training.
+        max_norm: Optional maximum norm of gradients to clip to.
+        kwargs: Keyword arguments to pass to the gradient scaler.
+
+    Returns:
+        Tuple of the wrapped model, optimizer, loss, and scheduler.
+    """
     if torch.cuda.is_available():
         logger.debug(
             f'Moving model to model to cuda:{torch.cuda.current_device()}.',

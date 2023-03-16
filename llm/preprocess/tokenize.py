@@ -1,3 +1,4 @@
+"""Tokenizer utilities."""
 from __future__ import annotations
 
 from typing import Any
@@ -14,6 +15,19 @@ def get_tokenizer(
     truncation_options: dict[str, Any] | None = None,
     **kwargs: Any,
 ) -> tokenizers.implementations.base_tokenizer.BaseTokenizer:
+    """Get a tokenizer by name.
+
+    Args:
+        kind: Tokenizer name to create.
+        vocab: Vocabulary file or dictionary to initialized tokenizer with.
+        lowercase: Set the tokenizer to lowercase.
+        padding_options: Enable padding options on the tokenizer.
+        truncation_options: Enable truncation options on the tokenizer.
+        kwargs: Additional arguments to pass to the tokenizer.
+
+    Returns:
+        A tokenizer instance.
+    """
     if kind == 'wordpiece':
         tokenizer = tokenizers.BertWordPieceTokenizer(
             vocab=vocab,

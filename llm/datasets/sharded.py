@@ -1,3 +1,4 @@
+"""Utilities for training with sharded datasets."""
 from __future__ import annotations
 
 import random
@@ -17,7 +18,7 @@ DatasetParams = tuple[tuple[Any, ...], Mapping[str, Any]]
 class DistributedShardedDataset(Dataset[SampleType]):
     """Dataset wrapper for sharded datasets in distributed environments.
 
-    The DistributedShardedDataset manages a set of datasets (shards) and
+    This class manages a set of datasets (shards) and
     restricts ranks to viewing a subset of the global indices across the
     shards. This is achieved by sorting the shards and counting the samples
     in each shard to compute the total number of samples then chunking those
@@ -25,19 +26,23 @@ class DistributedShardedDataset(Dataset[SampleType]):
 
     For example, if there are four ranks and eight shards of equal size, rank
     zero will see shards zero and one, rank two will see shards two and three,
-    and so on. The length of the DistributedShardedDataset as seen by a rank
-    will be (1 / world_size) * sum_of_samples_across_shards.
+    and so on. The length of an instance of this class as seen by a rank
+    will be `(1 / world_size) * sum_of_samples_across_shards`.
 
-    The DistributedShardedDataset ensures only one shard is loaded at a time
+    This class also ensures only one shard is loaded at a time
     on a rank so the full dataset is never loaded into memory at once.
 
-    Note:
-        When building a DataLoader from a DistributedShardedDataset, do NOT
-        use PyTorch's DistributedSampler. If you want to be able to save the
-        state of the DataLoader, use the SequentialSampler because this class
-        already provides the support for partitioning samples across ranks.
-        This module provides a ResumableSequentialSampler to enable resuming
-        sampling from the last sampled index.
+    Warning:
+        When building a [`DataLoader`][torch.utils.data.DataLoader] from a
+        [`DistributedShardedDataset`][llm.datasets.sharded.DistributedShardedDataset],
+        do NOT use PyTorch's
+        [`DistributedSampler`][torch.utils.data.distributed.DistributedSampler].
+        If you want to be able to save the state of the data loader, use the
+        [`SequentialSampler`][torch.utils.data.SequentialSampler] because this
+        class already provides the support for partitioning samples across
+        ranks. This module provides a
+        [`ResumableSequentialSampler`][llm.datasets.sharded.ResumableSequentialSampler]
+        to enable resuming sampling from the last sampled index.
 
     Note:
         Samples at the end of the last shard will be dropped to ensure
@@ -52,14 +57,14 @@ class DistributedShardedDataset(Dataset[SampleType]):
         dataset_type: Dataset type that represents a single shard. This
             subtype of Dataset must be a map-style dataset. Iterable-style
             datasets are not supported.
-        shard_params: dictionary mapping shard keys to the parameters used
-            to initialize a ``dataset_type`` for the shard. The parameter type
+        shard_params: Dictionary mapping shard keys to the parameters used
+            to initialize a `dataset_type` for the shard. The parameter type
             is a tuple of args and kwargs.
-        rank: rank of this process.
-        world_size: number of ranks sharing the dataset.
-        shuffle: shuffle the shard order by the shard keys. The default
-            (``False``) sorts the shards by shard key.
-        seed: seed used for shuffling the shard order.
+        rank: Rank of this process.
+        world_size: Number of ranks sharing the dataset.
+        shuffle: Shuffle the shard order by the shard keys. The default
+            (`False`) sorts the shards by shard key.
+        seed: Seed used for shuffling the shard order.
     """
 
     def __init__(
@@ -147,10 +152,20 @@ class DistributedShardedDataset(Dataset[SampleType]):
         return self._current_shard[shard_index]
 
     def rank_index_to_global_index(self, rank_index: int) -> int:
+        """Convert an index local to a rank to a global index."""
         rank_start_index = len(self) * self.rank
         return rank_start_index + rank_index
 
     def rank_index_to_shard_index(self, rank_index: int) -> tuple[str, int]:
+        """Convert an index local to a rank to a shard and shard index.
+
+        Args:
+            rank_index: Dataset index local to the rank.
+
+        Returns:
+            Tuple of the shard key and the index within the shard that \
+            `rank_index` corresponds to.
+        """
         global_index = self.rank_index_to_global_index(rank_index)
         for shard_key in self.shard_keys:
             shard_indices = self.shard_indices[shard_key]
@@ -171,8 +186,8 @@ class ResumableSequentialSampler(torch.utils.data.Sampler[int]):
     """Resumable sequential sampler.
 
     Args:
-        data_source: dataset to sample sequentially from.
-        start_index: index to resume sequential sampling from.
+        data_source: Dataset to sample sequentially from.
+        start_index: Index to resume sequential sampling from.
     """
 
     def __init__(self, data_source: Sized, start_index: int = 0) -> None:

@@ -1,3 +1,4 @@
+"""BERT pretraining CLI."""
 from __future__ import annotations
 
 import dataclasses

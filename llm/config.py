@@ -13,10 +13,27 @@ from typing import Union
 import torch.distributed as dist
 
 HParamT = Union[bool, float, int, str, None]
+"""Supported Hyperparameter types (i.e., JSON types)."""
 
 
 class Config(dict[str, Any]):
-    """Dict-like configuration class with attribute access."""
+    """Dict-like configuration class with attribute access.
+
+    Example:
+        ```python
+        >>> from llm.config import Config
+        >>> config = Config({'a': 1, 'b': 2})
+        >>> config.a
+        1
+        >>> config = Config(a=1, b={'c': 2})
+        >>> config.b.c
+        2
+        ```
+
+    Args:
+        mapping: Initial mapping or iterable of tuples of key-value pairs.
+        kwargs: Keywords arguments to add a key-value pairs to the config.
+    """
 
     def __init__(
         self,
@@ -50,13 +67,18 @@ class Config(dict[str, Any]):
 def flattened_config(
     config: dict[str, Any] | Config | None = None,
 ) -> dict[str, HParamT]:
-    """Return flattened global config as JSON.
+    """Convert a config to a flat JSONable dictionary.
+
+    Note:
+        If [`torch.distributed.is_initialized()`][torch.distributed.is_initialized],
+        the `world_size` will be added to the config.
 
     Args:
-        config (dict): optional starting config.
+        config: Optional starting config.
 
     Returns:
-        flat dictionary containing only bool, float, int, str, or None values.
+        Flat dictionary containing only `bool`, `float`, `int`, `str`, or
+        `None` values.
     """
     if config is None:
         config = {}
@@ -81,17 +103,18 @@ def flatten_mapping(
 
     Warning:
         This function does not check for key collisions. E.g.,
+        ```python
         >>> flatten_mapping({'a': {'b_c': 1}, 'a_b': {'c': 2}})
         {'a_b_c': 2}
+        ```
 
     Args:
-        d (Mapping): input mapping. All keys and nested keys must by strings.
-        parent (str, optional): parent key to prepend to top-level keys in
-            ``d`` (Default: None).
-        sep (str): separator between keys (Default: '_').
+        d: Input mapping. All keys and nested keys must by strings.
+        parent: Parent key to prepend to top-level keys in `d`.
+        sep: Separator between keys.
 
     Returns:
-        flat dictionary.
+        Flattened dictionary.
     """
     # https://stackoverflow.com/questions/6027558
     items: list[tuple[str, Any]] = []
@@ -107,13 +130,17 @@ def flatten_mapping(
 
 
 def load_config(filepath: pathlib.Path | str) -> Config:
-    """Load python file as a Config.
+    """Load Python file as a [`Config`][llm.config.Config].
+
+    Note:
+        Attributes starting with `_`, modules, classes, functions, and
+        builtins will not be loaded from the Python file.
 
     Args:
-        filepath: python filepath to load.
+        filepath: Python file to load.
 
     Returns:
-        Config
+        Configuration attributes loaded from the Python file.
     """
     filepath = pathlib.Path(filepath).absolute()
     if not filepath.exists():

@@ -1,3 +1,4 @@
+"""BERT pretraining utilities."""
 from __future__ import annotations
 
 import dataclasses
@@ -27,6 +28,8 @@ logger = logging.getLogger('llm.trainers.bert')
 
 @dataclasses.dataclass
 class TrainingConfig:
+    """Training configuration."""
+
     PHASE: int
     BERT_CONFIG: dict[str, Any]
     OPTIMIZER: Literal['adam', 'lamb']
@@ -52,6 +55,7 @@ class TrainingConfig:
 
 
 def parse_config(config: Config) -> TrainingConfig:
+    """Parses a config ensuring all required options are present."""
     config.ACCUMULATION_STEPS = gradient_accumulation_steps(
         global_batch_size=config.GLOBAL_BATCH_SIZE,
         local_batch_size=config.BATCH_SIZE,
@@ -89,6 +93,7 @@ def parse_config(config: Config) -> TrainingConfig:
 def get_dataset(
     directory: pathlib.Path | str,
 ) -> DistributedShardedDataset[Sample]:
+    """Load a sharded BERT pretraining dataset."""
     files = get_filepaths(
         directory,
         extensions=['.h5', '.hdf5'],
@@ -108,6 +113,7 @@ def get_dataloader(
     sampler: torch.utils.data.Sampler[int],
     batch_size: int,
 ) -> torch.utils.data.DataLoader[Sample]:
+    """Create a dataloader from a sharded dataset."""
     return torch.utils.data.DataLoader(
         dataset,
         batch_size=batch_size,
@@ -128,6 +134,7 @@ def checkpoint(
     scheduler: torch.optim.lr_scheduler._LRScheduler,
     sampler_index: int = 0,
 ) -> None:
+    """Write a training checkpoint."""
     if torch.distributed.get_rank() == 0:
         # Extract from possible AMPModel
         model = model._model if hasattr(model, '_model') else model
@@ -156,6 +163,12 @@ def load_state(
     optimizer: torch.optim.Optimizer,
     scheduler: torch.optim.lr_scheduler._LRScheduler,
 ) -> tuple[int, int, int]:
+    """Load the latest checkpoint if one exists.
+
+    Returns:
+        Tuple of the global step, epoch, and sampler index to resume
+        (or start) from.
+    """
     global_step = 0
     epoch = 1
     sampler_index = 0
@@ -216,6 +229,7 @@ def load_state(
 def get_optimizer_grouped_parameters(
     model: transformers.BertForPreTraining,
 ) -> list[dict[str, Any]]:
+    """Get the parameters of the BERT model to optimizer."""
     # configure the weight decay for bert models
     params = list(model.named_parameters())
     no_decay = ['bias', 'gamma', 'beta', 'LayerNorm']

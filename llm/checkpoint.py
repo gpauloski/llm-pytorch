@@ -11,12 +11,20 @@ CHECKPOINT_NAME_RE = re.compile(r'^global_step_(\d+).pt$')
 
 
 class Checkpoint(NamedTuple):
+    """Data loaded from a checkpoint."""
+
     filepath: str
+    """Filepath of checkpoint."""
     global_step: int
+    """Global step of checkpoint."""
     model_state_dict: dict[Any, Any]
+    """Model state dictionary."""
     optimizer_state_dict: dict[Any, Any] | None
+    """Optimizer state dictionary."""
     scheduler_state_dict: dict[Any, Any] | None
+    """Scheduler state dictionary."""
     kwargs: dict[str, Any]
+    """Additional keyword arguments stored in the checkpoint."""
 
 
 def load_checkpoint(
@@ -27,19 +35,18 @@ def load_checkpoint(
     """Load checkpoint from directory.
 
     Args:
-        checkpoint_dir (str): directory containing checkpoint files.
-        global_step (int, optional): global step checkpoint to load. If None,
+        checkpoint_dir: Directory containing checkpoint files.
+        global_step: Global step checkpoint to load. If `None`,
             loads the latest checkpoint.
-        map_location: optional map_location to pass to torch.load().
+        map_location: Optional map_location to pass to
+            [`torch.load()`][torch.load].
 
     Returns:
-        Checkpoint or None if no checkpoint was found.
+        Checkpoint or `None` if no checkpoint was found.
 
     Raises:
-        OSError:
-            if checkpoint_dir does not exist.
-        OSError:
-            if global_step is specified but the file does not exist.
+        OSError: If `checkpoint_dir` does not exist.
+        OSError: If `global_step` is specified but the file does not exist.
     """
     dir_path = pathlib.Path(checkpoint_dir)
     if not dir_path.is_dir():
@@ -88,15 +95,15 @@ def save_checkpoint(
 ) -> None:
     """Save checkpoint to directory.
 
-    Saves the checkpoint as {checkpoint_dir}/global_step_{global_step}.py.
+    Saves the checkpoint as `{checkpoint_dir}/global_step_{global_step}.py`.
 
     Args:
-        checkpoint_dir (str): directory to save checkpoint to.
-        global_step (int): training step used as the key for checkpoints.
-        model: model to save state_dict of.
-        optimizer: optional optimizer to save state_dict of.
-        scheduler: optional scheduler to save state_dict of.
-        kwargs: additional key-value pairs to add to the checkpoint.
+        checkpoint_dir: Directory to save checkpoint to.
+        global_step: Training step used as the key for checkpoints.
+        model: Model to save state_dict of.
+        optimizer: Optional optimizer to save state_dict of.
+        scheduler: Optional scheduler to save state_dict of.
+        kwargs: Additional key-value pairs to add to the checkpoint.
     """
     state_dict = {'model': model.state_dict(), **kwargs}
     if optimizer is not None:

@@ -1,3 +1,9 @@
+"""Pretraining corpus downloader.
+
+```bash
+python -m llm.preprocess.download --help
+```
+"""
 from __future__ import annotations
 
 import logging

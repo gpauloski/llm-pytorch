@@ -1,3 +1,4 @@
+"""Preprocessing script utilities."""
 from __future__ import annotations
 
 import decimal
@@ -9,28 +10,28 @@ import tarfile
 def readable_to_bytes(size: str) -> int:
     """Convert string with bytes units to the integer value of bytes.
 
-    Source: https://github.com/proxystore/proxystore/blob/79dfdc0fc2c5a5093cf5e57b2ecf61c48fde6773/proxystore/utils.py#L130
+    Source: [ProxyStore](https://github.com/proxystore/proxystore/blob/79dfdc0fc2c5a5093cf5e57b2ecf61c48fde6773/proxystore/utils.py#L130){target=_blank}
 
     Example:
+        ```python
         >>> readable_to_bytes('1.2 KB')
         1200
         >>> readable_to_bytes('0.6 MiB')
         629146
+        ```
 
     Args:
-        size (str): string to parse for bytes size.
+        size: String to parse for bytes size.
 
     Returns:
-        integer number of bytes parsed from the string.
+        Integer number of bytes parsed from the string.
 
     Raises:
-        ValueError:
-            if the input string contains more than two parts (i.e., a value
-            and a unit).
-        ValueError:
-            if the unit is not one of KB, MB, GB, TB, KiB, MiB, GiB, or TiB.
-        ValueError:
-            if the value cannot be cast to a float.
+        ValueError: If the input string contains more than two parts
+            (i.e., a value and a unit).
+        ValueError: If the unit is not one of KB, MB, GB, TB, KiB, MiB, GiB,
+            or TiB.
+        ValueError: If the value cannot be cast to a float.
     """  # noqa: E501
     units_to_bytes = dict(
         b=1,
@@ -74,6 +75,15 @@ def readable_to_bytes(size: str) -> int:
 
 
 def safe_extract(name: pathlib.Path | str, target: pathlib.Path | str) -> None:
+    """Safely extract a tar file.
+
+    Note:
+        This extraction method is designed to safeguard against CVE-2007-4559.
+
+    Args:
+        name: Path to tar file to extract.
+        target: Target path to extract to.
+    """
     name = pathlib.Path(name).absolute()
     target = pathlib.Path(target).absolute()
 
