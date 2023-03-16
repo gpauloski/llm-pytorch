@@ -38,7 +38,7 @@ jobs:
       - name: Install Packages
         run: |
           pip install --upgrade setuptools pip
-          pip install .[docs]
+          pip install .[docs] --extra-index-url https://download.pytorch.org/whl/cpu
 
       - name: Configure git
         run: |
