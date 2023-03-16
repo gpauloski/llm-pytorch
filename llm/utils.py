@@ -13,6 +13,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.utils.tensorboard.summary import hparams
 
 HParamT = Union[bool, float, int, str, None]
+"""Supported Hyperparameter types (i.e., JSON types)."""
 
 
 def create_summary_writer(
@@ -26,17 +27,18 @@ def create_summary_writer(
     https://github.com/pytorch/pytorch/issues/37738#issuecomment-1124497827
 
     Args:
-        tensorboard_dir (str): TensorBoard run directory.
-        hparam_dict (dict): optional hyperparam dictionary to log alongside
-            metrics (default: None).
-        metrics (list[str]): optional list of metric tags that will be used
-            with ``writer.add_scalar()`` (e.g., ['train/loss', 'train/lr']).
-            Must be provided if ``hparam_dict`` is provided (default: None).
-        **writer_kwargs: additional keyword arguments to pass to
-            ``SummaryWriter``.
+        tensorboard_dir: TensorBoard run directory.
+        hparam_dict: Optional hyperparam dictionary to log alongside
+            metrics.
+        metrics: Optional list of metric tags that will be used with
+            [`writer.add_scalar()`][torch.utils.tensorboard.writer.SummaryWriter.add_scalar]
+            (e.g., `['train/loss', 'train/lr']`). Must be provided if
+            `hparam_dict` is provided.
+        writer_kwargs: Additional keyword arguments to pass to
+            `SummaryWriter`.
 
     Returns:
-        SummaryWriter
+        Summary writer instance.
     """
     writer = SummaryWriter(tensorboard_dir, **writer_kwargs)
 
@@ -60,17 +62,17 @@ def get_filepaths(
 
     Note:
         Only files (not sub-directories will be returned. Though
-        sub-directories will be recursed into if ``recursive=True``.
+        sub-directories will be recursed into if `recursive=True`.
 
     Args:
-        directory: pathlike object with the directory to search.
-        extensions: optionally only return files that match these extensions.
-            Each extension should include the dot. E.g., ['.pdf', '.txt'].
+        directory: Pathlike object with the directory to search.
+        extensions: Pptionally only return files that match these extensions.
+            Each extension should include the dot. E.g., `['.pdf', '.txt']`.
             Match is case sensitive.
-        recursive: recursively search sub-directories.
+        recursive: Recursively search sub-directories.
 
     Returns:
-        list of string paths of files in the directory.
+        List of string paths of files in the directory.
     """
     directory = pathlib.Path(directory)
     glob = '**/*' if recursive else '*'
@@ -86,6 +88,20 @@ def gradient_accumulation_steps(
     local_batch_size: int,
     world_size: int,
 ) -> int:
+    """Compute the gradient accumulation steps from the configuration.
+
+    Args:
+        global_batch_size: Target global/effective batch size.
+        local_batch_size: Per rank batch size.
+        world_size: Number of ranks.
+
+    Returns:
+        Gradient accumulation steps needed to achieve the `global_batch_size`.
+
+    Raises:
+        ValueError: If the resulting gradient accumulation steps would be
+            fractional.
+    """
     effective_batch = local_batch_size * world_size
 
     if global_batch_size % effective_batch != 0:
@@ -99,7 +115,13 @@ def gradient_accumulation_steps(
 
 
 class DistributedFilter(logging.Filter):
-    """Custom filter that allows specifying ranks to print to."""
+    """Custom filter that allows specifying ranks to print to.
+
+    Example:
+        ```python
+        logger.info('My log message', extra={'ranks': [0, 2]})
+        ```
+    """
 
     def filter(self, record: logging.LogRecord) -> bool:  # noqa: A003
         ranks = getattr(record, 'ranks', None)
@@ -119,10 +141,10 @@ def init_logging(
     """Configure global logging.
 
     Args:
-        level: default logging level.
-        logfile: optional path to write logs to.
-        rich: use rich for pretty stdout logging.
-        distributed: configure distributed formatters and filters.
+        level: Default logging level.
+        logfile: Optional path to write logs to.
+        rich: Use rich for pretty stdout logging.
+        distributed: Configure distributed formatters and filters.
     """
     formatter = logging.Formatter(
         fmt='[%(asctime)s.%(msecs)03d] %(levelname)s (%(name)s): %(message)s',
@@ -169,6 +191,20 @@ def log_step(
     writer: SummaryWriter | None = None,
     **kwargs: Any,
 ) -> None:
+    """Log a training step.
+
+    Args:
+        logger: Logger instance to log to.
+        step: Training step.
+        fmt_str: Format string used to format parameters for logging.
+        log_level: Level to log the parameters at.
+        ranks: Ranks to log on (default to rank 0 only).
+        skip_tensorboard: List of parameter names to skip logging to
+            TensorBoard.
+        tensorboard_prefix: Prefix for TensorBoard parameters.
+        writer: TensorBoard summary writer.
+        kwargs: Additional keyword arguments to log.
+    """
     values = {'step': step, **kwargs}
     if fmt_str is not None:
         msg = fmt_str.format(**values)

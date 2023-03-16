@@ -3,6 +3,10 @@
 This implements the DOC-SENTENCES sampling strategy of RoBERTa. Samples are
 not pre-masked as in Devlin et al. and are rather dynamically masked at
 runtime as in RoBERTa. Next sentence prediction is also not used.
+
+```bash
+python -m llm.preprocess.roberta --help
+```
 """
 from __future__ import annotations
 

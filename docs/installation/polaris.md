@@ -1,4 +1,4 @@
-# Polaris Installation Guide
+# Polaris Installation
 
 1. Load Polaris modules.
    ```bash
@@ -8,6 +8,7 @@
 2. Clone and create your virtual environment.
    ```bash
    git clone git@github.com:gpauloski/llm-pytorch
+   # git clone https://github.com/gpauloski/llm-pytorch
    cd llm-pytorch
    ```
 3. Create your virtual environment.

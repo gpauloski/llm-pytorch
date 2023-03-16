@@ -1,3 +1,14 @@
+"""Utilities for collecting information about the environment.
+
+Tip:
+    This module is executable so you can easily check what resources
+    your scripts will see as available. This is useful if you need to debug
+    what software versions are being used or what hardware is visible by
+    PyTorch.
+    ```bash
+    python -m llm.environment
+    ```
+"""
 from __future__ import annotations
 
 import logging
@@ -15,6 +26,8 @@ logger = logging.getLogger(__name__)
 
 
 class Environment(NamedTuple):
+    """Named tuple representing collected environment information."""
+
     os: str
     python_version: str
     python_platform: str
@@ -34,11 +47,13 @@ class Environment(NamedTuple):
 
 
 def collect_pip_version() -> str:
+    """Collect the pip version."""
     output = subprocess.check_output(['pip', '--version']).decode('utf-8')
     return output.split(' ')[1]
 
 
 def collect_pip_packages() -> list[str]:
+    """Collect a list of relevant pip packages."""
     output = subprocess.check_output(['pip', 'freeze']).decode('utf-8')
     packages = output.split('\n')
     names = [

@@ -1,3 +1,9 @@
+"""Pretraining vocabulary builder.
+
+```bash
+python -m llm.preprocess.vocab --help
+```
+"""
 from __future__ import annotations
 
 import glob

@@ -1,3 +1,8 @@
+"""Utilities for initializing training environments.
+
+These utilities are used by the training scripts in
+[`llm.trainers`][llm.trainers].
+"""
 from __future__ import annotations
 
 import argparse
@@ -21,16 +26,16 @@ def get_default_parser(
     description: str | None = None,
     usage: str | None = None,
 ) -> argparse.ArgumentParser:
-    """Get default argument parser to be used with initialize_from_args().
+    """Get the default argument parser to be used with [`initialize_from_args()`][llm.initialize.initialize_from_args].
 
     Args:
-        prog: optional name of program.
-        description: optional description of program.
-        usage: optional program usage.
+        prog: Optional name of the program.
+        description: Optional description of the program.
+        usage: Optional program usage.
 
     Returns:
-        ArgumentParser
-    """
+        Parser which you can append your own arguments to.
+    """  # noqa: E501
     parser = argparse.ArgumentParser(
         prog=prog,
         description=description,
@@ -71,11 +76,11 @@ def initialize(
     distributed, and 3) set the cuda device is available.
 
     Args:
-        debug: initialize torch distributed for debugging (single worker).
-        loglevel: minimum logging level.
-        logfile: log filepath.
-        seed: random seed.
-        rich: use rich formatting for stdout logging.
+        debug: Initialize torch distributed for debugging (single worker).
+        loglevel: Minimum logging level.
+        logfile: Log filepath.
+        seed: Random seed.
+        rich: Use rich formatting for stdout logging.
     """
     init_logging(loglevel, logfile=logfile, rich=rich, distributed=True)
 
@@ -119,7 +124,28 @@ def initialize(
 
 
 def initialize_from_args(args: argparse.Namespace) -> Config:
-    """Load config and initialize from args."""
+    """Load config and initialize from args.
+
+    Example:
+        ```python
+        import sys
+        from typing import Sequence
+
+        from llm.initialize import get_default_parser
+        from llm.initialize import initialize_from_args
+
+        def main(argv: Sequence[str] | None = None) -> int:
+            argv = argv if argv is not None else sys.argv[1:]
+            parser = get_default_parser()
+            args = parser.parse_args(argv)
+            config = initialize_from_args(args)
+
+            # Rest of your training script
+
+        if __name__ == '__main__':
+            raise SystemExit(main())
+        ```
+    """
     config = load_config(args.config)
 
     initialize(

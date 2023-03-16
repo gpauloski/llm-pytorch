@@ -1,7 +1,8 @@
 """Custom RoBERTa dataset provider.
 
 This is designed to work with data produced by the RoBERTa encoder
-preprocessing script in `llm.preprocess.roberta`.
+preprocessing script in
+[`llm.preprocess.roberta`][llm.preprocess.roberta].
 """
 from __future__ import annotations
 
@@ -16,6 +17,31 @@ from llm.datasets.bert import Sample
 
 
 class RoBERTaDataset(Dataset[Sample]):
+    """RoBERTa pretraining dataset.
+
+    Like the PyTorch [`Dataset`][torch.utils.data.Dataset], this dataset is
+    indexable returning a [`Sample`][llm.datasets.bert.Sample].
+
+    Samples are randomly masked as runtime using the provided parameters.
+    Next sentence prediction is not supported.
+
+    Example:
+        ```python
+        >>> from llm.datasets.roberta import RoBERTaDataset
+        >>> dataset = RoBERTaDataset('/path/to/shard')
+        >>> dataset[5]
+        Sample(...)
+        ```
+
+    Args:
+        input_file: HDF5 file to load.
+        mask_token_id: ID of the mask token in the vocabulary.
+        mask_token_prob: Probability of a given token in the sample being
+            masked.
+        vocab_size: Size of the vocabulary. Used to replace masked tokens with
+            a random token 10% of the time.
+    """
+
     def __init__(
         self,
         input_file: pathlib.Path | str,
@@ -88,7 +114,23 @@ def bert_mask_sequence(
     mask_token_prob: float,
     vocab_size: int,
 ) -> tuple[torch.LongTensor, torch.LongTensor]:
-    # Source: https://github.com/huggingface/transformers/blob/f7329751fe5c43365751951502c00df5a4654359/src/transformers/data/data_collator.py#L748  # noqa: E501
+    """Randomly mask a BERT training sequence.
+
+    Source: [`transformers/data/data_collator.py`](https://github.com/huggingface/transformers/blob/f7329751fe5c43365751951502c00df5a4654359/src/transformers/data/data_collator.py#L748){target=_blank}
+
+    Args:
+        token_ids: Input sequence token IDs to mask.
+        special_tokens_mask: Mask of special tokens in the sequence which
+            should never be masked.
+        mask_token_id: ID of the mask token in the vocabulary.
+        mask_token_prob: Probability of a given token in the sample being
+            masked.
+        vocab_size: Size of the vocabulary. Used to replace masked tokens with
+            a random token 10% of the time.
+
+    Returns:
+        Masked `token_ids` and the masked labels.
+    """  # noqa: E501
     masked_labels = cast(torch.LongTensor, token_ids.clone())
 
     probability_matrix = torch.full(token_ids.shape, mask_token_prob)

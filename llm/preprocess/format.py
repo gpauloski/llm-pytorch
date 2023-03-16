@@ -1,3 +1,4 @@
+"""Pretraining text formatting utilities."""
 from __future__ import annotations
 
 import logging
@@ -18,6 +19,7 @@ def combine_document_files(
     filepaths: Iterable[pathlib.Path | str],
     output_file: pathlib.Path | str,
 ) -> None:
+    """Combine multiple text files into one."""
     output_file = pathlib.Path(output_file)
     output_file.parent.mkdir(exist_ok=True)
 
@@ -35,6 +37,11 @@ def combine_document_files(
 
 
 def get_sent_tokenizer() -> Callable[[str], list[str]]:
+    """Get a sentence tokenizer.
+
+    Returns:
+        An NLTK sentence tokenizer.
+    """
     downloader = nltk.downloader.Downloader()
     if not downloader.is_installed('punkt'):  # pragma: no cover
         nltk.download('punkt', quiet=True)
@@ -47,6 +54,15 @@ def get_sent_tokenizer() -> Callable[[str], list[str]]:
 def read_documents_bytes(
     files: Iterable[pathlib.Path | str] | pathlib.Path | str,
 ) -> list[bytes]:
+    """Read documents from files.
+
+    Args:
+        files: List of files containing documents separated by blank lines
+            to read.
+
+    Returns:
+        List of documents where each document is the read bytestring.
+    """
     if not isinstance(files, Iterable):
         files = [files]
 
@@ -70,6 +86,13 @@ def read_documents_bytes(
 
 
 def write_documents(path: pathlib.Path | str, documents: list[str]) -> None:
+    """Write a list of documents to a file.
+
+    Args:
+        path: Path to write documents to.
+        documents: Documents to write. Each document will be separated by
+            a blank line.
+    """
     path = pathlib.Path(path)
     path.parent.mkdir(exist_ok=True)
 

@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
     {name = "Greg Pauloski", email = "jgpauloski@uchicago.edu"},
 ]
-description = "Training code for large language models."
+description = "Large language model training tools."
 readme = "README.md"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
@@ -19,8 +19,12 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
 ]
 dependencies = [
+    "click",
+    "datasets",
     "h5py",
+    "nltk",
     "psutil",
+    "requests",
     "rich",
     "tensorboard",
     "tokenizers",
@@ -36,6 +40,7 @@ exclude = ["tests*", "testing*"]
 namespaces = false
 
 [project.optional-dependencies]
+colossalai = ["colossalai"]
 dev = [
     "black",
     "covdefaults>=2.2",
@@ -49,12 +54,15 @@ dev = [
     "tox",
     "virtualenv",
 ]
-colossalai = ["colossalai"]
-preprocess = [
-    "click",
-    "datasets",
-    "nltk",
-    "requests",
+docs = [
+    "black",
+    "mkdocs-click",
+    "mkdocs-gen-files",
+    "mkdocs-literate-nav",
+    "mkdocs-material",
+    "mkdocs-section-index",
+    "mkdocstrings[python]",
+    "mike",
 ]
 
 [tool.black]

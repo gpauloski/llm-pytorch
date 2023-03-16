@@ -1,3 +1,4 @@
+"""Training optimizers."""
 from __future__ import annotations
 
 import logging
@@ -24,6 +25,25 @@ def get_optimizer(
     lr: float,
     **kwargs: Any,
 ) -> torch.optim.Optimizer:
+    """Get an optimizer by name.
+
+    Note:
+        If [ColossalAI](https://github.com/hpcaitech/ColossalAI){target=_blank}
+        is installed, fused versions of the optimizers will be created instead.
+
+    Args:
+        name: Name of the optimizer to load.
+        params: Parameters to be optimized.
+        lr: Learning rate.
+        kwargs: Keyword arguments to pass to the optimizer.
+
+    Returns:
+        Initialized optimizer.
+
+    Raises:
+        ImportError: If `name=='lamb'` and ColossalAI is not installed.
+        ValueError: If `name` is unknown.
+    """
     if name == 'adam':  # pragma: no cover
         if FUSED_IMPORT_ERROR is None:
             optimizer = FusedAdam(params, lr=lr, **kwargs)
