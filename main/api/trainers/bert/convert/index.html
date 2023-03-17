@@ -12,27 +12,27 @@
         <meta name="author" content="Greg Pauloski">
       
       
-        <link rel="canonical" href="https://gregpauloski.com/llm-pytorch/main/api/preprocess/tokenize/">
+        <link rel="canonical" href="https://gregpauloski.com/llm-pytorch/main/api/trainers/bert/convert/">
       
       
-        <link rel="prev" href="../shard/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../utils/">
+        <link rel="next" href="../main/">
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
     
     
       
-        <title>llm.preprocess.tokenize - LLM-PyTorch</title>
+        <title>llm.trainers.bert.convert - LLM-PyTorch</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.c4a75a56.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.c4a75a56.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -48,13 +48,13 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../css/extra.css">
+      <link rel="stylesheet" href="../../../../css/extra.css">
     
-      <link rel="stylesheet" href="../../../css/mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../css/mkdocstrings.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#llm.preprocess.tokenize" class="md-skip">
+        <a href="#llm.trainers.bert.convert" class="md-skip">
           Skip to content
         </a>
       
@@ -101,7 +101,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="LLM-PyTorch" class="md-header__button md-logo" aria-label="LLM-PyTorch" data-md-component="logo">
+    <a href="../../../.." title="LLM-PyTorch" class="md-header__button md-logo" aria-label="LLM-PyTorch" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              llm.preprocess.tokenize
+              llm.trainers.bert.convert
             
           </span>
         </div>
@@ -232,7 +232,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../.." class="md-tabs__link">
         Home
       </a>
     </li>
@@ -245,7 +245,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../installation/" class="md-tabs__link">
+    <a href="../../../../installation/" class="md-tabs__link">
       Installation
     </a>
   </li>
@@ -257,7 +257,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../guides/" class="md-tabs__link">
+    <a href="../../../../guides/" class="md-tabs__link">
       Guides
     </a>
   </li>
@@ -279,7 +279,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../" class="md-tabs__link md-tabs__link--active">
+      <a href="../../../" class="md-tabs__link md-tabs__link--active">
         API Reference
       </a>
     </li>
@@ -294,7 +294,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../contributing/" class="md-tabs__link">
+    <a href="../../../../contributing/" class="md-tabs__link">
       Contributing
     </a>
   </li>
@@ -321,7 +321,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="LLM-PyTorch" class="md-nav__button md-logo" aria-label="LLM-PyTorch" data-md-component="logo">
+    <a href="../../../.." title="LLM-PyTorch" class="md-nav__button md-logo" aria-label="LLM-PyTorch" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -379,7 +379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         Overview
       </a>
     </li>
@@ -393,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../known-issues/" class="md-nav__link">
+      <a href="../../../../known-issues/" class="md-nav__link">
         Known Issues
       </a>
     </li>
@@ -441,7 +441,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../installation/">Installation</a>
+          <a href="../../../../installation/">Installation</a>
           
             <label for="__nav_2">
               <span class="md-nav__icon md-icon"></span>
@@ -462,7 +462,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../installation/polaris/" class="md-nav__link">
+      <a href="../../../../installation/polaris/" class="md-nav__link">
         Polaris
       </a>
     </li>
@@ -496,7 +496,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../guides/">Guides</a>
+          <a href="../../../../guides/">Guides</a>
           
             <label for="__nav_3">
               <span class="md-nav__icon md-icon"></span>
@@ -517,7 +517,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../guides/bert-pretraining/" class="md-nav__link">
+      <a href="../../../../guides/bert-pretraining/" class="md-nav__link">
         BERT Pretraining
       </a>
     </li>
@@ -531,7 +531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../guides/roberta-preprocessing/" class="md-nav__link">
+      <a href="../../../../guides/roberta-preprocessing/" class="md-nav__link">
         RoBERTa Preprocessing
       </a>
     </li>
@@ -627,7 +627,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../">llm</a>
+          <a href="../../../">llm</a>
           
             <label for="__nav_4_1_1">
               <span class="md-nav__icon md-icon"></span>
@@ -648,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../checkpoint/" class="md-nav__link">
+      <a href="../../../checkpoint/" class="md-nav__link">
         llm.checkpoint
       </a>
     </li>
@@ -662,7 +662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../config/" class="md-nav__link">
+      <a href="../../../config/" class="md-nav__link">
         llm.config
       </a>
     </li>
@@ -688,7 +688,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../datasets/">llm.datasets</a>
+          <a href="../../../datasets/">llm.datasets</a>
           
             <label for="__nav_4_1_1_3">
               <span class="md-nav__icon md-icon"></span>
@@ -709,7 +709,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../datasets/bert/" class="md-nav__link">
+      <a href="../../../datasets/bert/" class="md-nav__link">
         llm.datasets.bert
       </a>
     </li>
@@ -723,7 +723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../datasets/roberta/" class="md-nav__link">
+      <a href="../../../datasets/roberta/" class="md-nav__link">
         llm.datasets.roberta
       </a>
     </li>
@@ -737,7 +737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../datasets/sharded/" class="md-nav__link">
+      <a href="../../../datasets/sharded/" class="md-nav__link">
         llm.datasets.sharded
       </a>
     </li>
@@ -770,7 +770,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../engine/">llm.engine</a>
+          <a href="../../../engine/">llm.engine</a>
           
             <label for="__nav_4_1_1_4">
               <span class="md-nav__icon md-icon"></span>
@@ -791,7 +791,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../engine/accumulation/" class="md-nav__link">
+      <a href="../../../engine/accumulation/" class="md-nav__link">
         llm.engine.accumulation
       </a>
     </li>
@@ -805,7 +805,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../engine/amp/" class="md-nav__link">
+      <a href="../../../engine/amp/" class="md-nav__link">
         llm.engine.amp
       </a>
     </li>
@@ -819,7 +819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../engine/base/" class="md-nav__link">
+      <a href="../../../engine/base/" class="md-nav__link">
         llm.engine.base
       </a>
     </li>
@@ -833,7 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../engine/initialize/" class="md-nav__link">
+      <a href="../../../engine/initialize/" class="md-nav__link">
         llm.engine.initialize
       </a>
     </li>
@@ -854,7 +854,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../environment/" class="md-nav__link">
+      <a href="../../../environment/" class="md-nav__link">
         llm.environment
       </a>
     </li>
@@ -868,7 +868,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../initialize/" class="md-nav__link">
+      <a href="../../../initialize/" class="md-nav__link">
         llm.initialize
       </a>
     </li>
@@ -882,7 +882,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../loss/" class="md-nav__link">
+      <a href="../../../loss/" class="md-nav__link">
         llm.loss
       </a>
     </li>
@@ -908,7 +908,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../models/">llm.models</a>
+          <a href="../../../models/">llm.models</a>
           
             <label for="__nav_4_1_1_8">
               <span class="md-nav__icon md-icon"></span>
@@ -929,7 +929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../models/bert/" class="md-nav__link">
+      <a href="../../../models/bert/" class="md-nav__link">
         llm.models.bert
       </a>
     </li>
@@ -950,7 +950,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimizers/" class="md-nav__link">
+      <a href="../../../optimizers/" class="md-nav__link">
         llm.optimizers
       </a>
     </li>
@@ -962,23 +962,21 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1_1_10" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1_1_10" >
       
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">llm.preprocess</a>
+          <a href="../../../preprocess/">llm.preprocess</a>
           
             <label for="__nav_4_1_1_10">
               <span class="md-nav__icon md-icon"></span>
@@ -986,7 +984,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_1_1_10_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_1_1_10_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_4_1_1_10">
           <span class="md-nav__icon md-icon"></span>
           llm.preprocess
@@ -999,7 +997,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../download/" class="md-nav__link">
+      <a href="../../../preprocess/download/" class="md-nav__link">
         llm.preprocess.download
       </a>
     </li>
@@ -1013,7 +1011,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../format/" class="md-nav__link">
+      <a href="../../../preprocess/format/" class="md-nav__link">
         llm.preprocess.format
       </a>
     </li>
@@ -1027,7 +1025,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../roberta/" class="md-nav__link">
+      <a href="../../../preprocess/roberta/" class="md-nav__link">
         llm.preprocess.roberta
       </a>
     </li>
@@ -1041,7 +1039,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../shard/" class="md-nav__link">
+      <a href="../../../preprocess/shard/" class="md-nav__link">
         llm.preprocess.shard
       </a>
     </li>
@@ -1053,55 +1051,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          llm.preprocess.tokenize
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        llm.preprocess.tokenize
+    <li class="md-nav__item">
+      <a href="../../../preprocess/tokenizer/" class="md-nav__link">
+        llm.preprocess.tokenizer
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#llm.preprocess.tokenize" class="md-nav__link">
-    llm.preprocess.tokenize
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#llm.preprocess.tokenize.get_tokenizer" class="md-nav__link">
-    get_tokenizer()
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1113,22 +1067,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../utils/" class="md-nav__link">
+      <a href="../../../preprocess/utils/" class="md-nav__link">
         llm.preprocess.utils
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vocab/" class="md-nav__link">
-        llm.preprocess.vocab
       </a>
     </li>
   
@@ -1148,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../schedulers/" class="md-nav__link">
+      <a href="../../../schedulers/" class="md-nav__link">
         llm.schedulers
       </a>
     </li>
@@ -1162,7 +1102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../timer/" class="md-nav__link">
+      <a href="../../../timer/" class="md-nav__link">
         llm.timer
       </a>
     </li>
@@ -1174,21 +1114,23 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1_1_13" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1_1_13" checked>
       
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../trainers/">llm.trainers</a>
+          <a href="../../">llm.trainers</a>
           
             <label for="__nav_4_1_1_13">
               <span class="md-nav__icon md-icon"></span>
@@ -1196,7 +1138,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_1_1_13_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_4_1_1_13_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_4_1_1_13">
           <span class="md-nav__icon md-icon"></span>
           llm.trainers
@@ -1207,21 +1149,23 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1_1_13_1" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1_1_13_1" checked>
       
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../trainers/bert/">llm.trainers.bert</a>
+          <a href="../">llm.trainers.bert</a>
           
             <label for="__nav_4_1_1_13_1">
               <span class="md-nav__icon md-icon"></span>
@@ -1229,7 +1173,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_4_1_1_13_1_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_4_1_1_13_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_4_1_1_13_1">
           <span class="md-nav__icon md-icon"></span>
           llm.trainers.bert
@@ -1240,9 +1184,60 @@
               
   
   
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          llm.trainers.bert.convert
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        llm.trainers.bert.convert
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#llm.trainers.bert.convert" class="md-nav__link">
+    llm.trainers.bert.convert
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
   
     <li class="md-nav__item">
-      <a href="../../trainers/bert/main/" class="md-nav__link">
+      <a href="../main/" class="md-nav__link">
         llm.trainers.bert.main
       </a>
     </li>
@@ -1256,7 +1251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../trainers/bert/utils/" class="md-nav__link">
+      <a href="../utils/" class="md-nav__link">
         llm.trainers.bert.utils
       </a>
     </li>
@@ -1284,7 +1279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../utils/" class="md-nav__link">
+      <a href="../../../utils/" class="md-nav__link">
         llm.utils
       </a>
     </li>
@@ -1312,7 +1307,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cli/" class="md-nav__link">
+      <a href="../../../cli/" class="md-nav__link">
         CLI Reference
       </a>
     </li>
@@ -1346,7 +1341,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../contributing/">Contributing</a>
+          <a href="../../../../contributing/">Contributing</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1367,7 +1362,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/style-guide/" class="md-nav__link">
+      <a href="../../../../contributing/style-guide/" class="md-nav__link">
         Style Guide
       </a>
     </li>
@@ -1381,7 +1376,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/issues-pull-requests/" class="md-nav__link">
+      <a href="../../../../contributing/issues-pull-requests/" class="md-nav__link">
         Issues and Pull Requests
       </a>
     </li>
@@ -1420,15 +1415,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#llm.preprocess.tokenize" class="md-nav__link">
-    llm.preprocess.tokenize
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#llm.preprocess.tokenize.get_tokenizer" class="md-nav__link">
-    get_tokenizer()
+  <a href="#llm.trainers.bert.convert" class="md-nav__link">
+    llm.trainers.bert.convert
   </a>
   
 </li>
@@ -1451,20 +1439,35 @@
   
 
 
-  <h1>llm.preprocess.tokenize</h1>
+  <h1>llm.trainers.bert.convert</h1>
 
 <div class="doc doc-object doc-module">
 
 
-<a id="llm.preprocess.tokenize"></a>
+<a id="llm.trainers.bert.convert"></a>
   <div class="doc doc-contents">
-      <a target="_blank" href="https://github.com/gpauloski/llm-pytorch/blob/main/llm/preprocess/tokenize.py"><code>llm/preprocess/tokenize.py</code></a>
+      <a target="_blank" href="https://github.com/gpauloski/llm-pytorch/blob/main/llm/trainers/bert/convert.py"><code>llm/trainers/bert/convert.py</code></a>
   </div>
 
   <div class="doc doc-contents first">
   
-      <p>Tokenizer utilities.</p>
+      <p>Convert pretraining checkpoints to HuggingFace pretrained models.</p>
 
+<details class="example" open>
+  <summary>Example</summary>
+  <p>After training, use the CLI to convert the latest checkpoint. Note that
+this uses the same configuration file used for training.
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>llm.trainers.bert.convert<span class="w"> </span>--config<span class="w"> </span>/path/to/config.py<span class="w"> </span>--model-path<span class="w"> </span>/path/to/output/dir
+</span></code></pre></div>
+Then, use
+<a class="autorefs autorefs-external" href="https://huggingface.co/docs/transformers/main/en/model_doc/auto#transformers.AutoModel.from_pretrained"><code>AutoModel.from_pretrained</code></a>
+to load the model back. Learn more about AutoModels
+<a href="https://huggingface.co/docs/transformers/autoclass_tutorial#automodel" target="_blank">here</a>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForMaskedLM</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;/path/to/output/dir&#39;</span><span class="p">)</span>
+</span></code></pre></div>
+</details>
   
 
   <div class="doc doc-children">
@@ -1476,172 +1479,6 @@
 
 
 
-
-<div class="doc doc-object doc-function">
-
-
-
-<h2 id="llm.preprocess.tokenize.get_tokenizer" class="doc doc-heading">
-        <span class="doc doc-object-name doc-function-name">get_tokenizer()</span>
-
-
-<a href="#llm.preprocess.tokenize.get_tokenizer" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">get_tokenizer</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">kind</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;wordpiece&quot;</span><span class="p">,</span> <span class="s2">&quot;bpe&quot;</span><span class="p">],</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">vocab</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">padding_options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">truncation_options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">tokenizers</span><span class="o">.</span><span class="n">implementations</span><span class="o">.</span><span class="n">base_tokenizer</span><span class="o">.</span><span class="n">BaseTokenizer</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
-</span></code></pre></div>
-
-  <div class="doc doc-contents ">
-  
-      <p>Get a tokenizer by name.</p>
-
-  <p>Parameters:</p>
-  <ul>
-      <li class="field-body">
-        <b>kind</b>
-            (<code><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3/library/typing.html#typing.Literal">Literal</a>[&#39;wordpiece&#39;, &#39;bpe&#39;]</code>)
-        – <p>Tokenizer name to create.</p>
-      </li>
-      <li class="field-body">
-        <b>vocab</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>] | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>)
-        – <p>Vocabulary file or dictionary to initialized tokenizer with.</p>
-      </li>
-      <li class="field-body">
-        <b>lowercase</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
-        – <p>Set the tokenizer to lowercase.</p>
-      </li>
-      <li class="field-body">
-        <b>padding_options</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>] | None</code>)
-        – <p>Enable padding options on the tokenizer.</p>
-      </li>
-      <li class="field-body">
-        <b>truncation_options</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>] | None</code>)
-        – <p>Enable truncation options on the tokenizer.</p>
-      </li>
-      <li class="field-body">
-        <b>kwargs</b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
-        – <p>Additional arguments to pass to the tokenizer.</p>
-      </li>
-  </ul>
-
-  <p>Returns:</p>
-  <ul>
-      <li class="field-body">
-            <code>tokenizers.<span title="tokenizers.implementations">implementations</span>.<span title="tokenizers.implementations.base_tokenizer">base_tokenizer</span>.<span title="tokenizers.implementations.base_tokenizer.BaseTokenizer">BaseTokenizer</span></code>
-        – <p>A tokenizer instance.</p>
-      </li>
-  </ul>
-
-      <details class="quote">
-        <summary>Source code in <code>llm/preprocess/tokenize.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span>
-<span class="normal"><a href="#__codelineno-0-51">51</a></span>
-<span class="normal"><a href="#__codelineno-0-52">52</a></span>
-<span class="normal"><a href="#__codelineno-0-53">53</a></span>
-<span class="normal"><a href="#__codelineno-0-54">54</a></span>
-<span class="normal"><a href="#__codelineno-0-55">55</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">def</span> <span class="nf">get_tokenizer</span><span class="p">(</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="n">kind</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;wordpiece&#39;</span><span class="p">,</span> <span class="s1">&#39;bpe&#39;</span><span class="p">],</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="n">vocab</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="n">padding_options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="n">truncation_options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">tokenizers</span><span class="o">.</span><span class="n">implementations</span><span class="o">.</span><span class="n">base_tokenizer</span><span class="o">.</span><span class="n">BaseTokenizer</span><span class="p">:</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a tokenizer by name.</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">        kind: Tokenizer name to create.</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">        vocab: Vocabulary file or dictionary to initialized tokenizer with.</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        lowercase: Set the tokenizer to lowercase.</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">        padding_options: Enable padding options on the tokenizer.</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">        truncation_options: Enable truncation options on the tokenizer.</span>
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        kwargs: Additional arguments to pass to the tokenizer.</span>
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">        A tokenizer instance.</span>
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;wordpiece&#39;</span><span class="p">:</span>
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>        <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizers</span><span class="o">.</span><span class="n">BertWordPieceTokenizer</span><span class="p">(</span>
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>            <span class="n">vocab</span><span class="o">=</span><span class="n">vocab</span><span class="p">,</span>
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a>            <span class="n">clean_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>            <span class="n">handle_chinese_chars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>            <span class="n">lowercase</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="p">)</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;bpe&#39;</span><span class="p">:</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizers</span><span class="o">.</span><span class="n">ByteLevelBPETokenizer</span><span class="p">(</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a>            <span class="n">vocab</span><span class="o">=</span><span class="n">vocab</span><span class="p">,</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a>            <span class="n">lowercase</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a>            <span class="n">add_prefix_space</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a>            <span class="n">trim_offsets</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="p">)</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported kind &quot;</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s1">.&quot;&#39;</span><span class="p">)</span>
-</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">if</span> <span class="n">padding_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="n">tokenizer</span><span class="o">.</span><span class="n">enable_padding</span><span class="p">(</span><span class="o">**</span><span class="n">padding_options</span><span class="p">)</span>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="k">if</span> <span class="n">truncation_options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="n">tokenizer</span><span class="o">.</span><span class="n">enable_truncation</span><span class="p">(</span><span class="o">**</span><span class="n">truncation_options</span><span class="p">)</span>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a>    <span class="k">return</span> <span class="n">tokenizer</span>
-</span></code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
 
 
 
@@ -1696,10 +1533,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.efa0ade1.min.js"></script>
       
     
   </body>

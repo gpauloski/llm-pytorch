@@ -1049,8 +1049,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../preprocess/tokenize/" class="md-nav__link">
-        llm.preprocess.tokenize
+      <a href="../preprocess/tokenizer/" class="md-nav__link">
+        llm.preprocess.tokenizer
       </a>
     </li>
   
@@ -1065,20 +1065,6 @@
     <li class="md-nav__item">
       <a href="../preprocess/utils/" class="md-nav__link">
         llm.preprocess.utils
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../preprocess/vocab/" class="md-nav__link">
-        llm.preprocess.vocab
       </a>
     </li>
   
@@ -1185,6 +1171,20 @@
           llm.trainers.bert
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trainers/bert/convert/" class="md-nav__link">
+        llm.trainers.bert.convert
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -1317,8 +1317,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#llmpreprocessvocab" class="md-nav__link">
-    llm.preprocess.vocab
+  <a href="#llmpreprocesstokenizer" class="md-nav__link">
+    llm.preprocess.tokenizer
   </a>
   
 </li>
@@ -1455,8 +1455,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#llmpreprocessvocab" class="md-nav__link">
-    llm.preprocess.vocab
+  <a href="#llmpreprocesstokenizer" class="md-nav__link">
+    llm.preprocess.tokenizer
   </a>
   
 </li>
@@ -1590,22 +1590,10 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 <td>_required</td>
 </tr>
 <tr>
-<td><code>--vocab</code></td>
-<td>text</td>
-<td>Vocabulary file.</td>
-<td>_required</td>
-</tr>
-<tr>
 <td><code>--tokenizer</code></td>
-<td>choice (<code>bpe</code> &#x7C; <code>wordpiece</code>)</td>
-<td>Tokenizer type.</td>
+<td>text</td>
+<td>Path to trained tokenizer to load.</td>
 <td>_required</td>
-</tr>
-<tr>
-<td><code>--cased</code> / <code>--uncased</code></td>
-<td>boolean</td>
-<td>Vocab/tokenizer is case-sensitive.</td>
-<td><code>False</code></td>
 </tr>
 <tr>
 <td><code>--max-seq-len</code></td>
@@ -1711,11 +1699,11 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="llmpreprocessvocab">llm.preprocess.vocab<a class="headerlink" href="#llmpreprocessvocab" title="Permanent link">&para;</a></h2>
+<h2 id="llmpreprocesstokenizer">llm.preprocess.tokenizer<a class="headerlink" href="#llmpreprocesstokenizer" title="Permanent link">&para;</a></h2>
 <p>Pre-training vocabulary builder.</p>
 <p>Arguments default to the standard uncased BERT with wordpiece method.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>llm.preprocess.vocab [OPTIONS]
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>llm.preprocess.tokenizer [OPTIONS]
 </span></code></pre></div>
 <p><strong>Options:</strong></p>
 <table>
@@ -1737,7 +1725,7 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 <tr>
 <td><code>--output</code></td>
 <td>text</td>
-<td>Output filepath for vocabulary.</td>
+<td>Output file to save serialized tokenizer to.</td>
 <td>_required</td>
 </tr>
 <tr>

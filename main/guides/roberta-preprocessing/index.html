@@ -581,8 +581,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-the-vocab" class="md-nav__link">
-    Build the Vocab
+  <a href="#train-a-tokenzier" class="md-nav__link">
+    Train a Tokenzier
   </a>
   
 </li>
@@ -1111,8 +1111,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/preprocess/tokenize/" class="md-nav__link">
-        llm.preprocess.tokenize
+      <a href="../../api/preprocess/tokenizer/" class="md-nav__link">
+        llm.preprocess.tokenizer
       </a>
     </li>
   
@@ -1127,20 +1127,6 @@
     <li class="md-nav__item">
       <a href="../../api/preprocess/utils/" class="md-nav__link">
         llm.preprocess.utils
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../api/preprocess/vocab/" class="md-nav__link">
-        llm.preprocess.vocab
       </a>
     </li>
   
@@ -1247,6 +1233,20 @@
           llm.trainers.bert
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/trainers/bert/convert/" class="md-nav__link">
+        llm.trainers.bert.convert
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -1448,8 +1448,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-the-vocab" class="md-nav__link">
-    Build the Vocab
+  <a href="#train-a-tokenzier" class="md-nav__link">
+    Train a Tokenzier
   </a>
   
 </li>
@@ -1492,8 +1492,8 @@ files produced.
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ mkdir datasets/
 </span></code></pre></div></p>
 <p>Download the datasets.
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ python -m llm.preprocess.download --dataset wikipedia --output datasets/downloaded/
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>$ python -m llm.preprocess.download --dataset bookscorpus --output datasets/downloaded/
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>llm.preprocess.download<span class="w"> </span>--dataset<span class="w"> </span>wikipedia<span class="w"> </span>--output<span class="w"> </span>datasets/downloaded/
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>llm.preprocess.download<span class="w"> </span>--dataset<span class="w"> </span>bookscorpus<span class="w"> </span>--output<span class="w"> </span>datasets/downloaded/
 </span></code></pre></div>
 This will result in two files: <code>datasets/downloaded/wikipedia-{date}.en.txt</code>
 and <code>datasets/downloaded/bookcorpus.txt</code>.
@@ -1502,30 +1502,35 @@ separated by blank lines.</p>
 <h2 id="shard-the-files">Shard the Files<a class="headerlink" href="#shard-the-files" title="Permanent link">&para;</a></h2>
 <p>Next we shard the files to make them easier to work with. For small dataset this
 may not be needed.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$ python -m llm.preprocess.shard --input datasets/downloaded/*.txt --output datasets/sharded/wikibooks/ --size 250MB
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>llm.preprocess.shard<span class="w"> </span>--input<span class="w"> </span>datasets/downloaded/*.txt<span class="w"> </span>--output<span class="w"> </span>datasets/sharded/wikibooks/<span class="w"> </span>--size<span class="w"> </span>250MB
 </span></code></pre></div>
 <p>Now we have a set of sharded files in <code>datasets/sharded/wikibooks/</code> that are
 each approximately 250 MB. The format of these files is still one sentence
 per line with documents separated by blank lines.</p>
-<h2 id="build-the-vocab">Build the Vocab<a class="headerlink" href="#build-the-vocab" title="Permanent link">&para;</a></h2>
-<p>Now we build the vocab. BPE and wordpiece tokenizers are supported as well
-as cased/uncased. This example creates an uncased wordpiece vocab will 50,000
-tokens.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$ python -m llm.preprocess.vocab \
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>      --input datasets/sharded/wikibooks \
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>      --output datasets/vocabs/wikibooks-50k-vocab.txt \
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>      --size 50000 \
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>      --tokenizers wordpiece \
+<h2 id="train-a-tokenzier">Train a Tokenzier<a class="headerlink" href="#train-a-tokenzier" title="Permanent link">&para;</a></h2>
+<p>Now we train a tokenizer on the text corpus.
+BPE and wordpiece tokenizers are supported as well as cased/uncased.
+This example creates an uncased wordpiece tokenizer will 50,000 tokens.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>llm.preprocess.tokenizer<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">      </span>--input<span class="w"> </span>datasets/sharded/wikibooks<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">      </span>--output<span class="w"> </span>datasets/tokenizers/wikibooks-wordpiece.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span>--size<span class="w"> </span><span class="m">50000</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span>--tokenizers<span class="w"> </span>wordpiece<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span>--uncased
 </span></code></pre></div>
+<p>The resulting JSON file can be loaded to get the trained tokenizer.
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>from<span class="w"> </span>tokenizers<span class="w"> </span>import<span class="w"> </span>Tokenizer
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nv">tokenizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>Tokenizer.from_file<span class="o">(</span><span class="s1">&#39;datasets/tokenizers/wikibooks-wordpiece.json&#39;</span><span class="o">)</span>
+</span></code></pre></div></p>
 <h2 id="encode-the-shards">Encode the Shards<a class="headerlink" href="#encode-the-shards" title="Permanent link">&para;</a></h2>
-<p>Now we can encode the shards using our vocabulary.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$ python -m llm.preprocess.roberta \
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>      --input datasets/sharded/wikibooks/* \
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>      --output datasets/encoded/wikibooks/ \
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>      --vocab datasets/vocabs/wikibooks-50k-vocab.txt \
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>      --tokenizer wordpiece \
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>      --max-seq-len 512 \
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>      --processes 4
+<p>Now we can encode the shards using our tokenizer.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>llm.preprocess.roberta<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">      </span>--input<span class="w"> </span>datasets/sharded/wikibooks/*<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">      </span>--output<span class="w"> </span>datasets/encoded/wikibooks/<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">      </span>--tokenizer<span class="w"> </span>datasets/tokenizers/wikibooks-wordpiece.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">      </span>--max-seq-len<span class="w"> </span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">      </span>--processes<span class="w"> </span><span class="m">4</span>
 </span></code></pre></div>
 <p>Encoding a 250MB shard can take around 16GB of RAM so adjust the number of
 processes (parallel workers encoding a shard) as needed to fit your shard size
