@@ -1,7 +1,7 @@
-"""Pretraining vocabulary builder.
+"""Pretraining tokenizer trainer.
 
 ```bash
-python -m llm.preprocess.vocab --help
+python -m llm.preprocess.tokenizer --help
 ```
 """
 from __future__ import annotations
@@ -9,15 +9,64 @@ from __future__ import annotations
 import glob
 import logging
 import pathlib
+from typing import Any
 from typing import Literal
 from typing import Sequence
 
 import click
+import tokenizers
 
-from llm.preprocess.tokenize import get_tokenizer
 from llm.utils import init_logging
 
-logger = logging.getLogger('sharder')
+logger = logging.getLogger('tokenizer')
+
+
+def get_tokenizer(
+    kind: Literal['wordpiece', 'bpe'],
+    vocab: dict[str, int] | str | None = None,
+    lowercase: bool = False,
+    padding_options: dict[str, Any] | None = None,
+    truncation_options: dict[str, Any] | None = None,
+    **kwargs: Any,
+) -> tokenizers.implementations.base_tokenizer.BaseTokenizer:
+    """Get a tokenizer by name.
+
+    Args:
+        kind: Tokenizer name to create.
+        vocab: Vocabulary file or dictionary to initialized tokenizer with.
+        lowercase: Set the tokenizer to lowercase.
+        padding_options: Enable padding options on the tokenizer.
+        truncation_options: Enable truncation options on the tokenizer.
+        kwargs: Additional arguments to pass to the tokenizer.
+
+    Returns:
+        A tokenizer instance.
+    """
+    if kind == 'wordpiece':
+        tokenizer = tokenizers.BertWordPieceTokenizer(
+            vocab=vocab,
+            clean_text=True,
+            handle_chinese_chars=True,
+            lowercase=lowercase,
+            **kwargs,
+        )
+    elif kind == 'bpe':
+        tokenizer = tokenizers.ByteLevelBPETokenizer(
+            vocab=vocab,
+            lowercase=lowercase,
+            add_prefix_space=True,
+            trim_offsets=True,
+            **kwargs,
+        )
+    else:
+        raise AssertionError(f'Unsupported kind "{kind}."')
+
+    if padding_options is not None:
+        tokenizer.enable_padding(**padding_options)
+    if truncation_options is not None:
+        tokenizer.enable_truncation(**truncation_options)
+
+    return tokenizer
 
 
 def train_vocab(
@@ -31,37 +80,24 @@ def train_vocab(
     tokenizer = get_tokenizer(kind, lowercase=lowercase)
     logger.info(
         f'Initialized {tokenizer.__class__.__name__} tokenizer '
-        f'(lowercase: {lowercase}).',
+        f'(lowercase: {lowercase})',
     )
-
-    if special_tokens is not None and len(special_tokens) > 0:
-        tokenizer.add_special_tokens(special_tokens)
-        logger.info(f'Added special tokens to tokenizer: {special_tokens}.')
 
     # trainer does not work with PosixPaths
     input_files = [str(f) for f in input_files]
 
     logger.info(f'Training tokenizer on {len(input_files)} files...')
-    tokenizer.train(input_files, vocab_size=size, show_progress=True)
-    logger.info('Training completed.')
+    logger.info(f'Using special tokens: {special_tokens}')
+    tokenizer.train(
+        input_files,
+        vocab_size=size,
+        show_progress=True,
+        special_tokens=special_tokens,
+    )
+    logger.info('Training completed')
 
-    output_file = pathlib.Path(output_file).resolve()
-    output_file.parent.mkdir(exist_ok=True, parents=True)
-
-    # Get vocab sorted by frequency
-    vocab_with_freq = tokenizer.get_vocab(with_added_tokens=True)
-    vocab_sorted = [(word, freq) for word, freq in vocab_with_freq.items()]
-    vocab_sorted.sort(key=lambda x: x[1])
-    vocab = [word for word, _ in vocab_sorted]
-
-    # Move special tokens to front
-    if special_tokens is not None and len(special_tokens) > 0:
-        for token in reversed(special_tokens):
-            vocab.insert(0, vocab.pop(vocab.index(token)))
-
-    with open(output_file, 'w') as f:
-        f.write('\n'.join(vocab))
-    logger.info(f'Vocab file written to {output_file}.')
+    tokenizer.save(str(output_file), pretty=True)
+    logger.info(f'Tokenizer saved to {output_file}')
 
 
 @click.command()
@@ -75,7 +111,7 @@ def train_vocab(
     '--output',
     metavar='PATH',
     required=True,
-    help='Output filepath for vocabulary.',
+    help='Output file to save serialized tokenizer to.',
 )
 @click.option(
     '--size',
@@ -97,8 +133,9 @@ def train_vocab(
 @click.option(
     '-s',
     '--special-token',
-    multiple=True,
     default=['[PAD]', '[UNK]', '[CLS]', '[SEP]', '[MASK]'],
+    metavar='TOKEN',
+    multiple=True,
     help='Special tokens to prepend to vocab.',
 )
 @click.option(
@@ -139,7 +176,7 @@ def cli(
         output_file=output,
         size=size,
         lowercase=not cased,
-        special_tokens=special_token,
+        special_tokens=list(special_token),
     )
 
 

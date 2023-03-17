@@ -160,8 +160,8 @@ def checkpoint(
 def load_state(
     config: TrainingConfig,
     model: torch.nn.Module,
-    optimizer: torch.optim.Optimizer,
-    scheduler: torch.optim.lr_scheduler._LRScheduler,
+    optimizer: torch.optim.Optimizer | None = None,
+    scheduler: torch.optim.lr_scheduler._LRScheduler | None = None,
 ) -> tuple[int, int, int]:
     """Load the latest checkpoint if one exists.
 
@@ -178,48 +178,51 @@ def load_state(
         config.CHECKPOINT_DIR,
         map_location='cpu',  # next(model.parameters()).device,
     )
-    if checkpoint is not None:
-        logger.info(
-            f'Loaded checkpoint from {checkpoint.filepath}',
-            extra={'ranks': [0]},
-        )
-        # Load model to the model and not the AMP wrapper
-        model = model._model if hasattr(model, '_model') else model
-        # Load model to the model and not the DDP wrapper
-        model = model.module if hasattr(model, 'module') else model
-        model.load_state_dict(checkpoint.model_state_dict)
-
-        if checkpoint.kwargs['phase'] == config.PHASE:
-            logger.info(
-                'Checkpoint from current phase. Loading optimizer state',
-                extra={'ranks': [0]},
-            )
-
-            if (  # pragma: no branch
-                checkpoint.optimizer_state_dict is not None
-            ):
-                optimizer.load_state_dict(checkpoint.optimizer_state_dict)
-
-            if (  # pragma: no branch
-                checkpoint.scheduler_state_dict is not None
-            ):
-                scheduler.load_state_dict(checkpoint.scheduler_state_dict)
-
-            global_step = checkpoint.global_step
-            epoch = checkpoint.kwargs['epoch']
-            sampler_index = (
-                checkpoint.kwargs['sampler_index']
-                if 'sampler_index' in checkpoint.kwargs
-                else 0
-            )
-        else:
-            logger.info(
-                'Checkpoint from new phase. Resetting optimizer state',
-                extra={'ranks': [0]},
-            )
-    else:
+    if checkpoint is None:
         logger.info(
             'No checkpoint found to resume from',
+            extra={'ranks': [0]},
+        )
+        return global_step, epoch, sampler_index
+
+    logger.info(
+        f'Loaded checkpoint from {checkpoint.filepath}',
+        extra={'ranks': [0]},
+    )
+    # Load model to the model and not the AMP wrapper
+    model = model._model if hasattr(model, '_model') else model
+    # Load model to the model and not the DDP wrapper
+    model = model.module if hasattr(model, 'module') else model
+    model.load_state_dict(checkpoint.model_state_dict)
+
+    if checkpoint.kwargs['phase'] == config.PHASE:
+        logger.info(
+            'Checkpoint from current phase. Loading training state',
+            extra={'ranks': [0]},
+        )
+
+        if (  # pragma: no branch
+            checkpoint.optimizer_state_dict is not None
+            and optimizer is not None
+        ):
+            optimizer.load_state_dict(checkpoint.optimizer_state_dict)
+
+        if (  # pragma: no branch
+            checkpoint.scheduler_state_dict is not None
+            and scheduler is not None
+        ):
+            scheduler.load_state_dict(checkpoint.scheduler_state_dict)
+
+        global_step = checkpoint.global_step
+        epoch = checkpoint.kwargs['epoch']
+        sampler_index = (
+            checkpoint.kwargs['sampler_index']
+            if 'sampler_index' in checkpoint.kwargs
+            else 0
+        )
+    else:
+        logger.info(
+            'Checkpoint from new phase. Resetting training state',
             extra={'ranks': [0]},
         )
 

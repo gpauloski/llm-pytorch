@@ -19,7 +19,6 @@ import pathlib
 import random
 import time
 from typing import List
-from typing import Literal
 from typing import Sequence
 
 import click
@@ -27,10 +26,9 @@ import h5py
 import tokenizers
 from tokenizers.implementations.base_tokenizer import BaseTokenizer
 
-from llm.preprocess.tokenize import get_tokenizer
 from llm.utils import init_logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('roberta-encoder')
 
 SequenceT = List[str]
 SentenceT = List[str]
@@ -236,21 +234,10 @@ def encode_files(
     help='Output directory for encoded shards.',
 )
 @click.option(
-    '--vocab',
+    '--tokenizer',
     metavar='PATH',
     required=True,
-    help='Vocabulary file.',
-)
-@click.option(
-    '--tokenizer',
-    type=click.Choice(['bpe', 'wordpiece'], case_sensitive=False),
-    required=True,
-    help='Tokenizer type.',
-)
-@click.option(
-    '--cased/--uncased',
-    default=False,
-    help='Vocab/tokenizer is case-sensitive.',
+    help='Path to trained tokenizer to load.',
 )
 @click.option(
     '--max-seq-len',
@@ -288,9 +275,7 @@ def encode_files(
 def cli(
     input: str,  # noqa: A002
     output_dir: str,
-    vocab: str,
-    tokenizer: Literal['bpe', 'wordpiece'],
-    cased: bool,
+    tokenizer: str,
     max_seq_len: int,
     short_seq_prob: float,
     processes: int,
@@ -302,18 +287,14 @@ def cli(
 
     input_files = glob.glob(input, recursive=True)
 
-    tokenizer = get_tokenizer(
-        tokenizer,
-        vocab,
-        not cased,
-        padding_options={'length': max_seq_len},
-        truncation_options={'max_length': max_seq_len},
-    )
+    tokenizer_ = tokenizers.Tokenizer.from_file(tokenizer)
+    tokenizer_.enable_padding(length=max_seq_len)
+    tokenizer_.enable_truncation(max_length=max_seq_len)
 
     encode_files(
         input_files=input_files,
         output_dir=output_dir,
-        tokenizer=tokenizer,
+        tokenizer=tokenizer_,
         max_seq_len=max_seq_len,
         short_seq_prob=short_seq_prob,
         processes=processes,

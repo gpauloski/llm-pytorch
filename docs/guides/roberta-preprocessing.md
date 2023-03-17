@@ -18,7 +18,7 @@ $ mkdir datasets/
 ```
 
 Download the datasets.
-```
+```bash
 $ python -m llm.preprocess.download --dataset wikipedia --output datasets/downloaded/
 $ python -m llm.preprocess.download --dataset bookscorpus --output datasets/downloaded/
 ```
@@ -32,7 +32,7 @@ separated by blank lines.
 Next we shard the files to make them easier to work with. For small dataset this
 may not be needed.
 
-```
+```bash
 $ python -m llm.preprocess.shard --input datasets/downloaded/*.txt --output datasets/sharded/wikibooks/ --size 250MB
 ```
 
@@ -40,30 +40,37 @@ Now we have a set of sharded files in `datasets/sharded/wikibooks/` that are
 each approximately 250 MB. The format of these files is still one sentence
 per line with documents separated by blank lines.
 
-## Build the Vocab
+## Train a Tokenzier
 
-Now we build the vocab. BPE and wordpiece tokenizers are supported as well
-as cased/uncased. This example creates an uncased wordpiece vocab will 50,000
-tokens.
+Now we train a tokenizer on the text corpus.
+BPE and wordpiece tokenizers are supported as well as cased/uncased.
+This example creates an uncased wordpiece tokenizer will 50,000 tokens.
 
-```
-$ python -m llm.preprocess.vocab \
+```bash
+$ python -m llm.preprocess.tokenizer \
       --input datasets/sharded/wikibooks \
-      --output datasets/vocabs/wikibooks-50k-vocab.txt \
+      --output datasets/tokenizers/wikibooks-wordpiece.json \
       --size 50000 \
       --tokenizers wordpiece \
+      --uncased
+```
+
+The resulting JSON file can be loaded to get the trained tokenizer.
+```bash
+from tokenizers import Tokenizer
+
+tokenizer = Tokenizer.from_file('datasets/tokenizers/wikibooks-wordpiece.json')
 ```
 
 ## Encode the Shards
 
-Now we can encode the shards using our vocabulary.
+Now we can encode the shards using our tokenizer.
 
-```
+```bash
 $ python -m llm.preprocess.roberta \
       --input datasets/sharded/wikibooks/* \
       --output datasets/encoded/wikibooks/ \
-      --vocab datasets/vocabs/wikibooks-50k-vocab.txt \
-      --tokenizer wordpiece \
+      --tokenizer datasets/tokenizers/wikibooks-wordpiece.json \
       --max-seq-len 512 \
       --processes 4
 ```

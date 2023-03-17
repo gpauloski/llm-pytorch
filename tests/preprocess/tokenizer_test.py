@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import pathlib
 from typing import Generator
 from typing import Literal
@@ -7,10 +8,32 @@ from unittest import mock
 
 import click.testing
 import pytest
+import tokenizers
 
-from llm.preprocess.vocab import cli
-from llm.preprocess.vocab import train_vocab
+from llm.preprocess.tokenizer import cli
+from llm.preprocess.tokenizer import get_tokenizer
+from llm.preprocess.tokenizer import train_vocab
 from testing.preprocess.text import random_document
+
+
+@pytest.mark.parametrize('kind', ('bpe', 'wordpiece'))
+def test_tokenizer(kind: Literal['bpe', 'wordpiece']) -> None:
+    assert isinstance(
+        get_tokenizer(kind),
+        tokenizers.implementations.base_tokenizer.BaseTokenizer,
+    )
+
+
+@pytest.mark.parametrize('kind', ('bpe', 'wordpiece'))
+def test_tokenizer_with_max_seq_len(kind: Literal['bpe', 'wordpiece']) -> None:
+    assert isinstance(
+        get_tokenizer(
+            kind,
+            padding_options={'length': 128},
+            truncation_options={'max_length': 128},
+        ),
+        tokenizers.implementations.base_tokenizer.BaseTokenizer,
+    )
 
 
 @pytest.fixture
@@ -53,23 +76,21 @@ def test_train_vocab(
     )
 
     with open(vocab_file) as f:
-        vocab = [token.strip() for token in f]
+        vocab = json.load(f)['model']['vocab']
 
     if kind == 'bpe':
         assert len(vocab) >= 500
     elif kind == 'wordpiece':
-        assert len(vocab) == 502
+        assert len(vocab) == 500
     else:
         raise AssertionError
-
-    assert vocab[: len(special)] == special
 
 
 def test_cli() -> None:
     runner = click.testing.CliRunner()
     with (
-        mock.patch('llm.preprocess.vocab.train_vocab'),
-        mock.patch('llm.preprocess.vocab.init_logging'),
+        mock.patch('llm.preprocess.tokenizer.train_vocab'),
+        mock.patch('llm.preprocess.tokenizer.init_logging'),
     ):
         result = runner.invoke(cli, ['--input', 'x', '--output', 'y'])
         assert result.exit_code == 0
