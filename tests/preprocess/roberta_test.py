@@ -103,8 +103,8 @@ def test_cli() -> None:
     runner = click.testing.CliRunner()
     with (
         mock.patch('llm.preprocess.roberta.encode_files'),
-        mock.patch('llm.preprocess.roberta.get_tokenizer'),
         mock.patch('llm.preprocess.roberta.init_logging'),
+        mock.patch('tokenizers.Tokenizer.from_file'),
     ):
         result = runner.invoke(
             cli,
@@ -113,8 +113,6 @@ def test_cli() -> None:
                 'x',
                 '--output-dir',
                 'y',
-                '--vocab',
-                'z',
                 '--tokenizer',
                 'bpe',
             ],

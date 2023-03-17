@@ -60,9 +60,9 @@ This page provides documentation for our command line tools.
     :style: table
 
 ::: mkdocs-click
-    :module: llm.preprocess.vocab
+    :module: llm.preprocess.tokenizer
     :command: cli
-    :prog_name: llm.preprocess.vocab
+    :prog_name: llm.preprocess.tokenizer
     :depth: 1
     :list_subcommands: True
     :style: table
