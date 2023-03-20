@@ -6,7 +6,6 @@ python -m llm.preprocess.shard --help
 """
 from __future__ import annotations
 
-import glob
 import logging
 import pathlib
 import random
@@ -72,40 +71,45 @@ def shard(
         random.shuffle(documents)
         logger.info('Shuffled documents.')
 
+    logger.info('Creating shards from documents...')
+    shards = list(get_document_shards(documents, max_bytes_per_shard))
+    zfill = len(str(len(shards)))
+
     logger.info('Writing shards...')
-    for i, shard in enumerate(
-        get_document_shards(documents, max_bytes_per_shard),
-    ):
-        output_file = output_dir / shard_format.format(index=i)
-        with open(output_file, 'wb') as f:
+    for i, shard in enumerate(shards):
+        filepath = output_dir / shard_format.format(index=str(i).zfill(zfill))
+        with open(filepath, 'wb') as f:
             for document in shard:
                 f.write(document)
                 f.write(b'\n\n')
-        logger.info(f'Wrote shard {i} to {output_file}.')
+        logger.info(f'Wrote shard {i} to {filepath}.')
 
     logger.info('Completed.')
 
 
 @click.command()
-@click.option(
-    '--input',
-    metavar='PATH',
+@click.argument(
+    'inputs',
+    metavar='FILEPATHS',
     required=True,
-    help='Glob of input shards to encode.',
+    nargs=-1,
 )
 @click.option(
-    '--output',
+    '-o',
+    '--output-dir',
     metavar='PATH',
     required=True,
     help='Output directory for encoded shards.',
 )
 @click.option(
+    '-s',
     '--size',
     metavar='SIZE',
     required=True,
     help='Max data size of each shard.',
 )
 @click.option(
+    '-f',
     '--format',
     default='shard-{index}.txt',
     help='Shard name format where {index} is replaced by shard index.',
@@ -130,21 +134,20 @@ def shard(
     help='Use rich output formatting.',
 )
 def cli(
-    input: str,  # noqa: A002
-    output: str,
+    inputs: tuple[str],
+    output_dir: str,
     size: str,
     format: str,  # noqa: A002
     shuffle: bool,
     log_level: str,
     rich: bool,
 ) -> None:
-    """Pre-training text sharder."""
+    """Shard documents in FILEPATHS into equally sized files."""
     init_logging(log_level, rich=rich)
 
-    glob.glob(input)
     size_bytes = readable_to_bytes(size)
 
-    shard(input, output, format, size_bytes, shuffle)
+    shard(inputs, output_dir, format, size_bytes, shuffle)
 
 
 if __name__ == '__main__':

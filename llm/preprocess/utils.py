@@ -84,8 +84,8 @@ def safe_extract(name: pathlib.Path | str, target: pathlib.Path | str) -> None:
         name: Path to tar file to extract.
         target: Target path to extract to.
     """
-    name = pathlib.Path(name).absolute()
-    target = pathlib.Path(target).absolute()
+    name = pathlib.Path(name).resolve().absolute()
+    target = pathlib.Path(target).resolve().absolute()
 
     with tarfile.open(name, 'r:gz') as f:
         # CVE-2007-4559 input sanitation

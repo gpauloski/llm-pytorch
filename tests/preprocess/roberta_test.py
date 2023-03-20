@@ -108,13 +108,6 @@ def test_cli() -> None:
     ):
         result = runner.invoke(
             cli,
-            [
-                '--input',
-                'x',
-                '--output-dir',
-                'y',
-                '--tokenizer',
-                'bpe',
-            ],
+            ['x', '--output-dir', 'y', '--tokenizer', 'bpe'],
         )
         assert result.exit_code == 0

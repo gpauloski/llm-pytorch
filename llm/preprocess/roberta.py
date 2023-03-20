@@ -11,10 +11,8 @@ python -m llm.preprocess.roberta --help
 from __future__ import annotations
 
 import functools
-import glob
 import logging
 import multiprocessing
-import os
 import pathlib
 import random
 import time
@@ -41,7 +39,7 @@ DocumentT = List[SentenceT]
 # To disable this warning, you can either:
 #   - Avoid using `tokenizers` before the fork if possible
 #   - Explicitly set the environment variable TOKENIZERS_PARALLELISM=false
-os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+# os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 
 def read_documents(
@@ -202,6 +200,8 @@ def encode_files(
         max_seq_len=max_seq_len,
         short_seq_prob=short_seq_prob,
     )
+
+    input_files = sorted(input_files)
     args = [
         (input_file, output_dir / f'shard-{str(i).zfill(zfill)}.hdf5')
         for i, input_file in enumerate(input_files)
@@ -214,38 +214,41 @@ def encode_files(
         # Graceful shutdown for coverage
         pool.close()
         pool.join()
-        pool.terminate()
 
     total_time = time.monotonic() - start
     logger.info(f'Finished processing in {total_time:.0f} seconds')
 
 
 @click.command()
-@click.option(
-    '--input',
-    metavar='PATH',
+@click.argument(
+    'inputs',
+    metavar='FILEPATHS',
     required=True,
-    help='Glob of input shards to encode.',
+    nargs=-1,
 )
 @click.option(
+    '-o',
     '--output-dir',
     metavar='PATH',
     required=True,
     help='Output directory for encoded shards.',
 )
 @click.option(
+    '-t',
     '--tokenizer',
     metavar='PATH',
     required=True,
     help='Path to trained tokenizer to load.',
 )
 @click.option(
+    '-l',
     '--max-seq-len',
     type=int,
     default=512,
     help='Maximum sequence length.',
 )
 @click.option(
+    '-s',
     '--short-seq-prob',
     type=float,
     default=0.1,
@@ -273,7 +276,7 @@ def encode_files(
     help='Use rich output formatting.',
 )
 def cli(
-    input: str,  # noqa: A002
+    inputs: tuple[str],
     output_dir: str,
     tokenizer: str,
     max_seq_len: int,
@@ -282,17 +285,15 @@ def cli(
     log_level: str,
     rich: bool,
 ) -> None:
-    """RoBERTa pre-training dataset encoder."""
+    """Encode FILEPATHS for RoBERTa pretraining."""
     init_logging(log_level, rich=rich)
-
-    input_files = glob.glob(input, recursive=True)
 
     tokenizer_ = tokenizers.Tokenizer.from_file(tokenizer)
     tokenizer_.enable_padding(length=max_seq_len)
     tokenizer_.enable_truncation(max_length=max_seq_len)
 
     encode_files(
-        input_files=input_files,
+        input_files=inputs,
         output_dir=output_dir,
         tokenizer=tokenizer_,
         max_seq_len=max_seq_len,
