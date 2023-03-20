@@ -17,16 +17,23 @@ import os
 import torch
 
 from llm.models import bert as bert_models
+from llm.trainers.bert.data import RobertaDatasetConfig
 
 OUTPUT_DIR = 'runs/roberta-large-pretraining'
 CHECKPOINT_DIR = os.path.join(OUTPUT_DIR, 'checkpoints/')
 TENSORBOARD_DIR = os.path.join(OUTPUT_DIR, 'tensorboard/')
 LOG_FILE = os.path.join(OUTPUT_DIR, 'logs/pretraining.txt')
-DATA_DIR = '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/'  # noqa: E501
+DATASET_CONFIG = RobertaDatasetConfig(
+    input_dir='/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/',
+    tokenizer_file='/grand/SuperBERT/jgpaul/datasets/tokenizers/tokenzer.json',
+    mask_token_prob=0.15,
+)
 
 # RoBERTa has only a single phase of training
 PHASE = 1
-BERT_CONFIG = bert_models.BERT_LARGE
+_config = bert_models.BERT_LARGE
+_config['vocab_size'] = 50000
+BERT_CONFIG = _config
 OPTIMIZER = 'adam'
 GRADIENT_CHECKPOINTING = False
 DTYPE = torch.float16
@@ -38,5 +45,5 @@ CLIP_GRAD_NORM = 1.0
 WARMUP_STEPS = 30000
 STEPS = 100000
 GLOBAL_BATCH_SIZE = 8192
-BATCH_SIZE = 64
+BATCH_SIZE = 8
 CHECKPOINT_STEPS = 1000

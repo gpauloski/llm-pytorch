@@ -4,10 +4,10 @@ from __future__ import annotations
 import dataclasses
 import logging
 import os
-import pathlib
 from typing import Any
 from typing import Literal
 from typing import Optional
+from typing import Union
 from typing import get_type_hints
 
 import torch
@@ -16,11 +16,8 @@ import transformers
 from llm.checkpoint import load_checkpoint
 from llm.checkpoint import save_checkpoint
 from llm.config import Config
-from llm.datasets.bert import NvidiaBertDataset
-from llm.datasets.bert import Sample
-from llm.datasets.sharded import DatasetParams
-from llm.datasets.sharded import DistributedShardedDataset
-from llm.utils import get_filepaths
+from llm.trainers.bert.data import NvidiaBertDatasetConfig
+from llm.trainers.bert.data import RobertaDatasetConfig
 from llm.utils import gradient_accumulation_steps
 
 logger = logging.getLogger('llm.trainers.bert')
@@ -35,7 +32,7 @@ class TrainingConfig:
     OPTIMIZER: Literal['adam', 'lamb']
     CHECKPOINT_DIR: str
     TENSORBOARD_DIR: str
-    DATA_DIR: str
+    DATASET_CONFIG: Union[NvidiaBertDatasetConfig, RobertaDatasetConfig]
     GLOBAL_BATCH_SIZE: int
     BATCH_SIZE: int
     STEPS: int
@@ -88,41 +85,6 @@ def parse_config(config: Config) -> TrainingConfig:
     config_ = {k: v for k, v in config.items() if k in fields}
 
     return TrainingConfig(**config_)
-
-
-def get_dataset(
-    directory: pathlib.Path | str,
-) -> DistributedShardedDataset[Sample]:
-    """Load a sharded BERT pretraining dataset."""
-    files = get_filepaths(
-        directory,
-        extensions=['.h5', '.hdf5'],
-        recursive=True,
-    )
-    params: dict[str, DatasetParams] = {file: ((file,), {}) for file in files}
-    return DistributedShardedDataset(
-        NvidiaBertDataset,
-        params,
-        rank=torch.distributed.get_rank(),
-        world_size=torch.distributed.get_world_size(),
-    )
-
-
-def get_dataloader(
-    dataset: DistributedShardedDataset[Sample],
-    sampler: torch.utils.data.Sampler[int],
-    batch_size: int,
-) -> torch.utils.data.DataLoader[Sample]:
-    """Create a dataloader from a sharded dataset."""
-    return torch.utils.data.DataLoader(
-        dataset,
-        batch_size=batch_size,
-        shuffle=False,
-        sampler=sampler,
-        num_workers=4,
-        pin_memory=True,
-        drop_last=True,
-    )
 
 
 def checkpoint(
