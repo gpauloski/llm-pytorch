@@ -12,11 +12,14 @@ class BertPretrainingCriterion(torch.nn.Module):
 
     Args:
         vocab_size: Size of the pretraining vocabulary.
+        ignore_index: Value to ignore when computing cross entropy loss.
+            Defaults to -100 which is used by the provided BERT datasets
+            as the value in `masked_lm_labels` which are not masked.
     """
 
-    def __init__(self, vocab_size: int) -> None:
+    def __init__(self, vocab_size: int, ignore_index: int = -100) -> None:
         super().__init__()
-        self.loss_fn = torch.nn.CrossEntropyLoss(ignore_index=-1)
+        self.loss_fn = torch.nn.CrossEntropyLoss(ignore_index=ignore_index)
         self.vocab_size = vocab_size
 
     def forward(
