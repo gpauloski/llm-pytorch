@@ -34,15 +34,6 @@ SequenceT = List[str]
 SentenceT = List[str]
 DocumentT = List[SentenceT]
 
-# This silences the error:
-#
-# The current process just got forked, after parallelism has already been used.
-# Disabling parallelism to avoid deadlocks...
-# To disable this warning, you can either:
-#   - Avoid using `tokenizers` before the fork if possible
-#   - Explicitly set the environment variable TOKENIZERS_PARALLELISM=false
-os.environ['TOKENIZERS_PARALLELISM'] = 'false'
-
 
 def read_documents(
     input_file: pathlib.Path | str,
@@ -155,13 +146,19 @@ def write_samples(
 def encode_file(
     input_file: str | pathlib.Path,
     output_file: str | pathlib.Path,
-    tokenizer: BaseTokenizer,
+    tokenizer: str | BaseTokenizer,
     *,
     max_seq_len: int = 512,
     short_seq_prob: float = 0.0,
 ) -> None:
     start = time.monotonic()
     logger.info(f'Encoding {input_file}...')
+
+    os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+    if isinstance(tokenizer, str):  # pragma: no cover
+        tokenizer = tokenizers.Tokenizer.from_file(tokenizer)
+    tokenizer.enable_padding(length=max_seq_len)
+    tokenizer.enable_truncation(max_length=max_seq_len)
 
     documents = read_documents(input_file, tokenizer)
     samples = create_samples_from_documents(
@@ -181,7 +178,7 @@ def encode_file(
 def encode_files(
     input_files: Sequence[str | pathlib.Path],
     output_dir: str | pathlib.Path,
-    tokenizer: BaseTokenizer,
+    tokenizer: str,
     *,
     max_seq_len: int = 512,
     short_seq_prob: float = 0.0,
@@ -216,7 +213,7 @@ def encode_files(
             'If you encounter a deadlock, try again with a single process.',
             stacklevel=2,
         )
-    with multiprocessing.Pool(processes=processes) as pool:
+    with multiprocessing.Pool(processes=processes, maxtasksperchild=1) as pool:
         pool.starmap(_encode, args)
 
         # Graceful shutdown for coverage
@@ -296,14 +293,22 @@ def cli(
     """Encode FILEPATHS for RoBERTa pretraining."""
     init_logging(log_level, rich=rich)
 
-    tokenizer_ = tokenizers.Tokenizer.from_file(tokenizer)
-    tokenizer_.enable_padding(length=max_seq_len)
-    tokenizer_.enable_truncation(max_length=max_seq_len)
+    # This silences the error:
+    #
+    # The current process just got forked, after parallelism has already been
+    # used. Disabling parallelism to avoid deadlocks...
+    # To disable this warning, you can either:
+    #   - Avoid using `tokenizers` before the fork if possible
+    #   - Explicitly set the environment variable TOKENIZERS_PARALLELISM=false
+    #
+    # Note we set this in a few places to ensure the environment variable
+    # is set in subprocesses.
+    os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
     encode_files(
         input_files=inputs,
         output_dir=output_dir,
-        tokenizer=tokenizer_,
+        tokenizer=tokenizer,
         max_seq_len=max_seq_len,
         short_seq_prob=short_seq_prob,
         processes=processes,
