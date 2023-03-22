@@ -13,9 +13,11 @@ from __future__ import annotations
 import functools
 import logging
 import multiprocessing
+import os
 import pathlib
 import random
 import time
+import warnings
 from typing import List
 from typing import Sequence
 
@@ -39,7 +41,7 @@ DocumentT = List[SentenceT]
 # To disable this warning, you can either:
 #   - Avoid using `tokenizers` before the fork if possible
 #   - Explicitly set the environment variable TOKENIZERS_PARALLELISM=false
-# os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 
 def read_documents(
@@ -208,6 +210,12 @@ def encode_files(
     ]
 
     logger.info(f'Starting multiprocessing pool with {processes} workers...')
+    if processes > 1:  # pragma: no branch
+        warnings.warn(
+            'Using tokenizers with processes > 1 can lead to deadlocks. '
+            'If you encounter a deadlock, try again with a single process.',
+            stacklevel=2,
+        )
     with multiprocessing.Pool(processes=processes) as pool:
         pool.starmap(_encode, args)
 
