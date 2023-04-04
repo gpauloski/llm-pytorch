@@ -21,7 +21,7 @@ def test_config_attr_access() -> None:
     assert config.b == d['b']
 
     with pytest.raises(AttributeError, match='c'):
-        config.c
+        config.c  # noqa: B018
 
     config.a = 2
     assert config.a != d['a']
