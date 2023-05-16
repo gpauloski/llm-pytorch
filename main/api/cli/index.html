@@ -21,7 +21,7 @@
         <link rel="next" href="../../contributing/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.12">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.13">
     
     
       
@@ -1200,6 +1200,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../trainers/bert/data/" class="md-nav__link">
+        llm.trainers.bert.data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../trainers/bert/main/" class="md-nav__link">
         llm.trainers.bert.main
       </a>
@@ -1538,13 +1552,13 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>--dataset</code></td>
+<td><code>-d</code>, <code>--dataset</code></td>
 <td>choice (<code>wikipedia</code> &#x7C; <code>bookscorpus</code>)</td>
 <td>Dataset to download.</td>
 <td>_required</td>
 </tr>
 <tr>
-<td><code>--output</code></td>
+<td><code>-o</code>, <code>--output-dir</code></td>
 <td>text</td>
 <td>Output directory.</td>
 <td>_required</td>
@@ -1570,9 +1584,9 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 </tbody>
 </table>
 <h2 id="llmpreprocessroberta">llm.preprocess.roberta<a class="headerlink" href="#llmpreprocessroberta" title="Permanent link">&para;</a></h2>
-<p>RoBERTa pre-training dataset encoder.</p>
+<p>Encode FILEPATHS for RoBERTa pretraining.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>llm.preprocess.roberta [OPTIONS]
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>llm.preprocess.roberta [OPTIONS] FILEPATHS
 </span></code></pre></div>
 <p><strong>Options:</strong></p>
 <table>
@@ -1586,31 +1600,25 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>--input</code></td>
-<td>text</td>
-<td>Glob of input shards to encode.</td>
-<td>_required</td>
-</tr>
-<tr>
-<td><code>--output-dir</code></td>
+<td><code>-o</code>, <code>--output-dir</code></td>
 <td>text</td>
 <td>Output directory for encoded shards.</td>
 <td>_required</td>
 </tr>
 <tr>
-<td><code>--tokenizer</code></td>
+<td><code>-t</code>, <code>--tokenizer</code></td>
 <td>text</td>
 <td>Path to trained tokenizer to load.</td>
 <td>_required</td>
 </tr>
 <tr>
-<td><code>--max-seq-len</code></td>
+<td><code>-l</code>, <code>--max-seq-len</code></td>
 <td>integer</td>
 <td>Maximum sequence length.</td>
 <td><code>512</code></td>
 </tr>
 <tr>
-<td><code>--short-seq-prob</code></td>
+<td><code>-s</code>, <code>--short-seq-prob</code></td>
 <td>float</td>
 <td>Probablity to create shorter sequences.</td>
 <td><code>0.1</code></td>
@@ -1642,9 +1650,9 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 </tbody>
 </table>
 <h2 id="llmpreprocessshard">llm.preprocess.shard<a class="headerlink" href="#llmpreprocessshard" title="Permanent link">&para;</a></h2>
-<p>Pre-training text sharder.</p>
+<p>Shard documents in FILEPATHS into equally sized files.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>llm.preprocess.shard [OPTIONS]
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>llm.preprocess.shard [OPTIONS] FILEPATHS
 </span></code></pre></div>
 <p><strong>Options:</strong></p>
 <table>
@@ -1658,25 +1666,19 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>--input</code></td>
-<td>text</td>
-<td>Glob of input shards to encode.</td>
-<td>_required</td>
-</tr>
-<tr>
-<td><code>--output</code></td>
+<td><code>-o</code>, <code>--output-dir</code></td>
 <td>text</td>
 <td>Output directory for encoded shards.</td>
 <td>_required</td>
 </tr>
 <tr>
-<td><code>--size</code></td>
+<td><code>-s</code>, <code>--size</code></td>
 <td>text</td>
 <td>Max data size of each shard.</td>
 <td>_required</td>
 </tr>
 <tr>
-<td><code>--format</code></td>
+<td><code>-f</code>, <code>--format</code></td>
 <td>text</td>
 <td>Shard name format where {index} is replaced by shard index.</td>
 <td><code>shard-{index}.txt</code></td>
@@ -1708,10 +1710,10 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 </tbody>
 </table>
 <h2 id="llmpreprocesstokenizer">llm.preprocess.tokenizer<a class="headerlink" href="#llmpreprocesstokenizer" title="Permanent link">&para;</a></h2>
-<p>Pre-training vocabulary builder.</p>
+<p>Train a tokenizer on FILEPATHS.</p>
 <p>Arguments default to the standard uncased BERT with wordpiece method.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>llm.preprocess.tokenizer [OPTIONS]
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>llm.preprocess.tokenizer [OPTIONS] FILEPATHS
 </span></code></pre></div>
 <p><strong>Options:</strong></p>
 <table>
@@ -1725,25 +1727,19 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>--input</code></td>
-<td>text</td>
-<td>Glob of input text files to build vocab from.</td>
-<td>_required</td>
-</tr>
-<tr>
-<td><code>--output</code></td>
+<td><code>-o</code>, <code>--output-file</code></td>
 <td>text</td>
 <td>Output file to save serialized tokenizer to.</td>
 <td>_required</td>
 </tr>
 <tr>
-<td><code>--size</code></td>
+<td><code>-s</code>, <code>--size</code></td>
 <td>integer</td>
 <td>Size of vocabulary.</td>
 <td><code>30522</code></td>
 </tr>
 <tr>
-<td><code>--tokenizer</code></td>
+<td><code>-t</code>, <code>--tokenizer</code></td>
 <td>choice (<code>bpe</code> &#x7C; <code>wordpiece</code>)</td>
 <td>Tokenizer type.</td>
 <td><code>wordpiece</code></td>
@@ -1829,7 +1825,7 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.c2be25ad.min.js"></script>
+      <script src="../../assets/javascripts/bundle.b4d07000.min.js"></script>
       
     
   </body>

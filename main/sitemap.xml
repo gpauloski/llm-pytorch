@@ -171,6 +171,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://gregpauloski.com/llm-pytorch/main/api/trainers/bert/data/</loc>
+         <lastmod>2023-05-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/trainers/bert/main/</loc>
          <lastmod>2023-05-16</lastmod>
          <changefreq>daily</changefreq>
