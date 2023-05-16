@@ -18,8 +18,7 @@ import pathlib
 import random
 import time
 import warnings
-from typing import List
-from typing import Sequence
+from collections.abc import Sequence
 
 import click
 import h5py
@@ -30,9 +29,9 @@ from llm.utils import init_logging
 
 logger = logging.getLogger('roberta-encoder')
 
-SequenceT = List[str]
-SentenceT = List[str]
-DocumentT = List[SentenceT]
+SequenceT = list[str]
+SentenceT = list[str]
+DocumentT = list[SentenceT]
 
 
 def read_documents(
@@ -50,9 +49,9 @@ def read_documents(
     tokenizer.no_padding()
     tokenizer.no_truncation()
 
-    with open(input_file, 'r') as f:
-        for line in f.readlines():
-            line = line.strip()
+    with open(input_file) as f:
+        for line_ in f.readlines():
+            line = line_.strip()
             if len(line) == 0 and len(document) > 0:
                 documents.append(document)
                 document = []

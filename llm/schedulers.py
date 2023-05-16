@@ -15,7 +15,7 @@ class LinearWarmupLR(_LRScheduler):
         total_steps: Total training steps.
         warmup_steps: Steps to linearly warmup the learning rate.
         last_epoch: Optional last epoch.
-    """  # noqa: E501
+    """
 
     def __init__(
         self,

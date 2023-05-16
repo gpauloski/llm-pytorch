@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 import pathlib
-from typing import Generator
+from collections.abc import Generator
 from unittest import mock
 
 import pytest
@@ -12,8 +12,8 @@ from llm.initialize import initialize
 from llm.initialize import initialize_from_args
 
 
-@pytest.fixture
-def distributed() -> Generator[None, None, None]:
+@pytest.fixture()
+def distributed() -> Generator[None, None, None]:  # noqa: PT004
     with (
         mock.patch('torch.distributed.init_process_group'),
         mock.patch('torch.distributed.get_backend', return_value=True),

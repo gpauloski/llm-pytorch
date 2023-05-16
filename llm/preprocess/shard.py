@@ -10,9 +10,9 @@ import logging
 import pathlib
 import random
 import sys
-from typing import Generator
-from typing import Iterable
-from typing import Sequence
+from collections.abc import Generator
+from collections.abc import Iterable
+from collections.abc import Sequence
 
 import click
 
@@ -56,8 +56,8 @@ def shard(
 ) -> None:
     if '{index}' not in shard_format:
         raise ValueError(
-            'The pattern \'{index}\' is not in the provided shard format '
-            f'\'{shard_format}\'.',
+            "The pattern '{index}' is not in the provided shard format "
+            f"'{shard_format}'.",
         )
 
     output_dir = pathlib.Path(output_dir)

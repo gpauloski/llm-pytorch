@@ -10,7 +10,7 @@ from llm.preprocess.utils import safe_extract
 
 
 @pytest.mark.parametrize(
-    'value,expected',
+    ('value', 'expected'),
     (
         ('0 B', 0),
         ('1 B', 1),

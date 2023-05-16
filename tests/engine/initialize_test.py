@@ -9,7 +9,7 @@ from llm.engine.base import BaseOptimizer
 from llm.engine.initialize import initialize
 
 
-@pytest.mark.parametrize('cuda,dist', ((True, False), (False, True)))
+@pytest.mark.parametrize(('cuda', 'dist'), ((True, False), (False, True)))
 def test_initalize_default(cuda: bool, dist: bool) -> None:
     model = torch.nn.Linear(1, 1)
     optimizer = torch.optim.SGD(model.parameters(), lr=0.1)

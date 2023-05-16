@@ -5,10 +5,10 @@ import dataclasses
 import logging
 import os
 from typing import Any
+from typing import get_type_hints
 from typing import Literal
 from typing import Optional
 from typing import Union
-from typing import get_type_hints
 
 import torch
 import transformers
@@ -32,7 +32,10 @@ class TrainingConfig:
     OPTIMIZER: Literal['adam', 'lamb']
     CHECKPOINT_DIR: str
     TENSORBOARD_DIR: str
-    DATASET_CONFIG: Union[NvidiaBertDatasetConfig, RobertaDatasetConfig]
+    DATASET_CONFIG: Union[  # noqa: UP007
+        NvidiaBertDatasetConfig,
+        RobertaDatasetConfig,
+    ]
     GLOBAL_BATCH_SIZE: int
     BATCH_SIZE: int
     STEPS: int
@@ -44,10 +47,10 @@ class TrainingConfig:
     ACCUMULATION_STEPS: int
 
     # Optional options
-    CLIP_GRAD_NORM: Optional[float] = None
-    DTYPE: Optional[torch.dtype] = None
+    CLIP_GRAD_NORM: Optional[float] = None  # noqa: UP007
+    DTYPE: Optional[torch.dtype] = None  # noqa: UP007
     GRADIENT_CHECKPOINTING: bool = False
-    LOG_FILE: Optional[str] = None
+    LOG_FILE: Optional[str] = None  # noqa: UP007
     SEED: int = 42
 
 

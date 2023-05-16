@@ -6,7 +6,7 @@ import torch
 from llm.optimizers import get_optimizer
 
 
-@pytest.fixture
+@pytest.fixture()
 def model() -> torch.nn.Module:
     return torch.nn.Linear(1, 1)
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import pathlib
-from typing import Generator
+from collections.abc import Generator
 from unittest import mock
 
 import pytest
@@ -30,7 +30,7 @@ TINY_CONFIG = dict(
 )
 
 
-@pytest.fixture
+@pytest.fixture()
 def config(tmp_path: pathlib.Path) -> Generator[Config, None, None]:
     config_ = dict(
         PHASE=0,

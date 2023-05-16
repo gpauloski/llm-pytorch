@@ -2,10 +2,10 @@
 from __future__ import annotations
 
 import random
+from collections.abc import Iterator
+from collections.abc import Mapping
+from collections.abc import Sized
 from typing import Any
-from typing import Iterator
-from typing import Mapping
-from typing import Sized
 from typing import TypeVar
 
 import torch

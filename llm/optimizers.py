@@ -2,8 +2,8 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Iterable
 from typing import Any
-from typing import Iterable
 from typing import Literal
 
 import torch
@@ -51,7 +51,7 @@ def get_optimizer(
             logger.warning(
                 'ColossalAI with CUDA extensions is not installed so '
                 'defaulting to native PyTorch Adam. Better performance can be '
-                'enabled with ColossalAI\'s FusedAdam.',
+                "enabled with ColossalAI's FusedAdam.",
             )
             optimizer = torch.optim.Adam(params, lr=lr, **kwargs)
     elif name == 'lamb':  # pragma: no cover

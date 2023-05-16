@@ -4,8 +4,8 @@ from __future__ import annotations
 import logging
 import os
 import pathlib
+from collections.abc import Iterable
 from typing import Callable
-from typing import Iterable
 
 logger = logging.getLogger(__name__)
 NLTK_DOWNLOAD_DIR = str(pathlib.Path.home() / '.cache/nltk_data')
@@ -27,7 +27,7 @@ def combine_document_files(
 
     with open(output_file, 'w') as target:
         for filepath in filepaths:
-            with open(filepath, 'r') as f:
+            with open(filepath) as f:
                 document_lines = f.readlines()
                 sentences = []
                 for line in document_lines:
@@ -71,8 +71,8 @@ def read_documents_bytes(
 
     for current_file in files:
         with open(current_file, 'rb') as f:
-            for line in f.readlines():
-                line = line.strip()
+            for line_ in f.readlines():
+                line = line_.strip()
                 if len(line) == 0 and len(document_lines) > 0:
                     documents.append(b'\n'.join(document_lines))
                     document_lines = []
@@ -99,8 +99,8 @@ def write_documents(path: pathlib.Path | str, documents: list[str]) -> None:
     sent_tokenizer = get_sent_tokenizer()
 
     with open(path, 'w') as f:
-        for document in documents:
-            document = document.replace('\n', ' ')
+        for document_ in documents:
+            document = document_.replace('\n', ' ')
             sentences = sent_tokenizer(document)
             f.write('\n'.join(sentences))
             f.write('\n\n')
