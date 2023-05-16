@@ -95,14 +95,16 @@ def download_bookscorpus(
 
 @click.command()
 @click.option(
+    '-d',
     '--dataset',
     type=click.Choice(['wikipedia', 'bookscorpus'], case_sensitive=False),
     required=True,
     help='Dataset to download.',
 )
 @click.option(
-    '--output',
-    metavar='DIR',
+    '-o',
+    '--output-dir',
+    metavar='PATH',
     required=True,
     help='Output directory.',
 )
@@ -122,7 +124,7 @@ def download_bookscorpus(
 )
 def cli(
     dataset: Literal['wikipedia', 'bookcorpus'],
-    output: str,
+    output_dir: str,
     log_level: str,
     rich: bool,
 ) -> None:
@@ -130,9 +132,9 @@ def cli(
     init_logging(log_level, rich=rich)
 
     if dataset == 'wikipedia':
-        download_wikipedia(output)
+        download_wikipedia(output_dir)
     elif dataset == 'bookscorpus':
-        download_bookscorpus(output)
+        download_bookscorpus(output_dir)
     else:
         raise AssertionError('Unreachable.')
 

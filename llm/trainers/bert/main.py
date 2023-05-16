@@ -22,9 +22,9 @@ from llm.models import bert
 from llm.optimizers import get_optimizer
 from llm.schedulers import LinearWarmupLR
 from llm.timer import Timer
+from llm.trainers.bert.data import get_dataloader
+from llm.trainers.bert.data import get_dataset
 from llm.trainers.bert.utils import checkpoint
-from llm.trainers.bert.utils import get_dataloader
-from llm.trainers.bert.utils import get_dataset
 from llm.trainers.bert.utils import get_optimizer_grouped_parameters
 from llm.trainers.bert.utils import load_state
 from llm.trainers.bert.utils import parse_config
@@ -99,7 +99,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         extra={'ranks': [0]},
     )
 
-    dataset = get_dataset(config.DATA_DIR)
+    dataset = get_dataset(config.DATASET_CONFIG)
     logger.info(
         f'Dataset size on rank 0: {len(dataset)}',
         extra={'ranks': [0]},

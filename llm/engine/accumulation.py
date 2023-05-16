@@ -71,7 +71,7 @@ class GradientAccumulationOptimizer(BaseOptimizer):
 
         with context:
             scaled_loss = loss / self._accumulation_steps
-            scaled_loss.backward()
+            self._optimizer.backward(scaled_loss)
 
     def step(self, *args: Any, **kwargs: Any) -> None:
         """Perform an optimization step.

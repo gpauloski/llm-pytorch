@@ -10,6 +10,7 @@ import os
 import torch
 
 from llm.models import bert as bert_models
+from llm.trainers.bert.data import NvidiaBertDatasetConfig
 
 PHASE = 1
 BERT_CONFIG = bert_models.BERT_LARGE
@@ -25,8 +26,9 @@ SEED = 42
 
 # ACCUMULATION_STEPS is computed automatically by llm.trainers.bert
 if PHASE == 1:
-    MAX_SEQ_LENGTH = 128
-    DATA_DIR = '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/'  # noqa: E501
+    DATASET_CONFIG = NvidiaBertDatasetConfig(
+        '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/',  # noqa: E501
+    )
 
     GLOBAL_BATCH_SIZE = 65536
     BATCH_SIZE = 64
@@ -36,8 +38,9 @@ if PHASE == 1:
     LR = 6e-3
     WARMUP_STEPS = 2000
 elif PHASE == 2:
-    MAX_SEQ_LENGTH = 512
-    DATA_DIR = '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_512_max_pred_80_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/'  # noqa: E501
+    DATASET_CONFIG = NvidiaBertDatasetConfig(
+        '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_512_max_pred_80_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/',  # noqa: E501
+    )
 
     GLOBAL_BATCH_SIZE = 32768
     BATCH_SIZE = 16

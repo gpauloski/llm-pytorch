@@ -92,5 +92,5 @@ def test_cli() -> None:
         mock.patch('llm.preprocess.tokenizer.train_vocab'),
         mock.patch('llm.preprocess.tokenizer.init_logging'),
     ):
-        result = runner.invoke(cli, ['--input', 'x', '--output', 'y'])
+        result = runner.invoke(cli, ['x', '--output-file', 'y'])
         assert result.exit_code == 0

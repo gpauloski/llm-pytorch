@@ -89,7 +89,7 @@ class RoBERTaDataset(Dataset[Sample]):
             attention_mask=attention_mask,
             token_type_ids=token_type_ids,
             masked_labels=masked_labels,
-            next_sentence_label=None,
+            next_sentence_label=torch.tensor(0, dtype=torch.long),
         )
 
     def _lazy_load(self) -> None:

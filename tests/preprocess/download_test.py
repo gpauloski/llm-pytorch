@@ -16,19 +16,19 @@ def test_cli() -> None:
     with mock.patch('llm.preprocess.download.download_wikipedia'):
         result = runner.invoke(
             cli,
-            ['--dataset', 'wikipedia', '--output', '/tmp/download'],
+            ['--dataset', 'wikipedia', '--output-dir', '/tmp/download'],
         )
         assert result.exit_code == 0
 
     with mock.patch('llm.preprocess.download.download_bookscorpus'):
         result = runner.invoke(
             cli,
-            ['--dataset', 'bookscorpus', '--output', '/tmp/download'],
+            ['--dataset', 'bookscorpus', '--output-dir', '/tmp/download'],
         )
         assert result.exit_code == 0
 
     result = runner.invoke(
         cli,
-        ['--dataset', 'unknown', '--output', '/tmp/download'],
+        ['--dataset', 'unknown', '--output-dir', '/tmp/download'],
     )
     assert result.exit_code == 2

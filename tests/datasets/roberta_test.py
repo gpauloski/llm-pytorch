@@ -34,7 +34,7 @@ def test_roberta_dataset(tmp_path: pathlib.Path) -> None:
             == len(sample.token_type_ids)
             == len(sample.masked_labels)
         )
-        assert sample.next_sentence_label is None
+        assert sample.next_sentence_label == 0
 
         masked = sample.input_ids == mask_token_id
         masked_count = torch.sum(masked)

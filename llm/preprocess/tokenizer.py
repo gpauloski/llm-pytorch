@@ -6,7 +6,6 @@ python -m llm.preprocess.tokenizer --help
 """
 from __future__ import annotations
 
-import glob
 import logging
 import pathlib
 from typing import Any
@@ -101,25 +100,28 @@ def train_vocab(
 
 
 @click.command()
-@click.option(
-    '--input',
-    metavar='PATH',
+@click.argument(
+    'inputs',
+    metavar='FILEPATHS',
     required=True,
-    help='Glob of input text files to build vocab from.',
+    nargs=-1,
 )
 @click.option(
-    '--output',
+    '-o',
+    '--output-file',
     metavar='PATH',
     required=True,
     help='Output file to save serialized tokenizer to.',
 )
 @click.option(
+    '-s',
     '--size',
     default=30522,
     type=int,
     help='Size of vocabulary.',
 )
 @click.option(
+    '-t',
     '--tokenizer',
     type=click.Choice(['bpe', 'wordpiece'], case_sensitive=False),
     default='wordpiece',
@@ -153,8 +155,8 @@ def train_vocab(
     help='Use rich output formatting.',
 )
 def cli(
-    input: str,  # noqa: A002
-    output: str,
+    inputs: tuple[str],
+    output_file: str,
     size: int,
     tokenizer: Literal['bpe', 'wordpiece'],
     cased: bool,
@@ -162,18 +164,16 @@ def cli(
     log_level: str,
     rich: bool,
 ) -> None:
-    """Pre-training vocabulary builder.
+    """Train a tokenizer on FILEPATHS.
 
     Arguments default to the standard uncased BERT with wordpiece method.
     """
     init_logging(log_level, rich=rich)
 
-    input_files = glob.glob(input)
-
     train_vocab(
         tokenizer,
-        input_files=input_files,
-        output_file=output,
+        input_files=inputs,
+        output_file=output_file,
         size=size,
         lowercase=not cased,
         special_tokens=list(special_token),

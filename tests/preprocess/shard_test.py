@@ -69,6 +69,6 @@ def test_cli() -> None:
     ):
         result = runner.invoke(
             cli,
-            ['--input', 'x', '--output', 'y', '--size', '30 MB'],
+            ['x', '--output-dir', 'y', '--size', '30 MB'],
         )
         assert result.exit_code == 0

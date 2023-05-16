@@ -9,13 +9,11 @@ import torch
 
 from llm.config import Config
 from llm.models.bert import from_config
+from llm.trainers.bert.data import NvidiaBertDatasetConfig
 from llm.trainers.bert.utils import checkpoint
-from llm.trainers.bert.utils import get_dataloader
-from llm.trainers.bert.utils import get_dataset
 from llm.trainers.bert.utils import get_optimizer_grouped_parameters
 from llm.trainers.bert.utils import load_state
 from llm.trainers.bert.utils import parse_config
-from testing.datasets.bert import write_nvidia_bert_shard
 
 TINY_CONFIG = dict(
     vocab_size=1000,
@@ -40,7 +38,7 @@ def config(tmp_path: pathlib.Path) -> Generator[Config, None, None]:
         OPTIMIZER='adam',
         CHECKPOINT_DIR=str(tmp_path / 'checkpoint'),
         TENSORBOARD_DIR=str(tmp_path / 'tensorboard'),
-        DATA_DIR=str(tmp_path / 'data'),
+        DATASET_CONFIG=NvidiaBertDatasetConfig(tmp_path / 'data'),
         GLOBAL_BATCH_SIZE=128,
         BATCH_SIZE=16,
         STEPS=1000,
@@ -72,24 +70,6 @@ def test_parse_config_bad_type(config: Config) -> None:
 
     with pytest.raises(TypeError, match='str'):
         parse_config(config)
-
-
-def test_load_dataset_and_get_dataloader(tmp_path: pathlib.Path) -> None:
-    write_nvidia_bert_shard(tmp_path / 'shard.h5', samples=11, seq_len=16)
-
-    with (
-        mock.patch('torch.distributed.get_rank', return_value=0),
-        mock.patch('torch.distributed.get_world_size', return_value=1),
-    ):
-        dataset = get_dataset(tmp_path)
-
-    assert len(dataset) == 11
-    dataloader = get_dataloader(
-        dataset,
-        torch.utils.data.SequentialSampler(dataset),
-        batch_size=2,
-    )
-    assert len(dataloader) == 5
 
 
 def test_checkpoint(config: Config):
