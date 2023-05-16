@@ -156,6 +156,7 @@ extend-ignore = [
     # Allow pytest.raises() without match
     "PT011",
 ]
+unfixable = ["UP007"]
 target-version = "py39"
 
 [tool.ruff.flake8-pytest-style]

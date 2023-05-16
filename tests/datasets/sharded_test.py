@@ -47,7 +47,7 @@ def test_empty_dataset_params() -> None:
 
 
 @pytest.mark.parametrize(
-    'ranks,shard_samples,expected_samples_per_rank',
+    ('ranks', 'shard_samples', 'expected_samples_per_rank'),
     (
         (1, [100], 100),
         (1, [100, 200], 300),
@@ -130,7 +130,7 @@ def test_iterating_multiple_ranks() -> None:
 def test_sequential_sampler() -> None:
     dataset = range(100)
     sampler = ResumableSequentialSampler(dataset)
-    samples = [i for i in sampler]
+    samples = list(sampler)
     assert samples == list(dataset)
     assert len(dataset) == 100
 

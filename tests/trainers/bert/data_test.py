@@ -5,10 +5,10 @@ from unittest import mock
 
 import torch
 
-from llm.trainers.bert.data import NvidiaBertDatasetConfig
-from llm.trainers.bert.data import RobertaDatasetConfig
 from llm.trainers.bert.data import get_dataloader
 from llm.trainers.bert.data import get_dataset
+from llm.trainers.bert.data import NvidiaBertDatasetConfig
+from llm.trainers.bert.data import RobertaDatasetConfig
 from testing.datasets.bert import write_nvidia_bert_shard
 
 

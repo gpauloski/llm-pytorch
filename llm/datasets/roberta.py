@@ -130,7 +130,7 @@ def bert_mask_sequence(
 
     Returns:
         Masked `token_ids` and the masked labels.
-    """  # noqa: E501
+    """
     masked_labels = cast(torch.LongTensor, token_ids.clone())
 
     probability_matrix = torch.full(token_ids.shape, mask_token_prob)

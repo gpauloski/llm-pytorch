@@ -38,7 +38,7 @@ Deserunt mollit anim id est laborum.
 
 
 @pytest.mark.parametrize(
-    'text,expected',
+    ('text', 'expected'),
     (
         ('Hello.\n', ['Hello.']),
         ('Hello, there!', ['Hello, there!']),

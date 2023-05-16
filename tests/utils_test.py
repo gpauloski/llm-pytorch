@@ -6,8 +6,8 @@ from unittest import mock
 
 import pytest
 
-from llm.utils import DistributedFilter
 from llm.utils import create_summary_writer
+from llm.utils import DistributedFilter
 from llm.utils import get_filepaths
 from llm.utils import gradient_accumulation_steps
 from llm.utils import init_logging

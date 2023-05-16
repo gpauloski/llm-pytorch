@@ -8,9 +8,9 @@ from __future__ import annotations
 
 import logging
 import pathlib
+from collections.abc import Sequence
 from typing import Any
 from typing import Literal
-from typing import Sequence
 
 import click
 import tokenizers

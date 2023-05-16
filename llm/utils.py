@@ -3,8 +3,8 @@ from __future__ import annotations
 import logging
 import pathlib
 import sys
+from collections.abc import Iterable
 from typing import Any
-from typing import Iterable
 from typing import Union
 
 import torch.distributed as dist

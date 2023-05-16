@@ -64,7 +64,7 @@ def test_flattened_config() -> None:
 
 
 @pytest.mark.parametrize(
-    'in_,out,kwargs',
+    ('in_', 'out', 'kwargs'),
     (
         ({}, {}, {}),
         ({'a': 1}, {'a': 1}, {}),

@@ -4,10 +4,10 @@ import collections
 import inspect
 import pathlib
 import types
+from collections.abc import Iterable
+from collections.abc import Mapping
 from importlib.machinery import SourceFileLoader
 from typing import Any
-from typing import Iterable
-from typing import Mapping
 from typing import Union
 
 import torch.distributed as dist

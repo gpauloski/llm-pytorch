@@ -1,14 +1,14 @@
 """NVIDIA BERT dataset provider.
 
 Source: https://github.com/hpcaitech/ColossalAI-Examples/blob/e0830ccc1bbc57f9c50bb1c00f3e23239bf1e231/language/roberta/pretraining/nvidia_bert_dataset_provider.py
-"""  # noqa: D405, E501
+"""
 from __future__ import annotations
 
 import random
 from collections.abc import Generator
 from typing import Any
-from typing import NamedTuple
 from typing import cast
+from typing import NamedTuple
 
 import h5py
 import numpy as np

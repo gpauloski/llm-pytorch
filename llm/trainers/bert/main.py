@@ -122,7 +122,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         for batch_index, batch in enumerate(dataloader):
             micro_step += 1
 
-            batch = Batch(*[t.cuda() for t in batch])
+            batch = Batch(*[t.cuda() for t in batch])  # noqa: PLW2901
             optimizer.zero_grad()
             output = model(
                 input_ids=batch.input_ids,

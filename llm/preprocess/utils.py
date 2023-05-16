@@ -32,7 +32,7 @@ def readable_to_bytes(size: str) -> int:
         ValueError: If the unit is not one of KB, MB, GB, TB, KiB, MiB, GiB,
             or TiB.
         ValueError: If the value cannot be cast to a float.
-    """  # noqa: E501
+    """
     units_to_bytes = dict(
         b=1,
         kb=int(1e3),

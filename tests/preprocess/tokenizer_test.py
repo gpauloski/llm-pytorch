@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import pathlib
-from typing import Generator
 from typing import Literal
 from unittest import mock
 
@@ -36,10 +35,8 @@ def test_tokenizer_with_max_seq_len(kind: Literal['bpe', 'wordpiece']) -> None:
     )
 
 
-@pytest.fixture
-def input_files(
-    tmp_path: pathlib.Path,
-) -> Generator[list[pathlib.Path], None, None]:
+@pytest.fixture()
+def input_files(tmp_path: pathlib.Path) -> list[pathlib.Path]:
     files = []
     for i in range(3):
         input_file = tmp_path / f'{i}.txt'
@@ -48,11 +45,11 @@ def input_files(
                 f.write(random_document(sentences=7))
         files.append(input_file)
 
-    yield files
+    return files
 
 
 @pytest.mark.parametrize(
-    'kind,lowercase,special',
+    ('kind', 'lowercase', 'special'),
     (
         ('bpe', True, []),
         ('wordpiece', False, ['__PAD__', '__MASK__']),

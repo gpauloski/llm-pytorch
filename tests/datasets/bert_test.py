@@ -8,12 +8,12 @@ import numpy as np
 import pytest
 
 from llm.datasets.bert import Batch
-from llm.datasets.bert import NvidiaBertDataset
-from llm.datasets.bert import Sample
-from llm.datasets.bert import WorkerInitObj
 from llm.datasets.bert import get_dataloader_from_nvidia_bert_shard
 from llm.datasets.bert import get_masked_labels
+from llm.datasets.bert import NvidiaBertDataset
+from llm.datasets.bert import Sample
 from llm.datasets.bert import sharded_nvidia_bert_dataset
+from llm.datasets.bert import WorkerInitObj
 from testing.datasets.bert import write_nvidia_bert_shard
 
 NUM_FILE = 3
@@ -45,7 +45,7 @@ def test_worker_init() -> None:
 
 
 @pytest.mark.parametrize(
-    'seq_len,masked_lm_positions,masked_lm_ids,result',
+    ('seq_len', 'masked_lm_positions', 'masked_lm_ids', 'result'),
     (
         (1, [], [], [-100]),
         (2, [1], [42], [-100, 42]),

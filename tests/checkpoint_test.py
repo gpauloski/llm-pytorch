@@ -24,7 +24,7 @@ def states_equal(
 
 
 @pytest.mark.parametrize(
-    'step,model,optimizer,scheduler,kwargs',
+    ('step', 'model', 'optimizer', 'scheduler', 'kwargs'),
     (
         (0, MODEL, None, None, {}),
         (1, MODEL, OPTIMIZER, SCHEDULER, {'phase': 1}),
