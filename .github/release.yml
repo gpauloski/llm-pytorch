@@ -5,34 +5,30 @@ changelog:
     authors:
       - pre-commit-ci
   categories:
-    # All PRs tagged as "breaking"
     - title: Breaking Changes
       labels:
         - breaking
-    # All PRs tagged as "feature"
-    - title: New Features
+    - title: Enhancements
       labels:
-        - feature
-    # All PRs tagged as "bug"
+        - enhancement
     - title: Bug Fixes
       labels:
         - bug
-    # All PRs not tagged as the above or below
     - title: Internal Changes
       labels:
         - internal
-      exclude:
-        labels:
-          - dependencies
-          - documentation
-    # All PRs tagged as documentation
     - title: Documentation
       labels:
         - documentation
-    # All PRs tagged "dependencies"
-    - title: Dependencies
+    - title: Package Changes
       labels:
-        - dependencies
+        - package
+    - title: Development Workflows
+      labels:
+        - development
+    - title: Security
+      labels:
+        - security
     # All PRs not tagged as the above
     - title: Other Changes
       labels:

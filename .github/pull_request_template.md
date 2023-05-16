@@ -1,33 +1,41 @@
+<!---
+    Please fill out the following template for the PR. Some parts may not
+    apply to every PR type, so N/A can be used as necessary.
+--->
+
 # Description
 <!--- Describe your changes in detail --->
 
 
 ### Fixes
-<!--- List any issue numbers that this PR addresses (or remove) --->
+<!--- List any issue numbers above that this PR addresses --->
 
 - Fixes #XX
 - Fixes #XX
 
 ### Type of Change
-<!--- Check which off the following types describe this PR --->
+<!---
+    Check which off the following types describe this PR.
+    These correspond to PR tags.
+--->
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Internal change (non-breaking change for internal code changes)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update (no changes to the code)
-- [ ] CI change (changes to CI workflows, packages, templates, etc.)
-- [ ] Dependency changes (changes to the package or dependency versions)
+- [ ] Breaking Change (fix or enhancement which changes existing semantics of the public interface)
+- [ ] Enhancement (new features or improvements to existing functionality)
+- [ ] Bug (fixes for a bug or issue)
+- [ ] Internal (refactoring, style changes, testing, optimizations)
+- [ ] Documentation update (changes to documentation or examples)
+- [ ] Package (dependencies, versions, package metadata)
+- [ ] Development (CI workflows, pre-commit, linters, templates)
+- [ ] Security (security related changes)
 
 ## Testing
 <!--- Please describe the test ran to verify changes --->
 
-N/A
 
 ## Pull Request Checklist
 
 Please confirm the PR meets the following requirements.
-- [ ] Tags added to PR (e.g., breaking, bug, dependencies, documentation, feature, refactor).
+- [ ] Tags added to PR (e.g., breaking, bug, enhancement, internal, documentation, package, development, security).
 - [ ] Code changes pass `pre-commit` (e.g., black, mypy, ruff, etc.).
 - [ ] Tests have been added to show the fix is effective or that the new feature works.
 - [ ] New and existing unit tests pass locally with the changes.
