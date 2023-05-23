@@ -2,227 +2,227 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/known-issues/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/checkpoint/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/cli/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/config/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/environment/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/initialize/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/loss/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/optimizers/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/schedulers/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/timer/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/utils/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/datasets/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/datasets/bert/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/datasets/roberta/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/datasets/sharded/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/engine/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/engine/accumulation/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/engine/amp/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/engine/base/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/engine/initialize/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/models/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/models/bert/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/preprocess/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/preprocess/download/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/preprocess/format/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/preprocess/roberta/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/preprocess/shard/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/preprocess/tokenizer/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/preprocess/utils/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/trainers/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/trainers/bert/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/trainers/bert/convert/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/trainers/bert/data/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/trainers/bert/main/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/api/trainers/bert/utils/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/contributing/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/contributing/issues-pull-requests/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/contributing/style-guide/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/guides/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/guides/bert-pretraining/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/guides/roberta-preprocessing/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/installation/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://gregpauloski.com/llm-pytorch/main/installation/polaris/</loc>
-         <lastmod>2023-05-16</lastmod>
+         <lastmod>2023-05-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
