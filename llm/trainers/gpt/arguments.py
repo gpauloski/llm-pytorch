@@ -7,6 +7,7 @@ from collections.abc import Sequence
 
 from transformers import SchedulerType
 
+from llm.kfac import add_kfac_options
 from llm.trainers.gpt.model import MODEL_TYPES
 
 
@@ -244,6 +245,17 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
             'integrations. Only applicable when `--with_tracking` is passed.'
         ),
     )
+    parser.add_argument(
+        '--low_cpu_mem_usage',
+        action='store_true',
+        help=(
+            'It is an option to create the model as an empty shell, then '
+            'only materialize its parameters when the pretrained weights are '
+            'loaded. If passed, LLM loading time and RAM consumption will be '
+            'benefited.'
+        ),
+    )
+    add_kfac_options(parser)
     args = parser.parse_args(argv)
 
     if (

@@ -25,6 +25,7 @@ import math
 import os
 import pprint
 from collections.abc import Sequence
+from typing import Any
 
 import torch
 from accelerate import Accelerator
@@ -40,6 +41,7 @@ from llm.trainers.gpt.data import get_datasets
 from llm.trainers.gpt.data import preprocess_datasets
 from llm.trainers.gpt.model import load_model
 from llm.trainers.gpt.optimizer import get_optimizer
+from llm.trainers.gpt.optimizer import get_preconditioner
 
 logger = logging.getLogger('llm.trainers.gpt')
 
@@ -92,6 +94,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         model_type=args.model_type,
         tokenizer_name=args.tokenizer_name,
         use_slow_tokenizer=args.use_slow_tokenizer,
+        low_cpu_mem_usage=args.low_cpu_mem_usage,
     )
 
     lm_datasets = preprocess_datasets(
@@ -123,6 +126,25 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         learning_rate=args.learning_rate,
         weight_decay=args.weight_decay,
     )
+
+    preconditioner: Any = None
+    if args.kfac:
+        preconditioner = get_preconditioner(
+            model,
+            factor_update_steps=args.kfac_factor_update_steps,
+            inv_update_steps=args.kfac_inv_update_steps,
+            learning_rate=lambda x: optimizer.param_groups[0]['lr'],
+            # accumulation_steps=args.gradient_accumulation_steps,
+            accumulation_steps=1,
+            damping=args.kfac_damping,
+            factor_decay=args.kfac_factor_decay,
+            kl_clip=args.kfac_kl_clip,
+            skip_layers=['Embedding', 'lm_head'],
+        )
+        logger.info(
+            f'Training with KFAC:\n{preconditioner}',
+            extra={'ranks': [0]},
+        )
 
     # Scheduler and math around the number of training steps.
     overrode_max_train_steps = False
@@ -281,6 +303,11 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                 if args.with_tracking:
                     total_loss += loss.detach().float()
                 accelerator.backward(loss)
+                if (
+                    preconditioner is not None
+                    and step % args.gradient_accumulation_steps == 0
+                ):
+                    preconditioner.step()
                 optimizer.step()
                 lr_scheduler.step()
                 optimizer.zero_grad()

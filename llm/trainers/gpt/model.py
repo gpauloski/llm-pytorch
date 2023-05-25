@@ -22,6 +22,7 @@ def load_model(
     model_type: str | None = None,
     tokenizer_name: str | None = None,
     use_slow_tokenizer: bool = False,
+    low_cpu_mem_usage: bool = False,
 ) -> tuple[transformers.PreTrainedModel, transformers.PreTrainedTokenizer]:
     """Load pretrained model and tokenizer.
 
@@ -61,6 +62,7 @@ def load_model(
             model_name_or_path,
             from_tf=bool('.ckpt' in model_name_or_path),
             config=config,
+            low_cpu_mem_usage=low_cpu_mem_usage,
         )
     else:
         logger.info('Training new model from scratch', extra={'ranks': [0]})
