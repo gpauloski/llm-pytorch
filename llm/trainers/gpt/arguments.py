@@ -197,24 +197,6 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help='Do not keep line breaks when using TXT files.',
     )
     parser.add_argument(
-        '--push_to_hub',
-        action='store_true',
-        help='Whether or not to push the model to the Hub.',
-    )
-    parser.add_argument(
-        '--hub_model_id',
-        type=str,
-        help=(
-            'The name of the repository to keep in sync with the local '
-            '`output_dir`.'
-        ),
-    )
-    parser.add_argument(
-        '--hub_token',
-        type=str,
-        help='The token to use to push to the Model Hub.',
-    )
-    parser.add_argument(
         '--checkpointing_steps',
         type=str,
         default=None,
@@ -228,22 +210,6 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         type=str,
         default=None,
         help='If the training should continue from a checkpoint folder.',
-    )
-    parser.add_argument(
-        '--with_tracking',
-        action='store_true',
-        help='Whether to enable experiment trackers for logging.',
-    )
-    parser.add_argument(
-        '--report_to',
-        type=str,
-        default='all',
-        help=(
-            'The integration to report the results and logs to. '
-            'Supported platforms are `"tensorboard"`, `"wandb"`, `"comet_ml"` '
-            'and `"clearml"`. Use `"all"` (default) to report to all'
-            'integrations. Only applicable when `--with_tracking` is passed.'
-        ),
     )
     parser.add_argument(
         '--low_cpu_mem_usage',

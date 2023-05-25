@@ -30,18 +30,21 @@ from typing import Any
 import torch
 from accelerate import Accelerator
 from torch.utils.data import DataLoader
-from tqdm.auto import tqdm
+from torch.utils.tensorboard import SummaryWriter
 from transformers import default_data_collator
 from transformers import get_scheduler
 
 from llm.environment import log_environment
 from llm.initialize import initialize as initialize_environment
+from llm.timer import Timer
 from llm.trainers.gpt.arguments import parse_args
 from llm.trainers.gpt.data import get_datasets
 from llm.trainers.gpt.data import preprocess_datasets
 from llm.trainers.gpt.model import load_model
 from llm.trainers.gpt.optimizer import get_optimizer
 from llm.trainers.gpt.optimizer import get_preconditioner
+from llm.utils import create_summary_writer
+from llm.utils import log_step
 
 logger = logging.getLogger('llm.trainers.gpt')
 
@@ -63,18 +66,9 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     logger.info(pprint.pformat(vars(args), indent=2), extra={'ranks': [0]})
 
     # Initialize the accelerator. We will let the accelerator handle device
-    # placement for us in this example. If we're using tracking, we also need
-    # to initialize it here and it will by default pick up all supported
-    # trackers in the environment
-    accelerator_log_kwargs = {}
-
-    if args.with_tracking:
-        accelerator_log_kwargs['log_with'] = args.report_to
-        accelerator_log_kwargs['logging_dir'] = args.output_dir
-
+    # placement for us in this example.
     accelerator = Accelerator(
         gradient_accumulation_steps=args.gradient_accumulation_steps,
-        **accelerator_log_kwargs,
     )
 
     logger.info(accelerator.state, extra={'ranks': [0]})
@@ -200,17 +194,6 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     if checkpointing_steps is not None and checkpointing_steps.isdigit():
         checkpointing_steps = int(checkpointing_steps)
 
-    # We need to initialize the trackers we use, and also store our
-    # configuration. The trackers initializes automatically on the main
-    # process.
-    if args.with_tracking:
-        experiment_config = vars(args)
-        # TensorBoard cannot log Enums, need the raw value
-        experiment_config['lr_scheduler_type'] = experiment_config[
-            'lr_scheduler_type'
-        ].value
-        accelerator.init_trackers('clm_no_trainer', experiment_config)
-
     # Train!
     total_batch_size = (
         args.per_device_train_batch_size
@@ -238,11 +221,6 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         extra={'ranks': [0]},
     )
 
-    # Only show the progress bar once on each machine.
-    progress_bar = tqdm(
-        range(args.max_train_steps),
-        disable=not accelerator.is_local_main_process,
-    )
     completed_steps = 0
     starting_epoch = 0
 
@@ -279,29 +257,39 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             starting_epoch = resume_step // len(train_dataloader)
             resume_step -= starting_epoch * len(train_dataloader)
 
-    # update the progress_bar if load from checkpoint
-    progress_bar.update(starting_epoch * num_update_steps_per_epoch)
+    writer: SummaryWriter | None = None
     completed_steps = starting_epoch * num_update_steps_per_epoch
+    global_step_timer = Timer()
+    step_loss = 0.0
 
     for epoch in range(starting_epoch, args.num_train_epochs):
         model.train()
-        if args.with_tracking:
-            total_loss = torch.tensor(0.0).to(model.device)
         for step, batch in enumerate(train_dataloader):
             # We need to skip steps until we reach the resumed step
             if args.resume_from_checkpoint and epoch == starting_epoch:
                 if resume_step is not None and step < resume_step:
                     if step % args.gradient_accumulation_steps == 0:
-                        progress_bar.update(1)
                         completed_steps += 1
                     continue
+
+            if writer is None:
+                writer = create_summary_writer(
+                    os.path.join(args.output_dir, 'tensorboard'),
+                    vars(args),
+                    [
+                        'train/loss',
+                        'train/lr',
+                        'train/epoch',
+                        'train/samples_per_second',
+                    ],
+                    purge_step=completed_steps,
+                )
 
             with accelerator.accumulate(model):
                 outputs = model(**batch)
                 loss = outputs.loss
                 # We keep track of the loss at each epoch
-                if args.with_tracking:
-                    total_loss += loss.detach().float()
+                step_loss += loss.float().item()
                 accelerator.backward(loss)
                 if (
                     preconditioner is not None
@@ -315,8 +303,22 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             # Checks if the accelerator has performed an optimization step
             # behind the scenes
             if accelerator.sync_gradients:
-                progress_bar.update(1)
                 completed_steps += 1
+                step_time = global_step_timer.lap()
+                log_step(
+                    logger,
+                    step=completed_steps,
+                    epoch=epoch,
+                    loss=step_loss / args.gradient_accumulation_steps,
+                    samples_per_second=total_batch_size / step_time,
+                    time=step_time,
+                    lr=lr_scheduler.get_last_lr()[0],
+                    fmt_str=LOG_FMT,
+                    writer=writer,
+                    tensorboard_prefix='train',
+                    skip_tensorboard=['phase', 'time'],
+                )
+                step_loss = 0.0
 
             if isinstance(checkpointing_steps, int):
                 if completed_steps % checkpointing_steps == 0:
@@ -348,30 +350,16 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             perplexity = float('inf')
 
         logger.info(
-            f'epoch {epoch}: perplexity: {perplexity} eval_loss: {eval_loss}',
+            f'Validation | epoch: {epoch} | eval_loss: {eval_loss:.3f} | '
+            f'perplexity: {perplexity:.3f}',
             extra={'ranks': [0]},
         )
-
-        if args.with_tracking:
-            accelerator.log(
-                {
-                    'perplexity': perplexity,
-                    'eval_loss': eval_loss,
-                    'train_loss': total_loss.item() / len(train_dataloader),
-                    'epoch': epoch,
-                    'step': completed_steps,
-                },
-                step=completed_steps,
-            )
 
         if args.checkpointing_steps == 'epoch':
             output_dir = f'epoch_{epoch}'
             if args.output_dir is not None:
                 output_dir = os.path.join(args.output_dir, output_dir)
             accelerator.save_state(output_dir)
-
-    if args.with_tracking:
-        accelerator.end_training()
 
     if args.output_dir is not None:
         accelerator.wait_for_everyone()
@@ -388,5 +376,21 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                 'w',
             ) as f:
                 json.dump({'perplexity': perplexity}, f)
+
+    if writer is not None:
+        writer.close()
+
+    step_time = global_step_timer.get_history_mean()
+    # Stop timer after getting avg step time because it will add a history
+    # entry from between end of last step and now
+    global_step_timer.stop()
+    total_time = global_step_timer.get_history_sum()
+
+    logger.info(
+        'Training complete ('
+        f'total training time (s): {total_time:.3f}, '
+        f'avg step time (s): {step_time:.3f})',
+        extra={'ranks': [0]},
+    )
 
     return 0
