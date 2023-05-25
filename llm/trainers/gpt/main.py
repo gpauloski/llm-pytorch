@@ -69,6 +69,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
     # placement for us in this example.
     accelerator = Accelerator(
         gradient_accumulation_steps=args.gradient_accumulation_steps,
+        mixed_precision=args.mixed_precision,
     )
 
     logger.info(accelerator.state, extra={'ranks': [0]})

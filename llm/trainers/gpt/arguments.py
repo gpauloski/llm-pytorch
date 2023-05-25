@@ -93,6 +93,12 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help='Batch size (per device) for the evaluation dataloader.',
     )
     parser.add_argument(
+        '--mixed_precision',
+        choices=['no', 'fp8', 'fp16', 'bf16'],
+        default='no',
+        help='Select mixed precision training dtype.',
+    )
+    parser.add_argument(
         '--learning_rate',
         type=float,
         default=5e-5,
