@@ -112,6 +112,7 @@ nav:
   - Guides:
       - guides/index.md
       - BERT Pretraining: guides/bert-pretraining.md
+      - GPT Pretraining: guides/gpt-pretraining.md
       - RoBERTa Preprocessing: guides/roberta-preprocessing.md
   - API Reference:
       - LLM PyTorch: api/
