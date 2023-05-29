@@ -213,9 +213,8 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument(
         '--resume_from_checkpoint',
-        type=str,
-        default=None,
-        help='If the training should continue from a checkpoint folder.',
+        action='store_true',
+        help='If the training should continue from the checkpoint folder.',
     )
     parser.add_argument(
         '--low_cpu_mem_usage',

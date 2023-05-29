@@ -142,15 +142,11 @@ either a path to a saved HuggingFace model directory or the name of a model on
 the [HuggingFace Hub](https://huggingface.co/models){target=_blank}.
 
 Here's some useful options:
-- `--model_name_or_path EleutherAI/gpt-neo-125m`
-   - Small GPT model useful for debugging
-- `--model_name_or_path EleutherAI/gpt-neo-1.3B`
-   - Works with K-FAC and is almost the same size as GPT-2
-- `--model_name_or_path EleutherAI/gpt-neox-20b`
-   - GPT NeoX 20B
-- `--model_name_or_path gpt2`
-   - HuggingFace's GPT-2 implementation
-   - Uses Conv1D layers instead of Linear layers so does not work with K-FAC
+
+* `--model_name_or_path EleutherAI/gpt-neo-125m`: Small GPT model useful for debugging.
+* `--model_name_or_path EleutherAI/gpt-neo-1.3B`: Works with K-FAC and is almost the same size as GPT-2.
+* `--model_name_or_path EleutherAI/gpt-neox-20b`: GPT NeoX 20B.
+* `--model_name_or_path gpt2`: HuggingFace's GPT-2 implementation which uses Conv1D layers instead of Linear layers so does not work with K-FAC.
 
 Note that the `--low_cpu_mem_usage` option will instantiate the model
 architecture for pretraining without downloading the actual weights.
@@ -168,6 +164,7 @@ or CSV/JSON/text files.
 To use an existing dataset via the [Dataset Hub](https://huggingface.co/datasets){target=_blank},
 find the name of the dataset and the name of the subset.
 ```bash
+# Generic format
 --dataset_name {name} --dataset_config_name {subset}
 # WikiText (good for testing)
 --dataset_name wikitext --dataset_config_name wikitext-2-raw-v1
@@ -181,4 +178,4 @@ find the name of the dataset and the name of the subset.
 
 Checkpointing is not enabled by default. Use `--checkpointing_steps {STEPS}`
 to enable checkpointing. To resume training from a checkpoint, add
-`--resume_from_checkpoint {CHECKPOINT_DIRECTORY}`.
+`--resume_from_checkpoint`.

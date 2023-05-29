@@ -23,7 +23,9 @@ import json
 import logging
 import math
 import os
+import pathlib
 import pprint
+import re
 from collections.abc import Sequence
 from typing import Any
 
@@ -224,37 +226,36 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
 
     completed_steps = 0
     starting_epoch = 0
+    resume_step = 0
 
     # Potentially load in the weights and states from a previous save
-    if args.resume_from_checkpoint:
-        if (
-            args.resume_from_checkpoint is not None
-            or args.resume_from_checkpoint != ''
-        ):
+    args.checkpoint_dir = (
+        'checkpoints'
+        if args.output_dir is None
+        else os.path.join(args.output_dir, 'checkpoints')
+    )
+    if args.resume_from_checkpoint and os.path.isdir(args.checkpoint_dir):
+        # Get the most recent checkpoint
+        dir_path = pathlib.Path(args.checkpoint_dir)
+        checkpoint_pattern = re.compile(r'^step_(\d+)$')
+        checkpoints = {
+            match.group(1): str(p)
+            for p in dir_path.iterdir()
+            if (match := checkpoint_pattern.fullmatch(p.name)) is not None
+        }
+
+        if len(checkpoints) > 0:
+            checkpoint_step = max(int(key) for key in checkpoints)
+            resume_path = dir_path / f'step_{checkpoint_step}'
+
             logger.info(
-                f'Resumed from checkpoint: {args.resume_from_checkpoint}',
+                f'Resumed from checkpoint: {resume_path}',
                 extra={'ranks': [0]},
             )
-            accelerator.load_state(args.resume_from_checkpoint)
-            path = os.path.basename(args.resume_from_checkpoint)
-        else:
-            # Get the most recent checkpoint
-            dirs = [f.name for f in os.scandir(os.getcwd()) if f.is_dir()]
-            dirs.sort(key=os.path.getctime)
-            # Sorts folders by date modified, most recent checkpoint is last
-            path = dirs[-1]
-        # Extract `epoch_{i}` or `step_{i}`
-        training_difference = os.path.splitext(path)[0]
+            accelerator.load_state(resume_path)
 
-        if 'epoch' in training_difference:
-            starting_epoch = int(training_difference.replace('epoch_', '')) + 1
-            resume_step = None
-        else:
             # Multiply `gradient_accumulation_steps` to reflect real steps
-            resume_step = (
-                int(training_difference.replace('step_', ''))
-                * args.gradient_accumulation_steps
-            )
+            resume_step = checkpoint_step * args.gradient_accumulation_steps
             starting_epoch = resume_step // len(train_dataloader)
             resume_step -= starting_epoch * len(train_dataloader)
 
@@ -321,11 +322,13 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                 )
                 step_loss = 0.0
 
-            if isinstance(checkpointing_steps, int):
+            if (
+                isinstance(checkpointing_steps, int)
+                and accelerator.sync_gradients
+            ):
                 if completed_steps % checkpointing_steps == 0:
                     output_dir = f'step_{completed_steps }'
-                    if args.output_dir is not None:
-                        output_dir = os.path.join(args.output_dir, output_dir)
+                    output_dir = os.path.join(args.checkpoint_dir, output_dir)
                     accelerator.save_state(output_dir)
             if completed_steps >= args.max_train_steps:
                 break
@@ -355,12 +358,6 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             f'perplexity: {perplexity:.3f}',
             extra={'ranks': [0]},
         )
-
-        if args.checkpointing_steps == 'epoch':
-            output_dir = f'epoch_{epoch}'
-            if args.output_dir is not None:
-                output_dir = os.path.join(args.output_dir, output_dir)
-            accelerator.save_state(output_dir)
 
     if args.output_dir is not None:
         accelerator.wait_for_everyone()
