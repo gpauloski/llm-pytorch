@@ -131,8 +131,9 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             factor_update_steps=args.kfac_factor_update_steps,
             inv_update_steps=args.kfac_inv_update_steps,
             learning_rate=lambda x: optimizer.param_groups[0]['lr'],
-            # accumulation_steps=args.gradient_accumulation_steps,
-            accumulation_steps=1,
+            # Ignored because update_factors_in_hook is False
+            accumulation_steps=args.gradient_accumulation_steps,
+            update_factors_in_hook=False,
             damping=args.kfac_damping,
             factor_decay=args.kfac_factor_decay,
             kl_clip=args.kfac_kl_clip,
@@ -254,6 +255,15 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             )
             accelerator.load_state(resume_path)
 
+            kfac_path = resume_path / 'kfac.pt'
+            if kfac_path.is_file() and preconditioner is not None:
+                kfac_state_dict = torch.load(kfac_path)
+                preconditioner.load_state_dict(kfac_state_dict)
+                logger.info(
+                    'Loaded KFAC state from checkpoint',
+                    extra={'ranks': [0]},
+                )
+
             # Multiply `gradient_accumulation_steps` to reflect real steps
             resume_step = checkpoint_step * args.gradient_accumulation_steps
             starting_epoch = resume_step // len(train_dataloader)
@@ -325,11 +335,17 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
             if (
                 isinstance(checkpointing_steps, int)
                 and accelerator.sync_gradients
+                and completed_steps % checkpointing_steps == 0
             ):
-                if completed_steps % checkpointing_steps == 0:
-                    output_dir = f'step_{completed_steps }'
-                    output_dir = os.path.join(args.checkpoint_dir, output_dir)
-                    accelerator.save_state(output_dir)
+                output_dir = f'step_{completed_steps }'
+                output_dir = os.path.join(args.checkpoint_dir, output_dir)
+                accelerator.save_state(output_dir)
+                if preconditioner is not None and accelerator.is_main_process:
+                    torch.save(
+                        preconditioner.state_dict(),
+                        os.path.join(output_dir, 'kfac.pt'),
+                    )
+
             if completed_steps >= args.max_train_steps:
                 break
 
