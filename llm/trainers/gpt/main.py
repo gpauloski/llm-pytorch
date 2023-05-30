@@ -124,26 +124,6 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         weight_decay=args.weight_decay,
     )
 
-    preconditioner: Any = None
-    if args.kfac:
-        preconditioner = get_preconditioner(
-            model,
-            factor_update_steps=args.kfac_factor_update_steps,
-            inv_update_steps=args.kfac_inv_update_steps,
-            learning_rate=lambda x: optimizer.param_groups[0]['lr'],
-            # Ignored because update_factors_in_hook is False
-            accumulation_steps=args.gradient_accumulation_steps,
-            update_factors_in_hook=False,
-            damping=args.kfac_damping,
-            factor_decay=args.kfac_factor_decay,
-            kl_clip=args.kfac_kl_clip,
-            skip_layers=['Embedding', 'lm_head'],
-        )
-        logger.info(
-            f'Training with KFAC:\n{preconditioner}',
-            extra={'ranks': [0]},
-        )
-
     # Scheduler and math around the number of training steps.
     overrode_max_train_steps = False
     num_update_steps_per_epoch = math.ceil(
@@ -163,6 +143,26 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
         num_training_steps=args.max_train_steps
         * args.gradient_accumulation_steps,
     )
+
+    preconditioner: Any = None
+    if args.kfac:
+        preconditioner = get_preconditioner(
+            model,
+            factor_update_steps=args.kfac_factor_update_steps,
+            inv_update_steps=args.kfac_inv_update_steps,
+            learning_rate=lambda x: lr_scheduler.get_last_lr()[0],
+            # Ignored because update_factors_in_hook is False
+            accumulation_steps=args.gradient_accumulation_steps,
+            update_factors_in_hook=False,
+            damping=args.kfac_damping,
+            factor_decay=args.kfac_factor_decay,
+            kl_clip=args.kfac_kl_clip,
+            skip_layers=['Embedding', 'lm_head'],
+        )
+        logger.info(
+            f'Training with KFAC:\n{preconditioner}',
+            extra={'ranks': [0]},
+        )
 
     # Prepare everything with our `accelerator`.
     (

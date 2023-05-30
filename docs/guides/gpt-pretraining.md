@@ -113,7 +113,7 @@ else
 fi
 
 # Training script and parameters
-CMD="$LAUNCHER -m llm.trainers.gpt --config $OPTIONS"
+CMD="$LAUNCHER -m llm.trainers.gpt $OPTIONS"
 echo "Training Command: $CMD"
 
 mpiexec --hostfile $PBS_NODEFILE -np $NNODES --env OMP_NUM_THREADS=8 --cpu-bind none $CMD
