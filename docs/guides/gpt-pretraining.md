@@ -50,7 +50,7 @@ set up the distributed environment according to your job parameters.
 Note that this example trains a small 125M parameter GPT model on WikiText.
 Highlighted lines contain information that you must complete yourself.
 
-```bash title="pretrain.pbs" linenums="1" hl_lines="2 3 4 6 7 40"
+```bash title="pretrain.pbs" linenums="1" hl_lines="2 3 4 6 7 43"
 #!/bin/bash
 #PBS -A __ALLOCATION__
 #PBS -q __QUEUE__
@@ -75,8 +75,11 @@ OPTIONS+="--model_name_or_path EleutherAI/gpt-neo-125m "
 
 # Logging/checkpointing options
 OPTIONS+="--output_dir runs/gpt-neo-125m-pretraining "
+OPTIONS+="--checkpointing_steps 1000 "
+OPTIONS+="--resume_from_checkpoint "
 
 # Training parameters
+OPTIONS+="--max_train_steps 10000 "
 OPTIONS+="--per_device_train_batch_size 1 "
 OPTIONS+="--per_device_eval_batch_size 1 "
 OPTIONS+="--gradient_accumulation_steps 8 "
@@ -174,8 +177,19 @@ find the name of the dataset and the name of the subset.
 --dataset_name NeelNanda/pile-10k
 ```
 
+Datasets are downloaded to `~/.cache/huggingface/datasets`.
+This can be changed by setting `HF_DATASETS_CACHE`.
+```bash
+$ export HF_DATASETS_CACHE="/path/to/another/directory"
+```
+
 ### Checkpointing
 
 Checkpointing is not enabled by default. Use `--checkpointing_steps {STEPS}`
 to enable checkpointing. To resume training from a checkpoint, add
 `--resume_from_checkpoint`.
+
+## Limitations
+
+* FP16 training with HuggingFace Accelerate is faster than FP32 but still
+  uses the same amount of memory.
