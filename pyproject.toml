@@ -19,6 +19,7 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: CPython",
 ]
 dependencies = [
+    "accelerate",
     "click",
     "datasets",
     "h5py",
@@ -42,6 +43,7 @@ namespaces = false
 
 [project.optional-dependencies]
 colossalai = ["colossalai"]
+kfac = ["kfac-pytorch@git+https://github.com/gpauloski/kfac-pytorch"]
 dev = [
     "black",
     "covdefaults>=2.2",
@@ -84,6 +86,7 @@ dist,
 [tool.coverage.run]
 plugins = ["covdefaults"]
 concurrency = ["multiprocessing", "thread"]
+omit = ["llm/trainers/gpt/*"]
 parallel = true
 
 [tool.mypy]
