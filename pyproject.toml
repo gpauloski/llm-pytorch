@@ -86,6 +86,7 @@ dist,
 [tool.coverage.run]
 plugins = ["covdefaults"]
 concurrency = ["multiprocessing", "thread"]
+omit = ["llm/trainers/gpt/*"]
 parallel = true
 
 [tool.mypy]
