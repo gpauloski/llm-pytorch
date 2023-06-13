@@ -1759,37 +1759,55 @@ each rank sees an equal number of samples.</p>
       <li class="field-body">
         <b>dataset_type</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#type">type</a>[<a class="autorefs autorefs-external" title="torch.utils.data.Dataset" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset">Dataset</a>[<span title="llm.datasets.sharded.SampleType">SampleType</span>]]</code>)
-        – <p>Dataset type that represents a single shard. This
+        –
+        <div class="doc-md-description">
+          <p>Dataset type that represents a single shard. This
 subtype of Dataset must be a map-style dataset. Iterable-style
 datasets are not supported.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>shard_params</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <span title="llm.datasets.sharded.DatasetParams">DatasetParams</span>]</code>)
-        – <p>Dictionary mapping shard keys to the parameters used
+        –
+        <div class="doc-md-description">
+          <p>Dictionary mapping shard keys to the parameters used
 to initialize a <code>dataset_type</code> for the shard. The parameter type
 is a tuple of args and kwargs.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>rank</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Rank of this process.</p>
+        –
+        <div class="doc-md-description">
+          <p>Rank of this process.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>world_size</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Number of ranks sharing the dataset.</p>
+        –
+        <div class="doc-md-description">
+          <p>Number of ranks sharing the dataset.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>shuffle</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
-        – <p>Shuffle the shard order by the shard keys. The default
+        –
+        <div class="doc-md-description">
+          <p>Shuffle the shard order by the shard keys. The default
 (<code>False</code>) sorts the shards by shard key.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>seed</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Seed used for shuffling the shard order.</p>
+        –
+        <div class="doc-md-description">
+          <p>Seed used for shuffling the shard order.</p>
+        </div>
       </li>
   </ul>
 
@@ -1982,7 +2000,10 @@ is a tuple of args and kwargs.</p>
       <li class="field-body">
         <b>rank_index</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Dataset index local to the rank.</p>
+        –
+        <div class="doc-md-description">
+          <p>Dataset index local to the rank.</p>
+        </div>
       </li>
   </ul>
 
@@ -1990,7 +2011,10 @@ is a tuple of args and kwargs.</p>
   <ul>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>
-        – <p>Tuple of the shard key and the index within the shard that             <code>rank_index</code> corresponds to.</p>
+        –
+        <div class="doc-md-description">
+          <p>Tuple of the shard key and the index within the shard that             <code>rank_index</code> corresponds to.</p>
+      </div>
       </li>
   </ul>
 
@@ -2075,12 +2099,18 @@ is a tuple of args and kwargs.</p>
       <li class="field-body">
         <b>data_source</b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Sized" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sized">Sized</a></code>)
-        – <p>Dataset to sample sequentially from.</p>
+        –
+        <div class="doc-md-description">
+          <p>Dataset to sample sequentially from.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>start_index</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Index to resume sequential sampling from.</p>
+        –
+        <div class="doc-md-description">
+          <p>Index to resume sequential sampling from.</p>
+        </div>
       </li>
   </ul>
 

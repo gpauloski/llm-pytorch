@@ -2233,7 +2233,10 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
       <li class="field-body">
         <b>input_file</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        – <p>HDF5 file to load.</p>
+        –
+        <div class="doc-md-description">
+          <p>HDF5 file to load.</p>
+        </div>
       </li>
   </ul>
 
@@ -2308,18 +2311,27 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
       <li class="field-body">
         <b>seq_len</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Sequence length.</p>
+        –
+        <div class="doc-md-description">
+          <p>Sequence length.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>masked_lm_positions</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>)
-        – <p>Index in sequence of masked tokens</p>
+        –
+        <div class="doc-md-description">
+          <p>Index in sequence of masked tokens</p>
+        </div>
       </li>
       <li class="field-body">
         <b>masked_lm_ids</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>)
-        – <p>True token value for each position in
+        –
+        <div class="doc-md-description">
+          <p>True token value for each position in
 <code>masked_lm_position</code>.</p>
+        </div>
       </li>
   </ul>
 
@@ -2327,7 +2339,10 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
   <ul>
       <li class="field-body">
             <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span>[<a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>
-        – <p>List with length <code>seq_len</code> with the true value for each corresponding         masked token in <code>input_ids</code> and -100 for all tokens in input_ids         which are not masked.</p>
+        –
+        <div class="doc-md-description">
+          <p>List with length <code>seq_len</code> with the true value for each corresponding         masked token in <code>input_ids</code> and -100 for all tokens in input_ids         which are not masked.</p>
+      </div>
       </li>
   </ul>
 
@@ -2423,32 +2438,50 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
       <li class="field-body">
         <b>input_file</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        – <p>HDF5 file to load.</p>
+        –
+        <div class="doc-md-description">
+          <p>HDF5 file to load.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>batch_size</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Size of batches yielded by the dataloader.</p>
+        –
+        <div class="doc-md-description">
+          <p>Size of batches yielded by the dataloader.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>num_replicas</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>)
-        – <p>Number of processes participating in distributed training.</p>
+        –
+        <div class="doc-md-description">
+          <p>Number of processes participating in distributed training.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>rank</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>)
-        – <p>Rank of the current process within <code>num_replicas</code>.</p>
+        –
+        <div class="doc-md-description">
+          <p>Rank of the current process within <code>num_replicas</code>.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>seed</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Random seed used to shuffle the sampler.</p>
+        –
+        <div class="doc-md-description">
+          <p>Random seed used to shuffle the sampler.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>num_workers</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Number of subprocesses to use for data loading.</p>
+        –
+        <div class="doc-md-description">
+          <p>Number of subprocesses to use for data loading.</p>
+        </div>
       </li>
   </ul>
 
@@ -2456,7 +2489,10 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
   <ul>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" title="torch.utils.data.DataLoader" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader">DataLoader</a>[<a class="autorefs autorefs-internal" title="llm.datasets.bert.Batch" href="#llm.datasets.bert.Batch">Batch</a>]</code>
-        – <p>Dataloader which can be iterated over to yield         <a class="autorefs autorefs-internal" href="#llm.datasets.bert.Batch"><code>Batch</code></a>.</p>
+        –
+        <div class="doc-md-description">
+          <p>Dataloader which can be iterated over to yield         <a class="autorefs autorefs-internal" href="#llm.datasets.bert.Batch"><code>Batch</code></a>.</p>
+      </div>
       </li>
   </ul>
 
@@ -2578,32 +2614,50 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
       <li class="field-body">
         <b>input_dir</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        – <p>Directory of HDF5 shards to load samples from.</p>
+        –
+        <div class="doc-md-description">
+          <p>Directory of HDF5 shards to load samples from.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>batch_size</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Size of batches yielded.</p>
+        –
+        <div class="doc-md-description">
+          <p>Size of batches yielded.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>num_replicas</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>)
-        – <p>Number of processes participating in distributed training.</p>
+        –
+        <div class="doc-md-description">
+          <p>Number of processes participating in distributed training.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>rank</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>)
-        – <p>Rank of the current process within <code>num_replicas</code>.</p>
+        –
+        <div class="doc-md-description">
+          <p>Rank of the current process within <code>num_replicas</code>.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>seed</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Random seed used to shuffle the sampler.</p>
+        –
+        <div class="doc-md-description">
+          <p>Random seed used to shuffle the sampler.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>num_workers</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Number of subprocesses to use for data loading.</p>
+        –
+        <div class="doc-md-description">
+          <p>Number of subprocesses to use for data loading.</p>
+        </div>
       </li>
   </ul>
 
@@ -2611,7 +2665,10 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
   <ul>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" title="collections.abc.Generator" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Generator">Generator</a>[<a class="autorefs autorefs-internal" title="llm.datasets.bert.Batch" href="#llm.datasets.bert.Batch">Batch</a>, None, None]</code>
-        – <p>Batches of pretraining data.</p>
+        –
+        <div class="doc-md-description">
+          <p>Batches of pretraining data.</p>
+        </div>
       </li>
   </ul>
 

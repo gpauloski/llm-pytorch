@@ -1672,43 +1672,67 @@ transparent wrappers that enable advanced training features.</p>
       <li class="field-body">
         <b>model</b>
             (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        – <p>Model being trained.</p>
+        –
+        <div class="doc-md-description">
+          <p>Model being trained.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>optimizer</b>
             (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
-        – <p>Training optimizer.</p>
+        –
+        <div class="doc-md-description">
+          <p>Training optimizer.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>criterion</b>
             (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        – <p>Training loss function.</p>
+        –
+        <div class="doc-md-description">
+          <p>Training loss function.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>scheduler</b>
             (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<span title="torch.optim.lr_scheduler">lr_scheduler</span>.<span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code>)
-        – <p>LR scheduler.</p>
+        –
+        <div class="doc-md-description">
+          <p>LR scheduler.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>accumulation_steps</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Number of forward/backward passes between
+        –
+        <div class="doc-md-description">
+          <p>Number of forward/backward passes between
 optimizer steps.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>dtype</b>
             (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.dtype" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype">dtype</a> | None</code>)
-        – <p>Optional data type for mixed precision training.</p>
+        –
+        <div class="doc-md-description">
+          <p>Optional data type for mixed precision training.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>max_norm</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>)
-        – <p>Optional maximum norm of gradients to clip to.</p>
+        –
+        <div class="doc-md-description">
+          <p>Optional maximum norm of gradients to clip to.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>kwargs</b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
-        – <p>Keyword arguments to pass to the gradient scaler.</p>
+        –
+        <div class="doc-md-description">
+          <p>Keyword arguments to pass to the gradient scaler.</p>
+        </div>
       </li>
   </ul>
 
@@ -1716,7 +1740,10 @@ optimizer steps.</p>
   <ul>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a>, <a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a>, <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a>, <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<span title="torch.optim.lr_scheduler">lr_scheduler</span>.<span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span>]</code>
-        – <p>Tuple of the wrapped model, optimizer, loss, and scheduler.</p>
+        –
+        <div class="doc-md-description">
+          <p>Tuple of the wrapped model, optimizer, loss, and scheduler.</p>
+      </div>
       </li>
   </ul>
 

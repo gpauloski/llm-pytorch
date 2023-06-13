@@ -1667,22 +1667,34 @@ is installed, fused versions of the optimizers will be created instead.</p>
       <li class="field-body">
         <b>name</b>
             (<code><a class="autorefs autorefs-external" title="typing.Literal" href="https://docs.python.org/3/library/typing.html#typing.Literal">Literal</a>[&#39;lamb&#39;, &#39;adam&#39;]</code>)
-        – <p>Name of the optimizer to load.</p>
+        –
+        <div class="doc-md-description">
+          <p>Name of the optimizer to load.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>params</b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.Tensor" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor">Tensor</a>] | <a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]]</code>)
-        – <p>Parameters to be optimized.</p>
+        –
+        <div class="doc-md-description">
+          <p>Parameters to be optimized.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>lr</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>)
-        – <p>Learning rate.</p>
+        –
+        <div class="doc-md-description">
+          <p>Learning rate.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>kwargs</b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
-        – <p>Keyword arguments to pass to the optimizer.</p>
+        –
+        <div class="doc-md-description">
+          <p>Keyword arguments to pass to the optimizer.</p>
+        </div>
       </li>
   </ul>
 
@@ -1690,7 +1702,10 @@ is installed, fused versions of the optimizers will be created instead.</p>
   <ul>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>
-        – <p>Initialized optimizer.</p>
+        –
+        <div class="doc-md-description">
+          <p>Initialized optimizer.</p>
+      </div>
       </li>
   </ul>
 
@@ -1699,12 +1714,16 @@ is installed, fused versions of the optimizers will be created instead.</p>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ImportError">ImportError</a></code>
           –
-        <p>If <code>name=='lamb'</code> and ColossalAI is not installed.</p>
+        <div class="doc-md-description">
+          <p>If <code>name=='lamb'</code> and ColossalAI is not installed.</p>
+        </div>
       </li>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
           –
-        <p>If <code>name</code> is unknown.</p>
+        <div class="doc-md-description">
+          <p>If <code>name</code> is unknown.</p>
+        </div>
       </li>
   </ul>
 

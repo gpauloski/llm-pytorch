@@ -1960,19 +1960,28 @@
       <li class="field-body">
         <b>checkpoint_dir</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/pathlib.html#module-pathlib">pathlib</a>.<a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>)
-        – <p>Directory containing checkpoint files.</p>
+        –
+        <div class="doc-md-description">
+          <p>Directory containing checkpoint files.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>global_step</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>)
-        – <p>Global step checkpoint to load. If <code>None</code>,
+        –
+        <div class="doc-md-description">
+          <p>Global step checkpoint to load. If <code>None</code>,
 loads the latest checkpoint.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>map_location</b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
-        – <p>Optional map_location to pass to
+        –
+        <div class="doc-md-description">
+          <p>Optional map_location to pass to
 <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/generated/torch.load.html#torch.load"><code>torch.load()</code></a>.</p>
+        </div>
       </li>
   </ul>
 
@@ -1980,7 +1989,10 @@ loads the latest checkpoint.</p>
   <ul>
       <li class="field-body">
             <code><a class="autorefs autorefs-internal" title="llm.checkpoint.Checkpoint" href="#llm.checkpoint.Checkpoint">Checkpoint</a> | None</code>
-        – <p>Checkpoint or <code>None</code> if no checkpoint was found.</p>
+        –
+        <div class="doc-md-description">
+          <p>Checkpoint or <code>None</code> if no checkpoint was found.</p>
+      </div>
       </li>
   </ul>
 
@@ -1989,12 +2001,16 @@ loads the latest checkpoint.</p>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#OSError">OSError</a></code>
           –
-        <p>If <code>checkpoint_dir</code> does not exist.</p>
+        <div class="doc-md-description">
+          <p>If <code>checkpoint_dir</code> does not exist.</p>
+        </div>
       </li>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#OSError">OSError</a></code>
           –
-        <p>If <code>global_step</code> is specified but the file does not exist.</p>
+        <div class="doc-md-description">
+          <p>If <code>global_step</code> is specified but the file does not exist.</p>
+        </div>
       </li>
   </ul>
 
@@ -2147,32 +2163,50 @@ loads the latest checkpoint.</p>
       <li class="field-body">
         <b>checkpoint_dir</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/pathlib.html#module-pathlib">pathlib</a>.<a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>)
-        – <p>Directory to save checkpoint to.</p>
+        –
+        <div class="doc-md-description">
+          <p>Directory to save checkpoint to.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>global_step</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Training step used as the key for checkpoints.</p>
+        –
+        <div class="doc-md-description">
+          <p>Training step used as the key for checkpoints.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>model</b>
             (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        – <p>Model to save state_dict of.</p>
+        –
+        <div class="doc-md-description">
+          <p>Model to save state_dict of.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>optimizer</b>
             (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a> | None</code>)
-        – <p>Optional optimizer to save state_dict of.</p>
+        –
+        <div class="doc-md-description">
+          <p>Optional optimizer to save state_dict of.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>scheduler</b>
             (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<span title="torch.optim.lr_scheduler">lr_scheduler</span>.<span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span> | None</code>)
-        – <p>Optional scheduler to save state_dict of.</p>
+        –
+        <div class="doc-md-description">
+          <p>Optional scheduler to save state_dict of.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>kwargs</b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
-        – <p>Additional key-value pairs to add to the checkpoint.</p>
+        –
+        <div class="doc-md-description">
+          <p>Additional key-value pairs to add to the checkpoint.</p>
+        </div>
       </li>
   </ul>
 

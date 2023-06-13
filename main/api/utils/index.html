@@ -1812,27 +1812,39 @@
       <li class="field-body">
         <b>tensorboard_dir</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        – <p>TensorBoard run directory.</p>
+        –
+        <div class="doc-md-description">
+          <p>TensorBoard run directory.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>hparam_dict</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-internal" title="llm.utils.HParamT" href="#llm.utils.HParamT">HParamT</a>] | None</code>)
-        – <p>Optional hyperparam dictionary to log alongside
+        –
+        <div class="doc-md-description">
+          <p>Optional hyperparam dictionary to log alongside
 metrics.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>metrics</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>)
-        – <p>Optional list of metric tags that will be used with
+        –
+        <div class="doc-md-description">
+          <p>Optional list of metric tags that will be used with
 <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/tensorboard.html#torch.utils.tensorboard.writer.SummaryWriter.add_scalar"><code>writer.add_scalar()</code></a>
 (e.g., <code>['train/loss', 'train/lr']</code>). Must be provided if
 <code>hparam_dict</code> is provided.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>writer_kwargs</b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
-        – <p>Additional keyword arguments to pass to
+        –
+        <div class="doc-md-description">
+          <p>Additional keyword arguments to pass to
 <code>SummaryWriter</code>.</p>
+        </div>
       </li>
   </ul>
 
@@ -1840,7 +1852,10 @@ metrics.</p>
   <ul>
       <li class="field-body">
             <code><span title="torch.utils.tensorboard.SummaryWriter">SummaryWriter</span></code>
-        – <p>Summary writer instance.</p>
+        –
+        <div class="doc-md-description">
+          <p>Summary writer instance.</p>
+      </div>
       </li>
   </ul>
 
@@ -1951,19 +1966,28 @@ sub-directories will be recursed into if <code>recursive=True</code>.</p>
       <li class="field-body">
         <b>directory</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/pathlib.html#module-pathlib">pathlib</a>.<a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        – <p>Pathlike object with the directory to search.</p>
+        –
+        <div class="doc-md-description">
+          <p>Pathlike object with the directory to search.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>extensions</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>)
-        – <p>Pptionally only return files that match these extensions.
+        –
+        <div class="doc-md-description">
+          <p>Pptionally only return files that match these extensions.
 Each extension should include the dot. E.g., <code>['.pdf', '.txt']</code>.
 Match is case sensitive.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>recursive</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
-        – <p>Recursively search sub-directories.</p>
+        –
+        <div class="doc-md-description">
+          <p>Recursively search sub-directories.</p>
+        </div>
       </li>
   </ul>
 
@@ -1971,7 +1995,10 @@ Match is case sensitive.</p>
   <ul>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>
-        – <p>List of string paths of files in the directory.</p>
+        –
+        <div class="doc-md-description">
+          <p>List of string paths of files in the directory.</p>
+      </div>
       </li>
   </ul>
 
@@ -2063,17 +2090,26 @@ Match is case sensitive.</p>
       <li class="field-body">
         <b>global_batch_size</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Target global/effective batch size.</p>
+        –
+        <div class="doc-md-description">
+          <p>Target global/effective batch size.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>local_batch_size</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Per rank batch size.</p>
+        –
+        <div class="doc-md-description">
+          <p>Per rank batch size.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>world_size</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Number of ranks.</p>
+        –
+        <div class="doc-md-description">
+          <p>Number of ranks.</p>
+        </div>
       </li>
   </ul>
 
@@ -2081,7 +2117,10 @@ Match is case sensitive.</p>
   <ul>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>
-        – <p>Gradient accumulation steps needed to achieve the <code>global_batch_size</code>.</p>
+        –
+        <div class="doc-md-description">
+          <p>Gradient accumulation steps needed to achieve the <code>global_batch_size</code>.</p>
+      </div>
       </li>
   </ul>
 
@@ -2090,8 +2129,10 @@ Match is case sensitive.</p>
       <li class="field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
           –
-        <p>If the resulting gradient accumulation steps would be
+        <div class="doc-md-description">
+          <p>If the resulting gradient accumulation steps would be
 fractional.</p>
+        </div>
       </li>
   </ul>
 
@@ -2186,22 +2227,34 @@ fractional.</p>
       <li class="field-body">
         <b>level</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        – <p>Default logging level.</p>
+        –
+        <div class="doc-md-description">
+          <p>Default logging level.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>logfile</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/pathlib.html#module-pathlib">pathlib</a>.<a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>)
-        – <p>Optional path to write logs to.</p>
+        –
+        <div class="doc-md-description">
+          <p>Optional path to write logs to.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>rich</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
-        – <p>Use rich for pretty stdout logging.</p>
+        –
+        <div class="doc-md-description">
+          <p>Use rich for pretty stdout logging.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>distributed</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
-        – <p>Configure distributed formatters and filters.</p>
+        –
+        <div class="doc-md-description">
+          <p>Configure distributed formatters and filters.</p>
+        </div>
       </li>
   </ul>
 
@@ -2334,48 +2387,75 @@ fractional.</p>
       <li class="field-body">
         <b>logger</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/logging.html#module-logging">logging</a>.<a class="autorefs autorefs-external" title="logging.Logger" href="https://docs.python.org/3/library/logging.html#logging.Logger">Logger</a></code>)
-        – <p>Logger instance to log to.</p>
+        –
+        <div class="doc-md-description">
+          <p>Logger instance to log to.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>step</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Training step.</p>
+        –
+        <div class="doc-md-description">
+          <p>Training step.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>fmt_str</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>)
-        – <p>Format string used to format parameters for logging.</p>
+        –
+        <div class="doc-md-description">
+          <p>Format string used to format parameters for logging.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>log_level</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        – <p>Level to log the parameters at.</p>
+        –
+        <div class="doc-md-description">
+          <p>Level to log the parameters at.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>ranks</b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>)
-        – <p>Ranks to log on (default to rank 0 only).</p>
+        –
+        <div class="doc-md-description">
+          <p>Ranks to log on (default to rank 0 only).</p>
+        </div>
       </li>
       <li class="field-body">
         <b>skip_tensorboard</b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>)
-        – <p>List of parameter names to skip logging to
+        –
+        <div class="doc-md-description">
+          <p>List of parameter names to skip logging to
 TensorBoard.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>tensorboard_prefix</b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        – <p>Prefix for TensorBoard parameters.</p>
+        –
+        <div class="doc-md-description">
+          <p>Prefix for TensorBoard parameters.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>writer</b>
             (<code><span title="torch.utils.tensorboard.SummaryWriter">SummaryWriter</span> | None</code>)
-        – <p>TensorBoard summary writer.</p>
+        –
+        <div class="doc-md-description">
+          <p>TensorBoard summary writer.</p>
+        </div>
       </li>
       <li class="field-body">
         <b>kwargs</b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
-        – <p>Additional keyword arguments to log.</p>
+        –
+        <div class="doc-md-description">
+          <p>Additional keyword arguments to log.</p>
+        </div>
       </li>
   </ul>
 
