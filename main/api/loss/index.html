@@ -1665,23 +1665,25 @@
 
 
 <h2 id="llm.loss.BertPretrainingCriterion" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">BertPretrainingCriterion</span>
+          <span class="doc doc-object-name doc-class-name">BertPretrainingCriterion</span>
 
 
 <a href="#llm.loss.BertPretrainingCriterion" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">BertPretrainingCriterion</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ignore_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
 
   
       <p>BERT pretraining loss.</p>
 <p>Computes the sum of the cross entropy losses of the masked language model
 and (optionally) next sentence prediction tasks.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -1705,10 +1707,9 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/loss.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20">20</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/loss.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-20">20</a></span>
 <span class="normal"><a href="#__codelineno-0-21">21</a></span>
 <span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ignore_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1716,7 +1717,7 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="n">ignore_index</span><span class="p">)</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="n">vocab_size</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 
@@ -1750,6 +1751,8 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
   <div class="doc doc-contents ">
   
       <p>Compute the pretraining loss.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -1786,6 +1789,8 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
         </div>
       </li>
   </ul>
+
+
 
   <p>Returns:</p>
   <ul>

@@ -1763,7 +1763,7 @@
 
 
 <h2 id="llm.engine.accumulation.GradientAccumulationOptimizer" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">GradientAccumulationOptimizer</span>
+          <span class="doc doc-object-name doc-class-name">GradientAccumulationOptimizer</span>
 
 
 <a href="#llm.engine.accumulation.GradientAccumulationOptimizer" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -1771,18 +1771,20 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">optimizer</span><span class="p">:</span> <span class="n">BaseOptimizer</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">accumulation_steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code></p>
 
   
       <p>Optimizer wrapper for enabling gradient accumulation.</p>
 <p>This wrapper will skip calls to
 <a class="autorefs autorefs-internal" href="../base/#llm.engine.base.BaseOptimizer.step"><code>BaseOptimizer.step()</code></a> until
 <code>accumulation_steps</code> forward/backward passes have been performed.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -1812,10 +1814,9 @@
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-27">27</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-27">27</a></span>
 <span class="normal"><a href="#__codelineno-0-28">28</a></span>
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
@@ -1835,7 +1836,7 @@
 </span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_accumulation_step</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 
@@ -1918,6 +1919,8 @@ instance, backward passes will be performed with
 <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel.no_sync"><code>no_sync()</code></a>
 during gradient accumulation steps.</p>
 </details>
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -2075,24 +2078,26 @@ during gradient accumulation steps.</p>
 
 
 <h2 id="llm.engine.accumulation.GradientAccumulationLRScheduler" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">GradientAccumulationLRScheduler</span>
+          <span class="doc doc-object-name doc-class-name">GradientAccumulationLRScheduler</span>
 
 
 <a href="#llm.engine.accumulation.GradientAccumulationLRScheduler" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">GradientAccumulationLRScheduler</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">scheduler</span><span class="p">:</span> <span class="n">_LRScheduler</span><span class="p">,</span> <span class="n">accumulation_steps</span><span class="p">:</span> <span class="nb">int</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code></p>
 
   
       <p>LR scheduler wrapper that accounts for gradient accumulation.</p>
 <p>This wrapper allows you to call <code>scheduler.step()</code> after every
 forward/backward pass and will correctly skip the call if
 it happens during a gradient accumulation period.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -2114,10 +2119,9 @@ it happens during a gradient accumulation period.</p>
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-103">103</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-103">103</a></span>
 <span class="normal"><a href="#__codelineno-0-104">104</a></span>
 <span class="normal"><a href="#__codelineno-0-105">105</a></span>
 <span class="normal"><a href="#__codelineno-0-106">106</a></span>
@@ -2133,7 +2137,7 @@ it happens during a gradient accumulation period.</p>
 </span><span id="__span-0-109"><a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_accumulation_step</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_scheduler</span> <span class="o">=</span> <span class="n">scheduler</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 
@@ -2222,6 +2226,8 @@ it happens during a gradient accumulation period.</p>
   
       <p>Initialize gradient accumulation training.</p>
 
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -2257,6 +2263,8 @@ it happens during a gradient accumulation period.</p>
         </div>
       </li>
   </ul>
+
+
 
   <p>Returns:</p>
   <ul>

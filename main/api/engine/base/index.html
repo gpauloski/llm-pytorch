@@ -1693,7 +1693,7 @@
 
 
 <h2 id="llm.engine.base.BaseOptimizer" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">BaseOptimizer</span>
+          <span class="doc doc-object-name doc-class-name">BaseOptimizer</span>
 
 
 <a href="#llm.engine.base.BaseOptimizer" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -1701,8 +1701,8 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code></p>
 
   
       <p>Base optimizer wrapper.</p>
@@ -1712,6 +1712,8 @@ this optimizer adds the
 of directly calling <code>loss.backward()</code>. This is needed so the various
 optimizer wrappers can adjust how the loss is computed.</p>
 <p>Otherwise, this optimizer behaves identically to the wrapped optimizer.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -1725,14 +1727,13 @@ optimizer wrappers can adjust how the loss is computed.</p>
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/engine/base.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-24">24</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/engine/base.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-24">24</a></span>
 <span class="normal"><a href="#__codelineno-0-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">):</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 

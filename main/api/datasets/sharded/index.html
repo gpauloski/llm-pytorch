@@ -1695,7 +1695,7 @@
 
 
 <h2 id="llm.datasets.sharded.DistributedShardedDataset" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">DistributedShardedDataset</span>
+          <span class="doc doc-object-name doc-class-name">DistributedShardedDataset</span>
 
 
 <a href="#llm.datasets.sharded.DistributedShardedDataset" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -1707,12 +1707,12 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" title="torch.utils.data.Dataset" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset">Dataset</a>[<span title="llm.datasets.sharded.SampleType">SampleType</span>]</code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-external" title="torch.utils.data.Dataset" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset">Dataset</a>[<span title="llm.datasets.sharded.SampleType">SampleType</span>]</code></p>
 
   
       <p>Dataset wrapper for sharded datasets in distributed environments.</p>
@@ -1754,6 +1754,8 @@ each rank sees an equal number of samples.</p>
 <li>Support shuffle shard order by epoch</li>
 </ul>
 </details>
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -1811,10 +1813,9 @@ is a tuple of args and kwargs.</p>
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/datasets/sharded.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-70"> 70</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/datasets/sharded.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-70"> 70</a></span>
 <span class="normal"><a href="#__codelineno-0-71"> 71</a></span>
 <span class="normal"><a href="#__codelineno-0-72"> 72</a></span>
 <span class="normal"><a href="#__codelineno-0-73"> 73</a></span>
@@ -1932,7 +1933,7 @@ is a tuple of args and kwargs.</p>
 </span><span id="__span-0-127"><a id="__codelineno-0-127" name="__codelineno-0-127"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_current_shard_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="__span-0-128"><a id="__codelineno-0-128" name="__codelineno-0-128"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_current_shard</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">[</span><span class="n">SampleType</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 
@@ -1995,6 +1996,8 @@ is a tuple of args and kwargs.</p>
   
       <p>Convert an index local to a rank to a shard and shard index.</p>
 
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -2006,6 +2009,8 @@ is a tuple of args and kwargs.</p>
         </div>
       </li>
   </ul>
+
+
 
   <p>Returns:</p>
   <ul>
@@ -2078,21 +2083,23 @@ is a tuple of args and kwargs.</p>
 
 
 <h2 id="llm.datasets.sharded.ResumableSequentialSampler" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">ResumableSequentialSampler</span>
+          <span class="doc doc-object-name doc-class-name">ResumableSequentialSampler</span>
 
 
 <a href="#llm.datasets.sharded.ResumableSequentialSampler" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">ResumableSequentialSampler</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">data_source</span><span class="p">:</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">start_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.utils" href="https://pytorch.org/docs/stable/torch.html#module-torch.utils">utils</a>.<a class="autorefs autorefs-external" title="torch.utils.data" href="https://pytorch.org/docs/stable/data.html#module-torch.utils.data">data</a>.<a class="autorefs autorefs-external" title="torch.utils.data.Sampler" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Sampler">Sampler</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.utils" href="https://pytorch.org/docs/stable/torch.html#module-torch.utils">utils</a>.<a class="autorefs autorefs-external" title="torch.utils.data" href="https://pytorch.org/docs/stable/data.html#module-torch.utils.data">data</a>.<a class="autorefs autorefs-external" title="torch.utils.data.Sampler" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Sampler">Sampler</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code></p>
 
   
       <p>Resumable sequential sampler.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -2114,10 +2121,9 @@ is a tuple of args and kwargs.</p>
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/datasets/sharded.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-193">193</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/datasets/sharded.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-193">193</a></span>
 <span class="normal"><a href="#__codelineno-0-194">194</a></span>
 <span class="normal"><a href="#__codelineno-0-195">195</a></span>
 <span class="normal"><a href="#__codelineno-0-196">196</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-193"><a id="__codelineno-0-193" name="__codelineno-0-193"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_source</span><span class="p">:</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">start_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2125,7 +2131,7 @@ is a tuple of args and kwargs.</p>
 </span><span id="__span-0-195"><a id="__codelineno-0-195" name="__codelineno-0-195"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">start_index</span> <span class="o">=</span> <span class="n">start_index</span>
 </span><span id="__span-0-196"><a id="__codelineno-0-196" name="__codelineno-0-196"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">start_index</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 

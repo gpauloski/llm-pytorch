@@ -1692,7 +1692,7 @@
 
 
 <h2 id="llm.config.HParamT" class="doc doc-heading">
-        <span class="doc doc-object-name doc-attribute-name">HParamT</span>
+          <span class="doc doc-object-name doc-attribute-name">HParamT</span>
 
   
   <span class="doc doc-labels">
@@ -1716,7 +1716,7 @@
 
 
 <h2 id="llm.config.Config" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">Config</span>
+          <span class="doc doc-object-name doc-class-name">Config</span>
 
 
 <a href="#llm.config.Config" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -1730,8 +1730,8 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code></p>
 
   
       <p>Dict-like configuration class with attribute access.</p>
@@ -1747,6 +1747,8 @@
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="mi">2</span>
 </span></code></pre></div>
 </details>
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -1767,10 +1769,9 @@
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/config.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-38">38</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/config.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-38">38</a></span>
 <span class="normal"><a href="#__codelineno-0-39">39</a></span>
 <span class="normal"><a href="#__codelineno-0-40">40</a></span>
 <span class="normal"><a href="#__codelineno-0-41">41</a></span>
@@ -1798,7 +1799,7 @@
 </span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 </span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="bp">self</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 
@@ -1844,6 +1845,8 @@
   <p>If <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/distributed.html#torch.distributed.is_initialized"><code>torch.distributed.is_initialized()</code></a>,
 the <code>world_size</code> will be added to the config.</p>
 </details>
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -1855,6 +1858,8 @@ the <code>world_size</code> will be added to the config.</p>
         </div>
       </li>
   </ul>
+
+
 
   <p>Returns:</p>
   <ul>
@@ -1964,6 +1969,8 @@ the <code>world_size</code> will be added to the config.</p>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span><span class="s1">&#39;a_b_c&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
 </span></code></pre></div></p>
 </details>
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -1991,6 +1998,8 @@ the <code>world_size</code> will be added to the config.</p>
         </div>
       </li>
   </ul>
+
+
 
   <p>Returns:</p>
   <ul>
@@ -2097,6 +2106,8 @@ the <code>world_size</code> will be added to the config.</p>
   <p>Attributes starting with <code>_</code>, modules, classes, functions, and
 builtins will not be loaded from the Python file.</p>
 </details>
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -2108,6 +2119,8 @@ builtins will not be loaded from the Python file.</p>
         </div>
       </li>
   </ul>
+
+
 
   <p>Returns:</p>
   <ul>

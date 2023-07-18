@@ -914,6 +914,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#llm.engine.amp.AMPOptimizer.zero_grad" class="md-nav__link">
+    zero_grad()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#llm.engine.amp.AMPOptimizer.state_dict" class="md-nav__link">
     state_dict()
   </a>
@@ -1716,6 +1723,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#llm.engine.amp.AMPOptimizer.zero_grad" class="md-nav__link">
+    zero_grad()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#llm.engine.amp.AMPOptimizer.state_dict" class="md-nav__link">
     state_dict()
   </a>
@@ -1803,21 +1817,23 @@
 
 
 <h2 id="llm.engine.amp.AMPCriterion" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">AMPCriterion</span>
+          <span class="doc doc-object-name doc-class-name">AMPCriterion</span>
 
 
 <a href="#llm.engine.amp.AMPCriterion" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">AMPCriterion</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">criterion</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">autocast</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">autocast</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
 
   
       <p>Wrap a loss function for AMP training.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -1839,10 +1855,9 @@
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/engine/amp.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-22">22</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/engine/amp.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
 <span class="normal"><a href="#__codelineno-0-24">24</a></span>
 <span class="normal"><a href="#__codelineno-0-25">25</a></span>
@@ -1858,7 +1873,7 @@
 </span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_criterion</span> <span class="o">=</span> <span class="n">criterion</span>
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_autocast</span> <span class="o">=</span> <span class="n">autocast</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 
@@ -1916,21 +1931,21 @@
 
 
 <h2 id="llm.engine.amp.AMPModel" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">AMPModel</span>
+          <span class="doc doc-object-name doc-class-name">AMPModel</span>
 
 
 <a href="#llm.engine.amp.AMPModel" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">AMPModel</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">autocast</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">autocast</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">AMPModel</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">autocast</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">autocast</span><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.nn" href="https://pytorch.org/docs/stable/nn.html#module-torch.nn">nn</a>.<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
 
   
       <p>Wrap a model for AMP training.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -1952,10 +1967,9 @@
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/engine/amp.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-45">45</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/engine/amp.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-45">45</a></span>
 <span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
 <span class="normal"><a href="#__codelineno-0-48">48</a></span>
@@ -1971,7 +1985,7 @@
 </span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
 </span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_autocast</span> <span class="o">=</span> <span class="n">autocast</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 
@@ -2029,7 +2043,7 @@
 
 
 <h2 id="llm.engine.amp.AMPOptimizer" class="doc doc-heading">
-        <span class="doc doc-object-name doc-class-name">AMPOptimizer</span>
+          <span class="doc doc-object-name doc-class-name">AMPOptimizer</span>
 
 
 <a href="#llm.engine.amp.AMPOptimizer" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2038,15 +2052,17 @@
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">scaler</span><span class="p">:</span> <span class="n">GradScaler</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">max_norm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code></p>
+          <p class="doc doc-class-bases">
+            Bases: <code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code></p>
 
   
       <p>Wrap an optimizer for AMP training.</p>
+
+
 
   <p>Parameters:</p>
   <ul>
@@ -2084,10 +2100,9 @@
       </li>
   </ul>
 
-
-          <details class="quote">
-            <summary>Source code in <code>llm/engine/amp.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-70">70</a></span>
+              <details class="quote">
+                <summary>Source code in <code>llm/engine/amp.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-70">70</a></span>
 <span class="normal"><a href="#__codelineno-0-71">71</a></span>
 <span class="normal"><a href="#__codelineno-0-72">72</a></span>
 <span class="normal"><a href="#__codelineno-0-73">73</a></span>
@@ -2109,7 +2124,7 @@
 </span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_scaler</span> <span class="o">=</span> <span class="n">scaler</span>
 </span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_max_norm</span> <span class="o">=</span> <span class="n">max_norm</span>
 </span></code></pre></div></td></tr></table></div>
-          </details>
+              </details>
 
   
 
@@ -2122,6 +2137,35 @@
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="llm.engine.amp.AMPOptimizer.zero_grad" class="doc doc-heading">
+        <span class="doc doc-object-name doc-function-name">zero_grad()</span>
+
+
+<a href="#llm.engine.amp.AMPOptimizer.zero_grad" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">zero_grad</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</span></code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Zero the gradients of optimized parameters.</p>
+
+      <details class="quote">
+        <summary>Source code in <code>llm/engine/base.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="k">def</span> <span class="nf">zero_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Zero the gradients of optimized parameters.&quot;&quot;&quot;</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -2304,6 +2348,8 @@
   
       <p>Initialize AMP training.</p>
 
+
+
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
@@ -2357,6 +2403,8 @@
         </div>
       </li>
   </ul>
+
+
 
   <p>Returns:</p>
   <ul>
