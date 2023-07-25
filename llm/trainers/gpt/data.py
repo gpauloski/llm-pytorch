@@ -168,7 +168,7 @@ def group_texts(examples: dict[str, Any], block_size: int) -> dict[str, Any]:
     concatenated_examples = {
         k: list(itertools.chain(*examples[k])) for k in examples.keys()
     }
-    total_length = len(concatenated_examples[list(examples.keys())[0]])
+    total_length = len(concatenated_examples[next(iter(examples.keys()))])
     # We drop the small remainder, and if the total_length < block_size we
     # exclude this batch and return an empty dict. We could add padding if the
     # model supported it instead of this drop, you can customize this part to
