@@ -123,7 +123,7 @@ class DistributedFilter(logging.Filter):
         ```
     """
 
-    def filter(self, record: logging.LogRecord) -> bool:  # noqa: A003
+    def filter(self, record: logging.LogRecord) -> bool:
         ranks = getattr(record, 'ranks', None)
         if dist.is_initialized():
             record.msg = f'[rank {dist.get_rank()}] {record.msg}'
