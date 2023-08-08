@@ -21,7 +21,7 @@
         <link rel="next" href="../initialize/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -1953,7 +1953,9 @@ PyTorch.
   <ul>
       <li class="field-body">
         <b>level</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/logging.html#module-logging">logging</a>.<a class="autorefs autorefs-external" title="logging.INFO" href="https://docs.python.org/3/library/logging.html#logging.INFO">INFO</a></code>
+)
         –
         <div class="doc-md-description">
           <p>Logging level.</p>
@@ -1961,7 +1963,9 @@ PyTorch.
       </li>
       <li class="field-body">
         <b>ranks</b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>] | None</code>)
+            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>] | None</code>, default:
+                <code>(0)</code>
+)
         –
         <div class="doc-md-description">
           <p>Ranks to log the environment on. If <code>None</code>, logs on all ranks.</p>

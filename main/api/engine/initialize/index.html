@@ -21,7 +21,7 @@
         <link rel="next" href="../../environment/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -1705,7 +1705,9 @@ transparent wrappers that enable advanced training features.</p>
       </li>
       <li class="field-body">
         <b>accumulation_steps</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                <code>1</code>
+)
         –
         <div class="doc-md-description">
           <p>Number of forward/backward passes between
@@ -1714,7 +1716,9 @@ optimizer steps.</p>
       </li>
       <li class="field-body">
         <b>dtype</b>
-            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.dtype" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype">dtype</a> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.dtype" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype">dtype</a> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Optional data type for mixed precision training.</p>
@@ -1722,7 +1726,9 @@ optimizer steps.</p>
       </li>
       <li class="field-body">
         <b>max_norm</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Optional maximum norm of gradients to clip to.</p>
@@ -1730,7 +1736,9 @@ optimizer steps.</p>
       </li>
       <li class="field-body">
         <b>kwargs</b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
+            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                <code>{}</code>
+)
         –
         <div class="doc-md-description">
           <p>Keyword arguments to pass to the gradient scaler.</p>

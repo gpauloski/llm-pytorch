@@ -21,7 +21,7 @@
         <link rel="next" href="../cli/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -1820,7 +1820,9 @@
       </li>
       <li class="field-body">
         <b>hparam_dict</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-internal" title="llm.utils.HParamT" href="#llm.utils.HParamT">HParamT</a>] | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-internal" title="llm.utils.HParamT" href="#llm.utils.HParamT">HParamT</a>] | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Optional hyperparam dictionary to log alongside
@@ -1829,7 +1831,9 @@ metrics.</p>
       </li>
       <li class="field-body">
         <b>metrics</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Optional list of metric tags that will be used with
@@ -1840,7 +1844,9 @@ metrics.</p>
       </li>
       <li class="field-body">
         <b>writer_kwargs</b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
+            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                <code>{}</code>
+)
         –
         <div class="doc-md-description">
           <p>Additional keyword arguments to pass to
@@ -1978,7 +1984,9 @@ sub-directories will be recursed into if <code>recursive=True</code>.</p>
       </li>
       <li class="field-body">
         <b>extensions</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Pptionally only return files that match these extensions.
@@ -1988,7 +1996,9 @@ Match is case sensitive.</p>
       </li>
       <li class="field-body">
         <b>recursive</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                <code>False</code>
+)
         –
         <div class="doc-md-description">
           <p>Recursively search sub-directories.</p>
@@ -2241,7 +2251,9 @@ fractional.</p>
   <ul>
       <li class="field-body">
         <b>level</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/logging.html#module-logging">logging</a>.<a class="autorefs autorefs-external" title="logging.INFO" href="https://docs.python.org/3/library/logging.html#logging.INFO">INFO</a></code>
+)
         –
         <div class="doc-md-description">
           <p>Default logging level.</p>
@@ -2249,7 +2261,9 @@ fractional.</p>
       </li>
       <li class="field-body">
         <b>logfile</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/pathlib.html#module-pathlib">pathlib</a>.<a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/pathlib.html#module-pathlib">pathlib</a>.<a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Optional path to write logs to.</p>
@@ -2257,7 +2271,9 @@ fractional.</p>
       </li>
       <li class="field-body">
         <b>rich</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                <code>False</code>
+)
         –
         <div class="doc-md-description">
           <p>Use rich for pretty stdout logging.</p>
@@ -2265,7 +2281,9 @@ fractional.</p>
       </li>
       <li class="field-body">
         <b>distributed</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                <code>False</code>
+)
         –
         <div class="doc-md-description">
           <p>Configure distributed formatters and filters.</p>
@@ -2419,7 +2437,9 @@ fractional.</p>
       </li>
       <li class="field-body">
         <b>fmt_str</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Format string used to format parameters for logging.</p>
@@ -2427,7 +2447,9 @@ fractional.</p>
       </li>
       <li class="field-body">
         <b>log_level</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/logging.html#module-logging">logging</a>.<a class="autorefs autorefs-external" title="logging.INFO" href="https://docs.python.org/3/library/logging.html#logging.INFO">INFO</a></code>
+)
         –
         <div class="doc-md-description">
           <p>Level to log the parameters at.</p>
@@ -2435,7 +2457,9 @@ fractional.</p>
       </li>
       <li class="field-body">
         <b>ranks</b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>)
+            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>, default:
+                <code>(0)</code>
+)
         –
         <div class="doc-md-description">
           <p>Ranks to log on (default to rank 0 only).</p>
@@ -2443,7 +2467,9 @@ fractional.</p>
       </li>
       <li class="field-body">
         <b>skip_tensorboard</b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>)
+            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>, default:
+                <code>()</code>
+)
         –
         <div class="doc-md-description">
           <p>List of parameter names to skip logging to
@@ -2452,7 +2478,9 @@ TensorBoard.</p>
       </li>
       <li class="field-body">
         <b>tensorboard_prefix</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+                <code>&#39;train&#39;</code>
+)
         –
         <div class="doc-md-description">
           <p>Prefix for TensorBoard parameters.</p>
@@ -2460,7 +2488,9 @@ TensorBoard.</p>
       </li>
       <li class="field-body">
         <b>writer</b>
-            (<code><span title="torch.utils.tensorboard.SummaryWriter">SummaryWriter</span> | None</code>)
+            (<code><span title="torch.utils.tensorboard.SummaryWriter">SummaryWriter</span> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>TensorBoard summary writer.</p>
@@ -2468,7 +2498,9 @@ TensorBoard.</p>
       </li>
       <li class="field-body">
         <b>kwargs</b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
+            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                <code>{}</code>
+)
         –
         <div class="doc-md-description">
           <p>Additional keyword arguments to log.</p>

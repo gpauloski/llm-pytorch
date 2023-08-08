@@ -21,7 +21,7 @@
         <link rel="next" href="../config/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -1968,7 +1968,9 @@
       </li>
       <li class="field-body">
         <b>global_step</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Global step checkpoint to load. If <code>None</code>,
@@ -1977,7 +1979,9 @@ loads the latest checkpoint.</p>
       </li>
       <li class="field-body">
         <b>map_location</b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
+            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Optional map_location to pass to
@@ -2193,7 +2197,9 @@ loads the latest checkpoint.</p>
       </li>
       <li class="field-body">
         <b>optimizer</b>
-            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Optional optimizer to save state_dict of.</p>
@@ -2201,7 +2207,9 @@ loads the latest checkpoint.</p>
       </li>
       <li class="field-body">
         <b>scheduler</b>
-            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<span title="torch.optim.lr_scheduler">lr_scheduler</span>.<span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<a class="autorefs autorefs-external" title="torch.optim" href="https://pytorch.org/docs/stable/optim.html#module-torch.optim">optim</a>.<span title="torch.optim.lr_scheduler">lr_scheduler</span>.<span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Optional scheduler to save state_dict of.</p>
@@ -2209,7 +2217,9 @@ loads the latest checkpoint.</p>
       </li>
       <li class="field-body">
         <b>kwargs</b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>)
+            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                <code>{}</code>
+)
         –
         <div class="doc-md-description">
           <p>Additional key-value pairs to add to the checkpoint.</p>

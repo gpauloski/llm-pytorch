@@ -21,7 +21,7 @@
         <link rel="next" href="../models/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -1697,7 +1697,9 @@ and (optionally) next sentence prediction tasks.</p>
       </li>
       <li class="field-body">
         <b>ignore_index</b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                <code>-100</code>
+)
         –
         <div class="doc-md-description">
           <p>Value to ignore when computing cross entropy loss.
@@ -1774,7 +1776,9 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
       </li>
       <li class="field-body">
         <b>seq_relationship_score</b>
-            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<span title="torch.FloatTensor">FloatTensor</span> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<span title="torch.FloatTensor">FloatTensor</span> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>Predicted sequence relationship score.</p>
@@ -1782,7 +1786,9 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
       </li>
       <li class="field-body">
         <b>next_sentence_labels</b>
-            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<span title="torch.LongTensor">LongTensor</span> | None</code>)
+            (<code><a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/torch.html#module-torch">torch</a>.<span title="torch.LongTensor">LongTensor</span> | None</code>, default:
+                <code>None</code>
+)
         –
         <div class="doc-md-description">
           <p>True next sentence label.</p>
