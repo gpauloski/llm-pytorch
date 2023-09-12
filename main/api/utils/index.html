@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.8">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.3.1">
     
     
       
@@ -309,24 +309,14 @@
   
     
     
-      
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
   
-  
-    
-  
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="../" class="md-tabs__link">
-        
-  
-    
-  
-  llm
+  API Reference
 
-      </a>
-    </li>
-  
-
+        </a>
+      </li>
     
   
 
@@ -2245,7 +2235,7 @@
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
-        <b>tensorboard_dir</b>
+        <b><code>tensorboard_dir</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
         –
         <div class="doc-md-description">
@@ -2253,7 +2243,7 @@
         </div>
       </li>
       <li class="field-body">
-        <b>hparam_dict</b>
+        <b><code>hparam_dict</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-internal" title="llm.utils.HParamT" href="#llm.utils.HParamT">HParamT</a>] | None</code>, default:
                 <code>None</code>
 )
@@ -2264,7 +2254,7 @@ metrics.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>metrics</b>
+        <b><code>metrics</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
                 <code>None</code>
 )
@@ -2277,7 +2267,7 @@ metrics.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>writer_kwargs</b>
+        <b><code>writer_kwargs</code></b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                 <code>{}</code>
 )
@@ -2409,7 +2399,7 @@ sub-directories will be recursed into if <code>recursive=True</code>.</p>
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
-        <b>directory</b>
+        <b><code>directory</code></b>
             (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
         –
         <div class="doc-md-description">
@@ -2417,7 +2407,7 @@ sub-directories will be recursed into if <code>recursive=True</code>.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>extensions</b>
+        <b><code>extensions</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>] | None</code>, default:
                 <code>None</code>
 )
@@ -2429,7 +2419,7 @@ Match is case sensitive.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>recursive</b>
+        <b><code>recursive</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                 <code>False</code>
 )
@@ -2541,7 +2531,7 @@ Match is case sensitive.</p>
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
-        <b>global_batch_size</b>
+        <b><code>global_batch_size</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
         <div class="doc-md-description">
@@ -2549,7 +2539,7 @@ Match is case sensitive.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>local_batch_size</b>
+        <b><code>local_batch_size</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
         <div class="doc-md-description">
@@ -2557,7 +2547,7 @@ Match is case sensitive.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>world_size</b>
+        <b><code>world_size</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
         <div class="doc-md-description">
@@ -2684,7 +2674,7 @@ fractional.</p>
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
-        <b>level</b>
+        <b><code>level</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
                 <code><a class="autorefs autorefs-external" title="logging.INFO" href="https://docs.python.org/3/library/logging.html#logging.INFO">INFO</a></code>
 )
@@ -2694,7 +2684,7 @@ fractional.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>logfile</b>
+        <b><code>logfile</code></b>
             (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
                 <code>None</code>
 )
@@ -2704,7 +2694,7 @@ fractional.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>rich</b>
+        <b><code>rich</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                 <code>False</code>
 )
@@ -2714,7 +2704,7 @@ fractional.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>distributed</b>
+        <b><code>distributed</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                 <code>False</code>
 )
@@ -2854,7 +2844,7 @@ fractional.</p>
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
-        <b>logger</b>
+        <b><code>logger</code></b>
             (<code><a class="autorefs autorefs-external" title="logging.Logger" href="https://docs.python.org/3/library/logging.html#logging.Logger">Logger</a></code>)
         –
         <div class="doc-md-description">
@@ -2862,7 +2852,7 @@ fractional.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>step</b>
+        <b><code>step</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
         <div class="doc-md-description">
@@ -2870,7 +2860,7 @@ fractional.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>fmt_str</b>
+        <b><code>fmt_str</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
                 <code>None</code>
 )
@@ -2880,7 +2870,7 @@ fractional.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>log_level</b>
+        <b><code>log_level</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
                 <code><a class="autorefs autorefs-external" title="logging.INFO" href="https://docs.python.org/3/library/logging.html#logging.INFO">INFO</a></code>
 )
@@ -2890,7 +2880,7 @@ fractional.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>ranks</b>
+        <b><code>ranks</code></b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>, default:
                 <code>(0)</code>
 )
@@ -2900,7 +2890,7 @@ fractional.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>skip_tensorboard</b>
+        <b><code>skip_tensorboard</code></b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>]</code>, default:
                 <code>()</code>
 )
@@ -2911,7 +2901,7 @@ TensorBoard.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>tensorboard_prefix</b>
+        <b><code>tensorboard_prefix</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
                 <code>&#39;train&#39;</code>
 )
@@ -2921,7 +2911,7 @@ TensorBoard.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>writer</b>
+        <b><code>writer</code></b>
             (<code><span title="torch.utils.tensorboard.SummaryWriter">SummaryWriter</span> | None</code>, default:
                 <code>None</code>
 )
@@ -2931,7 +2921,7 @@ TensorBoard.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>kwargs</b>
+        <b><code>kwargs</code></b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                 <code>{}</code>
 )

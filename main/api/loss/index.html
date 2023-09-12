@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.8">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.3.1">
     
     
       
@@ -309,24 +309,14 @@
   
     
     
-      
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
   
-  
-    
-  
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="../" class="md-tabs__link">
-        
-  
-    
-  
-  llm
+  API Reference
 
-      </a>
-    </li>
-  
-
+        </a>
+      </li>
     
   
 
@@ -2121,7 +2111,7 @@ and (optionally) next sentence prediction tasks.</p>
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
-        <b>vocab_size</b>
+        <b><code>vocab_size</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
         <div class="doc-md-description">
@@ -2129,7 +2119,7 @@ and (optionally) next sentence prediction tasks.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>ignore_index</b>
+        <b><code>ignore_index</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
                 <code>-100</code>
 )
@@ -2192,7 +2182,7 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
   <p>Parameters:</p>
   <ul>
       <li class="field-body">
-        <b>prediction_scores</b>
+        <b><code>prediction_scores</code></b>
             (<code><span title="torch.FloatTensor">FloatTensor</span></code>)
         –
         <div class="doc-md-description">
@@ -2200,7 +2190,7 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>masked_lm_labels</b>
+        <b><code>masked_lm_labels</code></b>
             (<code><span title="torch.LongTensor">LongTensor</span></code>)
         –
         <div class="doc-md-description">
@@ -2208,7 +2198,7 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>seq_relationship_score</b>
+        <b><code>seq_relationship_score</code></b>
             (<code><span title="torch.FloatTensor">FloatTensor</span> | None</code>, default:
                 <code>None</code>
 )
@@ -2218,7 +2208,7 @@ as the value in <code>masked_lm_labels</code> which are not masked.</p>
         </div>
       </li>
       <li class="field-body">
-        <b>next_sentence_labels</b>
+        <b><code>next_sentence_labels</code></b>
             (<code><span title="torch.LongTensor">LongTensor</span> | None</code>, default:
                 <code>None</code>
 )
