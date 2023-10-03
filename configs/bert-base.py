@@ -34,7 +34,7 @@ SEED = 42
 # ACCUMULATION_STEPS is computed automatically by llm.trainers.bert
 if PHASE == 1:
     DATASET_CONFIG = NvidiaBertDatasetConfig(
-        '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/',  # noqa: E501
+        '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_128_max_pred_20_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/',
     )
 
     GLOBAL_BATCH_SIZE = 8192
@@ -46,7 +46,7 @@ if PHASE == 1:
     WARMUP_STEPS = int(0.01 * STEPS)
 elif PHASE == 2:
     DATASET_CONFIG = NvidiaBertDatasetConfig(
-        '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_512_max_pred_80_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/',  # noqa: E501
+        '/grand/SuperBERT/jgpaul/datasets/encoded/wikibooks/nvidia_static_masked_30K/hdf5_lower_case_1_seq_len_512_max_pred_80_masked_lm_prob_0.15_random_seed_12345_dupe_factor_5/books_wiki_en_corpus/',
     )
 
     GLOBAL_BATCH_SIZE = 8192
