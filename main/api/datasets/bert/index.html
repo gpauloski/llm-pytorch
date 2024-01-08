@@ -2466,7 +2466,6 @@
 
 
 
-
 <h2 id="llm.datasets.bert.Batch" class="doc doc-heading">
           <span class="doc doc-object-name doc-class-name">Batch</span>
 
@@ -2496,7 +2495,6 @@
 
 
 
-
 <h3 id="llm.datasets.bert.Batch.input_ids" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">input_ids</span>
 
@@ -2506,7 +2504,7 @@
   </span>
 
 <a href="#llm.datasets.bert.Batch.input_ids" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">input_ids</span><span class="p">:</span> <span class="n">LongTensor</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2520,7 +2518,6 @@
 
 
 
-
 <h3 id="llm.datasets.bert.Batch.attention_mask" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">attention_mask</span>
 
@@ -2530,7 +2527,7 @@
   </span>
 
 <a href="#llm.datasets.bert.Batch.attention_mask" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">attention_mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">attention_mask</span><span class="p">:</span> <span class="n">LongTensor</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2546,7 +2543,6 @@ padding tokens). Also known as the input mask.</p>
 
 
 
-
 <h3 id="llm.datasets.bert.Batch.token_type_ids" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">token_type_ids</span>
 
@@ -2556,7 +2552,7 @@ padding tokens). Also known as the input mask.</p>
   </span>
 
 <a href="#llm.datasets.bert.Batch.token_type_ids" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">token_type_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">token_type_ids</span><span class="p">:</span> <span class="n">LongTensor</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2573,7 +2569,6 @@ segment ids.</p>
 
 
 
-
 <h3 id="llm.datasets.bert.Batch.masked_labels" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">masked_labels</span>
 
@@ -2583,7 +2578,7 @@ segment ids.</p>
   </span>
 
 <a href="#llm.datasets.bert.Batch.masked_labels" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">masked_labels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">masked_labels</span><span class="p">:</span> <span class="n">LongTensor</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2599,7 +2594,6 @@ set to <code>-100</code> to avoid contributing to the MLM loss.</p>
 
 
 
-
 <h3 id="llm.datasets.bert.Batch.next_sentence_labels" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">next_sentence_labels</span>
 
@@ -2609,7 +2603,7 @@ set to <code>-100</code> to avoid contributing to the MLM loss.</p>
   </span>
 
 <a href="#llm.datasets.bert.Batch.next_sentence_labels" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">next_sentence_labels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span> <span class="o">|</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">next_sentence_labels</span><span class="p">:</span> <span class="n">LongTensor</span> <span class="o">|</span> <span class="kc">None</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2630,10 +2624,10 @@ set to <code>None</code>.</p>
 
   </div>
 
+
 </div>
 
 <div class="doc doc-object doc-class">
-
 
 
 
@@ -2664,7 +2658,6 @@ set to <code>None</code>.</p>
 
 
 
-
 <h3 id="llm.datasets.bert.Sample.input_ids" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">input_ids</span>
 
@@ -2674,7 +2667,7 @@ set to <code>None</code>.</p>
   </span>
 
 <a href="#llm.datasets.bert.Sample.input_ids" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">input_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">input_ids</span><span class="p">:</span> <span class="n">LongTensor</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2688,7 +2681,6 @@ set to <code>None</code>.</p>
 
 
 
-
 <h3 id="llm.datasets.bert.Sample.attention_mask" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">attention_mask</span>
 
@@ -2698,7 +2690,7 @@ set to <code>None</code>.</p>
   </span>
 
 <a href="#llm.datasets.bert.Sample.attention_mask" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">attention_mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">attention_mask</span><span class="p">:</span> <span class="n">LongTensor</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2714,7 +2706,6 @@ padding tokens). Also known as the input mask.</p>
 
 
 
-
 <h3 id="llm.datasets.bert.Sample.token_type_ids" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">token_type_ids</span>
 
@@ -2724,7 +2715,7 @@ padding tokens). Also known as the input mask.</p>
   </span>
 
 <a href="#llm.datasets.bert.Sample.token_type_ids" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">token_type_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">token_type_ids</span><span class="p">:</span> <span class="n">LongTensor</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2741,7 +2732,6 @@ segment ids.</p>
 
 
 
-
 <h3 id="llm.datasets.bert.Sample.masked_labels" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">masked_labels</span>
 
@@ -2751,7 +2741,7 @@ segment ids.</p>
   </span>
 
 <a href="#llm.datasets.bert.Sample.masked_labels" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">masked_labels</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">masked_labels</span><span class="p">:</span> <span class="n">LongTensor</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2767,7 +2757,6 @@ set to <code>-100</code> to avoid contributing to the MLM loss.</p>
 
 
 
-
 <h3 id="llm.datasets.bert.Sample.next_sentence_label" class="doc doc-heading">
           <span class="doc doc-object-name doc-attribute-name">next_sentence_label</span>
 
@@ -2777,7 +2766,7 @@ set to <code>-100</code> to avoid contributing to the MLM loss.</p>
   </span>
 
 <a href="#llm.datasets.bert.Sample.next_sentence_label" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">next_sentence_label</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span> <span class="o">|</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">next_sentence_label</span><span class="p">:</span> <span class="n">LongTensor</span> <span class="o">|</span> <span class="kc">None</span>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
@@ -2798,10 +2787,10 @@ set to <code>None</code>.</p>
 
   </div>
 
+
 </div>
 
 <div class="doc doc-object doc-class">
-
 
 
 
@@ -2885,6 +2874,7 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
   </div>
 
   </div>
+
 
 </div>
 
