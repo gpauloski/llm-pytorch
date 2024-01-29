@@ -62,9 +62,11 @@ def get_preconditioner(
         assignment_strategy=AssignmentStrategy.MEMORY,
         compute_eigenvalue_outer_product=False,
         grad_worker_fraction=DistributedStrategy.MEM_OPT,
-        loglevel=logging.INFO
-        if torch.distributed.get_rank() == 0
-        else logging.DEBUG,
+        loglevel=(
+            logging.INFO
+            if torch.distributed.get_rank() == 0
+            else logging.DEBUG
+        ),
         **kwargs,
     )
 

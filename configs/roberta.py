@@ -10,6 +10,7 @@ Notes:
     here.
   - Gradient clipping is used because we use mixed precision here.
 """
+
 from __future__ import annotations
 
 import os

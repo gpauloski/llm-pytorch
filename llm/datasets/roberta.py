@@ -4,6 +4,7 @@ This is designed to work with data produced by the RoBERTa encoder
 preprocessing script in
 [`llm.preprocess.roberta`][llm.preprocess.roberta].
 """
+
 from __future__ import annotations
 
 import pathlib

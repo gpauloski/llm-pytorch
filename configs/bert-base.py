@@ -9,6 +9,7 @@ Batch size is 8192 and training is done for 31250 steps (equivalent to the
 original 256 batch size for 1M steps). The first 90% of steps are done
 with sequence length 128 and the last 10% are done with sequence length 512.
 """
+
 from __future__ import annotations
 
 import os

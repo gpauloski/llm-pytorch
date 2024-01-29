@@ -2,6 +2,7 @@
 
 Source: https://github.com/hpcaitech/ColossalAI-Examples/blob/e0830ccc1bbc57f9c50bb1c00f3e23239bf1e231/language/roberta/pretraining/nvidia_bert_dataset_provider.py
 """
+
 from __future__ import annotations
 
 import random

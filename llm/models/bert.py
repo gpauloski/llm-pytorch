@@ -2,6 +2,7 @@
 
 Source: [ColossalAI-Examples](https://github.com/hpcaitech/ColossalAI-Examples/blob/e0830ccc1bbc57f9c50bb1c00f3e23239bf1e231/language/bert/colotensor/model/__init__.py){target=_blank}
 """
+
 from __future__ import annotations
 
 from typing import Any

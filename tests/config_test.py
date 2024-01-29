@@ -52,10 +52,13 @@ def test_flattened_config() -> None:
     assert flattened_config(config) == {'a': 1}
 
     # test get world size
-    with mock.patch(
-        'torch.distributed.is_initialized',
-        return_value=True,
-    ), mock.patch('torch.distributed.get_world_size', return_value=4):
+    with (
+        mock.patch(
+            'torch.distributed.is_initialized',
+            return_value=True,
+        ),
+        mock.patch('torch.distributed.get_world_size', return_value=4),
+    ):
         assert flattened_config() == {'world_size': 4}
 
     # test flattening and removing non-supported types

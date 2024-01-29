@@ -1,4 +1,5 @@
 """Training loss functions."""
+
 from __future__ import annotations
 
 import torch

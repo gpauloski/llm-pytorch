@@ -17,6 +17,7 @@ Example:
     model = AutoModelForMaskedLM.from_pretrained('/path/to/output/dir')
     ```
 """  # noqa: E501
+
 from __future__ import annotations
 
 import logging
