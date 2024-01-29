@@ -1,4 +1,5 @@
 """Utilities for easy automatic mixed precision training."""
+
 from __future__ import annotations
 
 from typing import Any

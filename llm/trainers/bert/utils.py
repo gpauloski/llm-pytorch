@@ -1,4 +1,5 @@
 """BERT pretraining utilities."""
+
 from __future__ import annotations
 
 import dataclasses
