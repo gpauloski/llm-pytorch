@@ -70,7 +70,8 @@ def flattened_config(
     """Convert a config to a flat JSONable dictionary.
 
     Note:
-        If [`torch.distributed.is_initialized()`][torch.distributed.is_initialized],
+        If
+        [`torch.distributed.is_initialized()`][torch.distributed.is_initialized],
         the `world_size` will be added to the config.
 
     Args:

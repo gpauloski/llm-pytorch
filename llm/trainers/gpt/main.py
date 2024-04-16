@@ -17,6 +17,7 @@
 
 Script modified from https://github.com/huggingface/transformers/blob/main/examples/pytorch/language-modeling/run_clm_no_trainer.py.
 """
+
 from __future__ import annotations
 
 import json
