@@ -45,7 +45,6 @@ namespaces = false
 colossalai = ["colossalai"]
 kfac = ["kfac-pytorch@git+https://github.com/gpauloski/kfac-pytorch"]
 dev = [
-    "black",
     "covdefaults>=2.2",
     "coverage",
     "mypy",
@@ -67,11 +66,6 @@ docs = [
     "mkdocstrings[python]",
     "mike",
 ]
-
-[tool.black]
-line-length = 79
-target-version = ["py39"]
-skip-string-normalization = true
 
 [tool.codespell]
 skip = """
@@ -117,6 +111,10 @@ filterwarnings = ["ignore::UserWarning:torch"]
 norecursedirs = ["apex/*"]
 
 [tool.ruff]
+line-length = 79
+target-version = "py39"
+
+[tool.ruff.lint]
 # See all rules here: https://beta.ruff.rs/docs/rules
 select = [
     # pyflakes
@@ -160,15 +158,18 @@ extend-ignore = [
     "PT011",
 ]
 unfixable = ["UP007"]
-target-version = "py39"
 
-[tool.ruff.flake8-pytest-style]
+[tool.ruff.lint.lake8-pytest-style]
 parametrize-values-type = "tuple"
 
-[tool.ruff.flake8-quotes]
+[tool.ruff.lint.flake8-quotes]
 inline-quotes = "single"
 
-[tool.ruff.isort]
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "single"
+
+[tool.ruff.lint.isort]
 force-single-line = true
 known-first-party = ["llm", "test", "testing"]
 order-by-type = false
