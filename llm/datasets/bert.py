@@ -224,7 +224,8 @@ def get_dataloader_from_nvidia_bert_shard(
     Args:
         input_file: HDF5 file to load.
         batch_size: Size of batches yielded by the dataloader.
-        num_replicas: Number of processes participating in distributed training.
+        num_replicas: Number of processes participating in distributed
+            training.
         rank: Rank of the current process within `num_replicas`.
         seed: Random seed used to shuffle the sampler.
         num_workers: Number of subprocesses to use for data loading.
@@ -267,7 +268,8 @@ def sharded_nvidia_bert_dataset(
     Args:
         input_dir: Directory of HDF5 shards to load samples from.
         batch_size: Size of batches yielded.
-        num_replicas: Number of processes participating in distributed training.
+        num_replicas: Number of processes participating in distributed
+            training.
         rank: Rank of the current process within `num_replicas`.
         seed: Random seed used to shuffle the sampler.
         num_workers: Number of subprocesses to use for data loading.
