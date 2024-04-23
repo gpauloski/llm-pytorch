@@ -2550,9 +2550,9 @@
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>checkpoint_dir</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>)
         –
@@ -2560,7 +2560,7 @@
           <p>Directory containing checkpoint files.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>global_step</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>, default:
                 <code>None</code>
@@ -2571,7 +2571,7 @@
 loads the latest checkpoint.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>map_location</code></b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                 <code>None</code>
@@ -2586,9 +2586,9 @@ loads the latest checkpoint.</p>
 
 
 
-  <p>Returns:</p>
+  <p><span class="doc-section-title">Returns:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><a class="autorefs autorefs-internal" title="llm.checkpoint.Checkpoint" href="#llm.checkpoint.Checkpoint">Checkpoint</a> | None</code>
         –
         <div class="doc-md-description">
@@ -2599,16 +2599,16 @@ loads the latest checkpoint.</p>
 
 
 
-  <p>Raises:</p>
+  <p><span class="doc-section-title">Raises:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#OSError">OSError</a></code>
           –
         <div class="doc-md-description">
           <p>If <code>checkpoint_dir</code> does not exist.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#OSError">OSError</a></code>
           –
         <div class="doc-md-description">
@@ -2764,9 +2764,9 @@ loads the latest checkpoint.</p>
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>checkpoint_dir</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | <a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a></code>)
         –
@@ -2774,7 +2774,7 @@ loads the latest checkpoint.</p>
           <p>Directory to save checkpoint to.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>global_step</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
@@ -2782,7 +2782,7 @@ loads the latest checkpoint.</p>
           <p>Training step used as the key for checkpoints.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>model</code></b>
             (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
         –
@@ -2790,7 +2790,7 @@ loads the latest checkpoint.</p>
           <p>Model to save state_dict of.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>optimizer</code></b>
             (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a> | None</code>, default:
                 <code>None</code>
@@ -2800,7 +2800,7 @@ loads the latest checkpoint.</p>
           <p>Optional optimizer to save state_dict of.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>scheduler</code></b>
             (<code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span> | None</code>, default:
                 <code>None</code>
@@ -2810,7 +2810,7 @@ loads the latest checkpoint.</p>
           <p>Optional scheduler to save state_dict of.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>kwargs</code></b>
             (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
                 <code>{}</code>

@@ -2851,9 +2851,9 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
 </details>
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>input_file</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
         –
@@ -2931,9 +2931,9 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>seq_len</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
@@ -2941,7 +2941,7 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
           <p>Sequence length.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>masked_lm_positions</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>)
         –
@@ -2949,7 +2949,7 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
           <p>Index in sequence of masked tokens</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>masked_lm_ids</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#list">list</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>)
         –
@@ -2962,9 +2962,9 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
 
 
 
-  <p>Returns:</p>
+  <p><span class="doc-section-title">Returns:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><span title="numpy.ndarray">ndarray</span>[<a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>, <a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a>]</code>
         –
         <div class="doc-md-description">
@@ -3062,9 +3062,9 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>input_file</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
         –
@@ -3072,7 +3072,7 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
           <p>HDF5 file to load.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>batch_size</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
@@ -3080,7 +3080,7 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
           <p>Size of batches yielded by the dataloader.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>num_replicas</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>, default:
                 <code>None</code>
@@ -3091,7 +3091,7 @@ indexable returning a <a class="autorefs autorefs-internal" href="#llm.datasets.
 training.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>rank</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>, default:
                 <code>None</code>
@@ -3101,7 +3101,7 @@ training.</p>
           <p>Rank of the current process within <code>num_replicas</code>.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>seed</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
                 <code>0</code>
@@ -3111,7 +3111,7 @@ training.</p>
           <p>Random seed used to shuffle the sampler.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>num_workers</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
                 <code>4</code>
@@ -3125,9 +3125,9 @@ training.</p>
 
 
 
-  <p>Returns:</p>
+  <p><span class="doc-section-title">Returns:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><a class="autorefs autorefs-external" title="torch.utils.data.DataLoader" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader">DataLoader</a>[<a class="autorefs autorefs-internal" title="llm.datasets.bert.Batch" href="#llm.datasets.bert.Batch">Batch</a>]</code>
         –
         <div class="doc-md-description">
@@ -3253,9 +3253,9 @@ training.</p>
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>input_dir</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
         –
@@ -3263,7 +3263,7 @@ training.</p>
           <p>Directory of HDF5 shards to load samples from.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>batch_size</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
@@ -3271,7 +3271,7 @@ training.</p>
           <p>Size of batches yielded.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>num_replicas</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>, default:
                 <code>None</code>
@@ -3282,7 +3282,7 @@ training.</p>
 training.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>rank</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>, default:
                 <code>None</code>
@@ -3292,7 +3292,7 @@ training.</p>
           <p>Rank of the current process within <code>num_replicas</code>.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>seed</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
                 <code>0</code>
@@ -3302,7 +3302,7 @@ training.</p>
           <p>Random seed used to shuffle the sampler.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>num_workers</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
                 <code>4</code>
@@ -3316,9 +3316,9 @@ training.</p>
 
 
 
-  <p>Yields:</p>
+  <p><span class="doc-section-title">Yields:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><a class="autorefs autorefs-internal" title="llm.datasets.bert.Batch" href="#llm.datasets.bert.Batch">Batch</a></code>
         –
         <div class="doc-md-description">

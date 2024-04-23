@@ -2329,9 +2329,9 @@ each rank sees an equal number of samples.</p>
 </details>
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>dataset_type</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#type">type</a>[<a class="autorefs autorefs-external" title="torch.utils.data.Dataset" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset">Dataset</a>[<span title="llm.datasets.sharded.SampleType">SampleType</span>]]</code>)
         –
@@ -2341,7 +2341,7 @@ subtype of Dataset must be a map-style dataset. Iterable-style
 datasets are not supported.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>shard_params</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#dict">dict</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <span title="llm.datasets.sharded.DatasetParams">DatasetParams</span>]</code>)
         –
@@ -2351,7 +2351,7 @@ to initialize a <code>dataset_type</code> for the shard. The parameter type
 is a tuple of args and kwargs.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>rank</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
@@ -2359,7 +2359,7 @@ is a tuple of args and kwargs.</p>
           <p>Rank of this process.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>world_size</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
@@ -2367,7 +2367,7 @@ is a tuple of args and kwargs.</p>
           <p>Number of ranks sharing the dataset.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>shuffle</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
                 <code>False</code>
@@ -2378,7 +2378,7 @@ is a tuple of args and kwargs.</p>
 (<code>False</code>) sorts the shards by shard key.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>seed</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
                 <code>0</code>
@@ -2575,9 +2575,9 @@ is a tuple of args and kwargs.</p>
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>rank_index</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
         –
@@ -2589,9 +2589,9 @@ is a tuple of args and kwargs.</p>
 
 
 
-  <p>Returns:</p>
+  <p><span class="doc-section-title">Returns:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
             <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a>, <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>]</code>
         –
         <div class="doc-md-description">
@@ -2679,9 +2679,9 @@ is a tuple of args and kwargs.</p>
 
 
 
-  <p>Parameters:</p>
+  <p><span class="doc-section-title">Parameters:</span></p>
   <ul>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>data_source</code></b>
             (<code><a class="autorefs autorefs-external" title="collections.abc.Sized" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sized">Sized</a></code>)
         –
@@ -2689,7 +2689,7 @@ is a tuple of args and kwargs.</p>
           <p>Dataset to sample sequentially from.</p>
         </div>
       </li>
-      <li class="field-body">
+      <li class="doc-section-item field-body">
         <b><code>start_index</code></b>
             (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
                 <code>0</code>
