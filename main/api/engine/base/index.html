@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -2250,7 +2250,7 @@
 
   <div class="doc doc-contents first">
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2266,18 +2266,18 @@
 
 
 <h2 id="llm.engine.base.BaseOptimizer" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">BaseOptimizer</span>
+            <span class="doc doc-object-name doc-class-name">BaseOptimizer</span>
 
 
 <a href="#llm.engine.base.BaseOptimizer" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">BaseOptimizer</span><span class="p">(</span><span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code></p>
 
-  
+
       <p>Base optimizer wrapper.</p>
 <p>Compared to a standard PyTorch <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer"><code>Optimizer</code></a>,
 this optimizer adds the
@@ -2287,28 +2287,27 @@ optimizer wrappers can adjust how the loss is computed.</p>
 <p>Otherwise, this optimizer behaves identically to the wrapped optimizer.</p>
 
 
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Standard PyTorch optimizer to wrap.</p>
+          </div>
+        </li>
+    </ul>
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>optimizer</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Standard PyTorch optimizer to wrap.</p>
-        </div>
-      </li>
-  </ul>
-
-                <details class="quote">
-                  <summary>Source code in <code>llm/engine/base.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-24">24</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/engine/base.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-24">24</a></span>
 <span class="normal"><a href="#__codelineno-0-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">Optimizer</span><span class="p">):</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2333,7 +2332,7 @@ optimizer wrappers can adjust how the loss is computed.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Perform an optimization step.</p>
 
       <details class="quote">
@@ -2362,7 +2361,7 @@ optimizer wrappers can adjust how the loss is computed.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Zero the gradients of optimized parameters.</p>
 
       <details class="quote">
@@ -2391,7 +2390,7 @@ optimizer wrappers can adjust how the loss is computed.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Perform a backward pass using the loss.</p>
 
       <details class="quote">
@@ -2411,8 +2410,7 @@ optimizer wrappers can adjust how the loss is computed.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2483,7 +2481,7 @@ optimizer wrappers can adjust how the loss is computed.</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

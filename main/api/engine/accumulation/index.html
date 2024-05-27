@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -2333,10 +2333,10 @@
   </div>
 
   <div class="doc doc-contents first">
-  
+
       <p>Utilities for easy gradient accumulation training.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2352,7 +2352,7 @@
 
 
 <h2 id="llm.engine.accumulation.GradientAccumulationOptimizer" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">GradientAccumulationOptimizer</span>
+            <span class="doc doc-object-name doc-class-name">GradientAccumulationOptimizer</span>
 
 
 <a href="#llm.engine.accumulation.GradientAccumulationOptimizer" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2363,49 +2363,48 @@
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code></p>
 
-  
+
       <p>Optimizer wrapper for enabling gradient accumulation.</p>
 <p>This wrapper will skip calls to
 <a class="autorefs autorefs-internal" href="../base/#llm.engine.base.BaseOptimizer.step"><code>BaseOptimizer.step()</code></a> until
 <code>accumulation_steps</code> forward/backward passes have been performed.</p>
 
 
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Optimizer to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>model</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Model being optimized.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>accumulation_steps</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Number of iterations between optimization steps.</p>
+          </div>
+        </li>
+    </ul>
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>optimizer</code></b>
-            (<code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Optimizer to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>model</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Model being optimized.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>accumulation_steps</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Number of iterations between optimization steps.</p>
-        </div>
-      </li>
-  </ul>
-
-                <details class="quote">
-                  <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-28">28</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-28">28</a></span>
 <span class="normal"><a href="#__codelineno-0-29">29</a></span>
 <span class="normal"><a href="#__codelineno-0-30">30</a></span>
 <span class="normal"><a href="#__codelineno-0-31">31</a></span>
@@ -2425,9 +2424,9 @@
 </span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_accumulation_step</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2452,7 +2451,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Return if the current step is an accumulation boundary.</p>
 <p>I.e., the last call to
 <a class="autorefs autorefs-internal" href="#llm.engine.accumulation.GradientAccumulationOptimizer.step"><code>step()</code></a>
@@ -2497,7 +2496,7 @@ has started.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Perform a backward pass.</p>
 
 <details class="note" open>
@@ -2509,18 +2508,17 @@ instance, backward passes will be performed with
 during gradient accumulation steps.</p>
 </details>
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>loss</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.Tensor" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor">Tensor</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Loss to compute gradients with respect to.</p>
-        </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>loss</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.Tensor" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor">Tensor</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Loss to compute gradients with respect to.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
@@ -2596,7 +2594,7 @@ during gradient accumulation steps.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Perform an optimization step.</p>
 <p>This method is a no-op unless <code>accumulation_steps</code> have occurred.</p>
 
@@ -2636,7 +2634,7 @@ during gradient accumulation steps.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Zero the gradients of the wrapped optimizer.</p>
 
       <details class="quote">
@@ -2658,8 +2656,7 @@ during gradient accumulation steps.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2668,7 +2665,7 @@ during gradient accumulation steps.</p>
 
 
 <h2 id="llm.engine.accumulation.GradientAccumulationLRScheduler" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">GradientAccumulationLRScheduler</span>
+            <span class="doc doc-object-name doc-class-name">GradientAccumulationLRScheduler</span>
 
 
 <a href="#llm.engine.accumulation.GradientAccumulationLRScheduler" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2677,41 +2674,40 @@ during gradient accumulation steps.</p>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code></p>
 
-  
+
       <p>LR scheduler wrapper that accounts for gradient accumulation.</p>
 <p>This wrapper allows you to call <code>scheduler.step()</code> after every
 forward/backward pass and will correctly skip the call if
 it happens during a gradient accumulation period.</p>
 
 
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>scheduler</code></b>
+              (<code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>LR scheduler to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>accumulation_steps</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Number of iterations between optimization steps.</p>
+          </div>
+        </li>
+    </ul>
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>scheduler</code></b>
-            (<code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code>)
-        –
-        <div class="doc-md-description">
-          <p>LR scheduler to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>accumulation_steps</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Number of iterations between optimization steps.</p>
-        </div>
-      </li>
-  </ul>
-
-                <details class="quote">
-                  <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-104">104</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-104">104</a></span>
 <span class="normal"><a href="#__codelineno-0-105">105</a></span>
 <span class="normal"><a href="#__codelineno-0-106">106</a></span>
 <span class="normal"><a href="#__codelineno-0-107">107</a></span>
@@ -2727,9 +2723,9 @@ it happens during a gradient accumulation period.</p>
 </span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_accumulation_step</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span id="__span-0-111"><a id="__codelineno-0-111" name="__codelineno-0-111"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_scheduler</span> <span class="o">=</span> <span class="n">scheduler</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2754,7 +2750,7 @@ it happens during a gradient accumulation period.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Update the learning rate.</p>
 <p>This method is a no-op unless <code>accumulation_steps</code> have occurred.</p>
 
@@ -2787,8 +2783,7 @@ it happens during a gradient accumulation period.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2814,61 +2809,59 @@ it happens during a gradient accumulation period.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Initialize gradient accumulation training.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>model</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Model being optimized.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>optimizer</code></b>
-            (<code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Optimizer to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>scheduler</code></b>
-            (<code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code>)
-        –
-        <div class="doc-md-description">
-          <p>LR scheduler to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>accumulation_steps</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>1</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>model</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Model being optimized.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Optimizer to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>scheduler</code></b>
+              (<code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>LR scheduler to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>accumulation_steps</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>1</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Number of iterations between optimization steps.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Number of iterations between optimization steps.</p>
+          </div>
+        </li>
+    </ul>
 
 
-
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-internal" title="llm.engine.accumulation.GradientAccumulationOptimizer" href="#llm.engine.accumulation.GradientAccumulationOptimizer">GradientAccumulationOptimizer</a>, <a class="autorefs autorefs-internal" title="llm.engine.accumulation.GradientAccumulationLRScheduler" href="#llm.engine.accumulation.GradientAccumulationLRScheduler">GradientAccumulationLRScheduler</a>]</code>
-        –
-        <div class="doc-md-description">
-          <p>The wrapped optimizer and LR scheduler.</p>
-      </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-internal" title="llm.engine.accumulation.GradientAccumulationOptimizer" href="#llm.engine.accumulation.GradientAccumulationOptimizer">GradientAccumulationOptimizer</a>, <a class="autorefs autorefs-internal" title="llm.engine.accumulation.GradientAccumulationLRScheduler" href="#llm.engine.accumulation.GradientAccumulationLRScheduler">GradientAccumulationLRScheduler</a>]</code>
+          –
+          <div class="doc-md-description">
+            <p>The wrapped optimizer and LR scheduler.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/engine/accumulation.py</code></summary>
@@ -2985,7 +2978,7 @@ it happens during a gradient accumulation period.</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

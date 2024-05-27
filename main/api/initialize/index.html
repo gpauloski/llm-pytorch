@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -2217,12 +2217,12 @@
   </div>
 
   <div class="doc doc-contents first">
-  
+
       <p>Utilities for initializing training environments.</p>
 <p>These utilities are used by the training scripts in
 <a class="autorefs autorefs-internal" href="../trainers/#llm.trainers"><code>llm.trainers</code></a>.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2251,57 +2251,55 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Get the default argument parser to be used with <a class="autorefs autorefs-internal" href="#llm.initialize.initialize_from_args"><code>initialize_from_args()</code></a>.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>prog</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
-                <code>None</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>prog</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Optional name of the program.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>description</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
-                <code>None</code>
+          –
+          <div class="doc-md-description">
+            <p>Optional name of the program.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>description</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Optional description of the program.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>usage</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
-                <code>None</code>
+          –
+          <div class="doc-md-description">
+            <p>Optional description of the program.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>usage</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Optional program usage.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Optional program usage.</p>
+          </div>
+        </li>
+    </ul>
 
 
-
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" title="argparse.ArgumentParser" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser">ArgumentParser</a></code>
-        –
-        <div class="doc-md-description">
-          <p>Parser which you can append your own arguments to.</p>
-      </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" title="argparse.ArgumentParser" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser">ArgumentParser</a></code>
+          –
+          <div class="doc-md-description">
+            <p>Parser which you can append your own arguments to.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/initialize.py</code></summary>
@@ -2408,66 +2406,65 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Initialize the distributed context.</p>
 <p>Perform the following: 1) initialize logging, 2) initialized torch
 distributed, and 3) set the cuda device is available.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>debug</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>False</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>debug</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>False</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Initialize torch distributed for debugging (single worker).</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>loglevel</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
-                <code>&#39;INFO&#39;</code>
+          –
+          <div class="doc-md-description">
+            <p>Initialize torch distributed for debugging (single worker).</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>loglevel</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>, default:
+                  <code>&#39;INFO&#39;</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Minimum logging level.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>logfile</code></b>
-            (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
-                <code>None</code>
+          –
+          <div class="doc-md-description">
+            <p>Minimum logging level.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>logfile</code></b>
+              (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Log filepath.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>seed</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>, default:
-                <code>None</code>
+          –
+          <div class="doc-md-description">
+            <p>Log filepath.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>seed</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Random seed.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>rich</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>False</code>
+          –
+          <div class="doc-md-description">
+            <p>Random seed.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>rich</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>False</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Use rich formatting for stdout logging.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Use rich formatting for stdout logging.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/initialize.py</code></summary>
@@ -2607,7 +2604,7 @@ distributed, and 3) set the cuda device is available.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Load config and initialize from args.</p>
 
 <details class="example" open>
@@ -2771,7 +2768,7 @@ distributed, and 3) set the cuda device is available.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

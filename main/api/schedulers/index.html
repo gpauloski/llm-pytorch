@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -2211,10 +2211,10 @@
   </div>
 
   <div class="doc doc-contents first">
-  
+
       <p>Custom learning rate schedules.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2230,7 +2230,7 @@
 
 
 <h2 id="llm.schedulers.LinearWarmupLR" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">LinearWarmupLR</span>
+            <span class="doc doc-object-name doc-class-name">LinearWarmupLR</span>
 
 
 <a href="#llm.schedulers.LinearWarmupLR" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2242,59 +2242,58 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code></p>
 
-  
+
       <p>Linear warmup and decay LR scheduler.</p>
 <p>Source: <a href="https://github.com/hpcaitech/ColossalAI/blob/039b0c487bb7d380201d5d6aa6aa63e5d58c329b/colossalai/nn/lr_scheduler/linear.py" target="_blank">ColossalAI</a></p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>optimizer</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Optimizer to adjust learning rate of.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>total_steps</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Total training steps.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>warmup_steps</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>0</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Optimizer to adjust learning rate of.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>total_steps</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Total training steps.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>warmup_steps</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>0</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Steps to linearly warmup the learning rate.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>last_epoch</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>-1</code>
+          –
+          <div class="doc-md-description">
+            <p>Steps to linearly warmup the learning rate.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>last_epoch</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>-1</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Optional last epoch.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Optional last epoch.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>llm/schedulers.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-21">21</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/schedulers.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-21">21</a></span>
 <span class="normal"><a href="#__codelineno-0-22">22</a></span>
 <span class="normal"><a href="#__codelineno-0-23">23</a></span>
 <span class="normal"><a href="#__codelineno-0-24">24</a></span>
@@ -2314,9 +2313,9 @@
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">warmup_steps</span> <span class="o">=</span> <span class="n">warmup_steps</span>
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">last_epoch</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2341,7 +2340,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Compute the current learning rate.</p>
 
       <details class="quote">
@@ -2373,8 +2372,7 @@
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2445,7 +2443,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

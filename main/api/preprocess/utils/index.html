@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -2201,10 +2201,10 @@
   </div>
 
   <div class="doc doc-contents first">
-  
+
       <p>Preprocessing script utilities.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2229,7 +2229,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Convert string with bytes units to the integer value of bytes.</p>
 <p>Source: <a href="https://github.com/proxystore/proxystore/blob/79dfdc0fc2c5a5093cf5e57b2ecf61c48fde6773/proxystore/utils.py#L130" target="_blank">ProxyStore</a></p>
 
@@ -2242,60 +2242,57 @@
 </span></code></pre></div>
 </details>
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>size</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>String to parse for bytes size.</p>
-        </div>
-      </li>
-  </ul>
-
-
-
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>
-        –
-        <div class="doc-md-description">
-          <p>Integer number of bytes parsed from the string.</p>
-      </div>
-      </li>
-  </ul>
-
-
-
-  <p><span class="doc-section-title">Raises:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>size</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
           –
-        <div class="doc-md-description">
-          <p>If the input string contains more than two parts
+          <div class="doc-md-description">
+            <p>String to parse for bytes size.</p>
+          </div>
+        </li>
+    </ul>
+
+
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>
+          –
+          <div class="doc-md-description">
+            <p>Integer number of bytes parsed from the string.</p>
+          </div>
+        </li>
+    </ul>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
+            –
+          <div class="doc-md-description">
+            <p>If the input string contains more than two parts
 (i.e., a value and a unit).</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
-          –
-        <div class="doc-md-description">
-          <p>If the unit is not one of KB, MB, GB, TB, KiB, MiB, GiB,
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
+            –
+          <div class="doc-md-description">
+            <p>If the unit is not one of KB, MB, GB, TB, KiB, MiB, GiB,
 or TiB.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
-          –
-        <div class="doc-md-description">
-          <p>If the value cannot be cast to a float.</p>
-        </div>
-      </li>
-  </ul>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/exceptions.html#ValueError">ValueError</a></code>
+            –
+          <div class="doc-md-description">
+            <p>If the value cannot be cast to a float.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/preprocess/utils.py</code></summary>
@@ -2449,7 +2446,7 @@ or TiB.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Safely extract a tar file.</p>
 
 <details class="note" open>
@@ -2457,26 +2454,25 @@ or TiB.</p>
   <p>This extraction method is designed to safeguard against CVE-2007-4559.</p>
 </details>
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>name</code></b>
-            (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Path to tar file to extract.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>target</code></b>
-            (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Target path to extract to.</p>
-        </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>name</code></b>
+              (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Path to tar file to extract.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>target</code></b>
+              (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Target path to extract to.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/preprocess/utils.py</code></summary>
@@ -2597,7 +2593,7 @@ or TiB.</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

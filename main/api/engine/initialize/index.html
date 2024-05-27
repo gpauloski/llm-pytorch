@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -2184,7 +2184,7 @@
 
   <div class="doc doc-contents first">
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2223,102 +2223,100 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Enable advanced training features.</p>
 <p>This method allows you to easily wrap your training objects with
 transparent wrappers that enable advanced training features.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>model</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Model being trained.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>optimizer</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Training optimizer.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>criterion</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Training loss function.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>scheduler</code></b>
-            (<code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code>)
-        –
-        <div class="doc-md-description">
-          <p>LR scheduler.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>accumulation_steps</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code>1</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>model</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Model being trained.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Training optimizer.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>criterion</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Training loss function.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>scheduler</code></b>
+              (<code><span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>LR scheduler.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>accumulation_steps</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code>1</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Number of forward/backward passes between
+          –
+          <div class="doc-md-description">
+            <p>Number of forward/backward passes between
 optimizer steps.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>dtype</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.dtype" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype">dtype</a> | None</code>, default:
-                <code>None</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>dtype</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.dtype" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype">dtype</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Optional data type for mixed precision training.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>max_norm</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
-                <code>None</code>
+          –
+          <div class="doc-md-description">
+            <p>Optional data type for mixed precision training.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>max_norm</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Optional maximum norm of gradients to clip to.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>kwargs</code></b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
-                <code>{}</code>
+          –
+          <div class="doc-md-description">
+            <p>Optional maximum norm of gradients to clip to.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>kwargs</code></b>
+              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                  <code>{}</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Keyword arguments to pass to the gradient scaler.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Keyword arguments to pass to the gradient scaler.</p>
+          </div>
+        </li>
+    </ul>
 
 
-
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a>, <a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a>, <a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a>, <span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span>]</code>
-        –
-        <div class="doc-md-description">
-          <p>Tuple of the wrapped model, optimizer, loss, and scheduler.</p>
-      </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a>, <a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a>, <a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a>, <span title="torch.optim.lr_scheduler._LRScheduler">_LRScheduler</span>]</code>
+          –
+          <div class="doc-md-description">
+            <p>Tuple of the wrapped model, optimizer, loss, and scheduler.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/engine/initialize.py</code></summary>
@@ -2569,7 +2567,7 @@ optimizer steps.</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

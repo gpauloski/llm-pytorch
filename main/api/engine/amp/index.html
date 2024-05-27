@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -2399,10 +2399,10 @@
   </div>
 
   <div class="doc doc-contents first">
-  
+
       <p>Utilities for easy automatic mixed precision training.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2418,7 +2418,7 @@
 
 
 <h2 id="llm.engine.amp.AMPCriterion" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">AMPCriterion</span>
+            <span class="doc doc-object-name doc-class-name">AMPCriterion</span>
 
 
 <a href="#llm.engine.amp.AMPCriterion" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2427,38 +2427,37 @@
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
 
-  
+
       <p>Wrap a loss function for AMP training.</p>
 
 
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>criterion</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Loss function to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>autocast</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.autocast" href="https://pytorch.org/docs/stable/amp.html#torch.autocast">autocast</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Autocast context manager to compute loss inside.</p>
+          </div>
+        </li>
+    </ul>
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>criterion</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Loss function to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>autocast</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.autocast" href="https://pytorch.org/docs/stable/amp.html#torch.autocast">autocast</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Autocast context manager to compute loss inside.</p>
-        </div>
-      </li>
-  </ul>
-
-                <details class="quote">
-                  <summary>Source code in <code>llm/engine/amp.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-23">23</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/engine/amp.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-23">23</a></span>
 <span class="normal"><a href="#__codelineno-0-24">24</a></span>
 <span class="normal"><a href="#__codelineno-0-25">25</a></span>
 <span class="normal"><a href="#__codelineno-0-26">26</a></span>
@@ -2474,9 +2473,9 @@
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_criterion</span> <span class="o">=</span> <span class="n">criterion</span>
 </span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_autocast</span> <span class="o">=</span> <span class="n">autocast</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2501,7 +2500,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Compute the loss inside the autocast.</p>
 
       <details class="quote">
@@ -2523,8 +2522,7 @@
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2533,45 +2531,44 @@
 
 
 <h2 id="llm.engine.amp.AMPModel" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">AMPModel</span>
+            <span class="doc doc-object-name doc-class-name">AMPModel</span>
 
 
 <a href="#llm.engine.amp.AMPModel" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">AMPModel</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">autocast</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">autocast</span><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code></p>
 
-  
+
       <p>Wrap a model for AMP training.</p>
 
 
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>model</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Model to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>autocast</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.autocast" href="https://pytorch.org/docs/stable/amp.html#torch.autocast">autocast</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Autocast context manager to compute loss inside.</p>
+          </div>
+        </li>
+    </ul>
 
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>model</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Model to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>autocast</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.autocast" href="https://pytorch.org/docs/stable/amp.html#torch.autocast">autocast</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Autocast context manager to compute loss inside.</p>
-        </div>
-      </li>
-  </ul>
-
-                <details class="quote">
-                  <summary>Source code in <code>llm/engine/amp.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-46">46</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/engine/amp.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
 <span class="normal"><a href="#__codelineno-0-48">48</a></span>
 <span class="normal"><a href="#__codelineno-0-49">49</a></span>
@@ -2587,9 +2584,9 @@
 </span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
 </span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_autocast</span> <span class="o">=</span> <span class="n">autocast</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2614,7 +2611,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Perform a forward pass inside the autocast.</p>
 
       <details class="quote">
@@ -2636,8 +2633,7 @@
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2646,7 +2642,7 @@
 
 
 <h2 id="llm.engine.amp.AMPOptimizer" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">AMPOptimizer</span>
+            <span class="doc doc-object-name doc-class-name">AMPOptimizer</span>
 
 
 <a href="#llm.engine.amp.AMPOptimizer" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2658,56 +2654,55 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="llm.engine.base.BaseOptimizer" href="../base/#llm.engine.base.BaseOptimizer">BaseOptimizer</a></code></p>
 
-  
+
       <p>Wrap an optimizer for AMP training.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>model</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Model being optimized.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>optimizer</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Optimizer to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>scaler</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.cuda.amp.GradScaler" href="https://pytorch.org/docs/stable/amp.html#torch.cuda.amp.GradScaler">GradScaler</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Gradient scaler.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>max_norm</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
-                <code>None</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>model</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Model being optimized.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Optimizer to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>scaler</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.cuda.amp.GradScaler" href="https://pytorch.org/docs/stable/amp.html#torch.cuda.amp.GradScaler">GradScaler</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Gradient scaler.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>max_norm</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Optionally clip gradient norm.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Optionally clip gradient norm.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>llm/engine/amp.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-71">71</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/engine/amp.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-71">71</a></span>
 <span class="normal"><a href="#__codelineno-0-72">72</a></span>
 <span class="normal"><a href="#__codelineno-0-73">73</a></span>
 <span class="normal"><a href="#__codelineno-0-74">74</a></span>
@@ -2729,9 +2724,9 @@
 </span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_scaler</span> <span class="o">=</span> <span class="n">scaler</span>
 </span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_max_norm</span> <span class="o">=</span> <span class="n">max_norm</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2756,7 +2751,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Zero the gradients of optimized parameters.</p>
 
       <details class="quote">
@@ -2785,7 +2780,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Dictionary containing references to the whole state of the module.</p>
 <p>Includes the state of the <code>grad_scaler</code>.</p>
 
@@ -2827,7 +2822,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Copy the state into this module.</p>
 
       <details class="quote">
@@ -2862,7 +2857,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Perform a backward pass and correctly scale the loss.</p>
 
       <details class="quote">
@@ -2891,7 +2886,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Perform an optimization using the gradient scaler.</p>
 
       <details class="quote">
@@ -2925,8 +2920,7 @@
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2951,83 +2945,81 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Initialize AMP training.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>model</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Model being optimized.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>optimizer</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Optimizer to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>criterion</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Loss function to wrap.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>dtype</code></b>
-            (<code><a class="autorefs autorefs-external" title="torch.dtype" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype">dtype</a></code>, default:
-                <code><span title="torch.float16">float16</span></code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>model</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Model being optimized.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>optimizer</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.optim.Optimizer" href="https://pytorch.org/docs/stable/optim.html#torch.optim.Optimizer">Optimizer</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Optimizer to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>criterion</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.nn.Module" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module">Module</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Loss function to wrap.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>dtype</code></b>
+              (<code><a class="autorefs autorefs-external" title="torch.dtype" href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.dtype">dtype</a></code>, default:
+                  <code><span title="torch.float16">float16</span></code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Data type to perform mixed precision in. Typically
+          –
+          <div class="doc-md-description">
+            <p>Data type to perform mixed precision in. Typically
 <code>torch.float16</code> or <code>torch.bfloat16</code>.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>max_norm</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
-                <code>None</code>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>max_norm</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a> | None</code>, default:
+                  <code>None</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Optionally clip gradient norm.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>kwargs</code></b>
-            (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
-                <code>{}</code>
+          –
+          <div class="doc-md-description">
+            <p>Optionally clip gradient norm.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>kwargs</code></b>
+              (<code><a class="autorefs autorefs-external" title="typing.Any" href="https://docs.python.org/3/library/typing.html#typing.Any">Any</a></code>, default:
+                  <code>{}</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Additional keyword arguments to pass to the
+          –
+          <div class="doc-md-description">
+            <p>Additional keyword arguments to pass to the
 <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/amp.html#torch.cuda.amp.GradScaler"><code>GradScaler</code></a>.</p>
-        </div>
-      </li>
-  </ul>
+          </div>
+        </li>
+    </ul>
 
 
-
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-internal" title="llm.engine.amp.AMPModel" href="#llm.engine.amp.AMPModel">AMPModel</a>, <a class="autorefs autorefs-internal" title="llm.engine.amp.AMPOptimizer" href="#llm.engine.amp.AMPOptimizer">AMPOptimizer</a>, <a class="autorefs autorefs-internal" title="llm.engine.amp.AMPCriterion" href="#llm.engine.amp.AMPCriterion">AMPCriterion</a>]</code>
-        –
-        <div class="doc-md-description">
-          <p>A tuple of the wrapped model, optimizer, and loss.</p>
-      </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<a class="autorefs autorefs-internal" title="llm.engine.amp.AMPModel" href="#llm.engine.amp.AMPModel">AMPModel</a>, <a class="autorefs autorefs-internal" title="llm.engine.amp.AMPOptimizer" href="#llm.engine.amp.AMPOptimizer">AMPOptimizer</a>, <a class="autorefs autorefs-internal" title="llm.engine.amp.AMPCriterion" href="#llm.engine.amp.AMPCriterion">AMPCriterion</a>]</code>
+          –
+          <div class="doc-md-description">
+            <p>A tuple of the wrapped model, optimizer, and loss.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/engine/amp.py</code></summary>
@@ -3170,7 +3162,7 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

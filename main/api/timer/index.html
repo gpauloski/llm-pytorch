@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -2301,10 +2301,10 @@
   </div>
 
   <div class="doc doc-contents first">
-  
+
       <p>Performance timer.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2320,37 +2320,36 @@
 
 
 <h2 id="llm.timer.Timer" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">Timer</span>
+            <span class="doc doc-object-name doc-class-name">Timer</span>
 
 
 <a href="#llm.timer.Timer" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Timer</span><span class="p">(</span><span class="n">synchronize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
+    <div class="doc doc-contents ">
 
-  
+
       <p>Performance timer.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>synchronize</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
-                <code>False</code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>synchronize</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#bool">bool</a></code>, default:
+                  <code>False</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Synchronize CUDA workers before and after the timer.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Synchronize CUDA workers before and after the timer.</p>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>llm/timer.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/timer.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
 <span class="normal"><a href="#__codelineno-0-18">18</a></span>
 <span class="normal"><a href="#__codelineno-0-19">19</a></span>
 <span class="normal"><a href="#__codelineno-0-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">synchronize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2358,9 +2357,9 @@
 </span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2385,7 +2384,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Start the timer.</p>
 
       <details class="quote">
@@ -2418,7 +2417,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Stop the timer and return the elapsed time.</p>
 
       <details class="quote">
@@ -2457,7 +2456,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Log a lap of the timer.</p>
 
       <details class="quote">
@@ -2490,7 +2489,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Get the history of all lap times.</p>
 
       <details class="quote">
@@ -2519,7 +2518,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Get the sum of all lap times.</p>
 
       <details class="quote">
@@ -2548,7 +2547,7 @@
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Get the mean of all lap times.</p>
 
       <details class="quote">
@@ -2568,8 +2567,7 @@
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2640,7 +2638,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

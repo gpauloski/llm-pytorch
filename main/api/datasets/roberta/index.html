@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -2201,13 +2201,13 @@
   </div>
 
   <div class="doc doc-contents first">
-  
+
       <p>Custom RoBERTa dataset provider.</p>
 <p>This is designed to work with data produced by the RoBERTa encoder
 preprocessing script in
 <a class="autorefs autorefs-internal" href="../../preprocess/roberta/#llm.preprocess.roberta"><code>llm.preprocess.roberta</code></a>.</p>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2223,7 +2223,7 @@ preprocessing script in
 
 
 <h2 id="llm.datasets.roberta.RoBERTaDataset" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">RoBERTaDataset</span>
+            <span class="doc doc-object-name doc-class-name">RoBERTaDataset</span>
 
 
 <a href="#llm.datasets.roberta.RoBERTaDataset" class="headerlink" title="Permanent link">&para;</a></h2>
@@ -2235,11 +2235,11 @@ preprocessing script in
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
 </span></code></pre></div>
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-external" title="torch.utils.data.Dataset" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset">Dataset</a>[<a class="autorefs autorefs-internal" title="llm.datasets.bert.Sample" href="../bert/#llm.datasets.bert.Sample">Sample</a>]</code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="torch.utils.data.Dataset" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset">Dataset</a>[<a class="autorefs autorefs-internal" title="llm.datasets.bert.Sample" href="../bert/#llm.datasets.bert.Sample">Sample</a>]</code></p>
 
-  
+
       <p>RoBERTa pretraining dataset.</p>
 <p>Like the PyTorch <a class="autorefs autorefs-external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset"><code>Dataset</code></a>, this dataset is
 indexable returning a <a class="autorefs autorefs-internal" href="../bert/#llm.datasets.bert.Sample"><code>Sample</code></a>.</p>
@@ -2255,48 +2255,47 @@ Next sentence prediction is not supported.</p>
 </span></code></pre></div>
 </details>
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>input_file</code></b>
-            (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>HDF5 file to load.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>mask_token_id</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>ID of the mask token in the vocabulary.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>mask_token_prob</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Probability of a given token in the sample being
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>input_file</code></b>
+              (<code><a class="autorefs autorefs-external" title="pathlib.Path" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path">Path</a> | <a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#str">str</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>HDF5 file to load.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>mask_token_id</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>ID of the mask token in the vocabulary.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>mask_token_prob</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Probability of a given token in the sample being
 masked.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>vocab_size</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Size of the vocabulary. Used to replace masked tokens with
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>vocab_size</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Size of the vocabulary. Used to replace masked tokens with
 a random token 10% of the time.</p>
-        </div>
-      </li>
-  </ul>
+          </div>
+        </li>
+    </ul>
 
-                <details class="quote">
-                  <summary>Source code in <code>llm/datasets/roberta.py</code></summary>
-                  <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-46">46</a></span>
+                  <details class="quote">
+                    <summary>Source code in <code>llm/datasets/roberta.py</code></summary>
+                    <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
 <span class="normal"><a href="#__codelineno-0-48">48</a></span>
 <span class="normal"><a href="#__codelineno-0-49">49</a></span>
@@ -2326,9 +2325,9 @@ a random token 10% of the time.</p>
 </span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 </span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">])</span>
 </span></code></pre></div></td></tr></table></div>
-                </details>
+                  </details>
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2344,8 +2343,7 @@ a random token 10% of the time.</p>
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2369,71 +2367,69 @@ a random token 10% of the time.</p>
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Randomly mask a BERT training sequence.</p>
 <p>Source: <a href="https://github.com/huggingface/transformers/blob/f7329751fe5c43365751951502c00df5a4654359/src/transformers/data/data_collator.py#L748" target="_blank"><code>transformers/data/data_collator.py</code></a></p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>token_ids</code></b>
-            (<code><span title="torch.LongTensor">LongTensor</span></code>)
-        –
-        <div class="doc-md-description">
-          <p>Input sequence token IDs to mask.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>special_tokens_mask</code></b>
-            (<code><span title="torch.BoolTensor">BoolTensor</span></code>)
-        –
-        <div class="doc-md-description">
-          <p>Mask of special tokens in the sequence which
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>token_ids</code></b>
+              (<code><span title="torch.LongTensor">LongTensor</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Input sequence token IDs to mask.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>special_tokens_mask</code></b>
+              (<code><span title="torch.BoolTensor">BoolTensor</span></code>)
+          –
+          <div class="doc-md-description">
+            <p>Mask of special tokens in the sequence which
 should never be masked.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>mask_token_id</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>ID of the mask token in the vocabulary.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>mask_token_prob</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Probability of a given token in the sample being
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>mask_token_id</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>ID of the mask token in the vocabulary.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>mask_token_prob</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#float">float</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Probability of a given token in the sample being
 masked.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>vocab_size</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
-        –
-        <div class="doc-md-description">
-          <p>Size of the vocabulary. Used to replace masked tokens with
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>vocab_size</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>)
+          –
+          <div class="doc-md-description">
+            <p>Size of the vocabulary. Used to replace masked tokens with
 a random token 10% of the time.</p>
-        </div>
-      </li>
-  </ul>
+          </div>
+        </li>
+    </ul>
 
 
-
-  <p><span class="doc-section-title">Returns:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-            <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<span title="torch.LongTensor">LongTensor</span>, <span title="torch.LongTensor">LongTensor</span>]</code>
-        –
-        <div class="doc-md-description">
-          <p>Masked <code>token_ids</code> and the masked labels.</p>
-      </div>
-      </li>
-  </ul>
+<p><span class="doc-section-title">Returns:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+              <code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/stdtypes.html#tuple">tuple</a>[<span title="torch.LongTensor">LongTensor</span>, <span title="torch.LongTensor">LongTensor</span>]</code>
+          –
+          <div class="doc-md-description">
+            <p>Masked <code>token_ids</code> and the masked labels.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/datasets/roberta.py</code></summary>
@@ -2612,7 +2608,7 @@ a random token 10% of the time.</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>

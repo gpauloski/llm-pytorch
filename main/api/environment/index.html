@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -2253,7 +2253,7 @@
   </div>
 
   <div class="doc doc-contents first">
-  
+
       <p>Utilities for collecting information about the environment.</p>
 
 <details class="tip" open>
@@ -2265,7 +2265,7 @@ PyTorch.
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>llm.environment
 </span></code></pre></div></p>
 </details>
-  
+
 
   <div class="doc doc-children">
 
@@ -2281,21 +2281,21 @@ PyTorch.
 
 
 <h2 id="llm.environment.Environment" class="doc doc-heading">
-          <span class="doc doc-object-name doc-class-name">Environment</span>
+            <span class="doc doc-object-name doc-class-name">Environment</span>
 
 
 <a href="#llm.environment.Environment" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
-  <div class="doc doc-contents ">
-          <p class="doc doc-class-bases">
-            Bases: <code><a class="autorefs autorefs-external" title="typing.NamedTuple" href="https://docs.python.org/3/library/typing.html#typing.NamedTuple">NamedTuple</a></code></p>
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-external" title="typing.NamedTuple" href="https://docs.python.org/3/library/typing.html#typing.NamedTuple">NamedTuple</a></code></p>
 
-  
+
       <p>Named tuple representing collected environment information.</p>
 
 
-  
+
 
   <div class="doc doc-children">
 
@@ -2311,8 +2311,7 @@ PyTorch.
 
   </div>
 
-  </div>
-
+    </div>
 
 </div>
 
@@ -2330,7 +2329,7 @@ PyTorch.
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Collect the pip version.</p>
 
       <details class="quote">
@@ -2361,7 +2360,7 @@ PyTorch.
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Collect a list of relevant pip packages.</p>
 
       <details class="quote">
@@ -2420,7 +2419,7 @@ PyTorch.
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Collects information on the hardware and software environment.</p>
 
       <details class="quote">
@@ -2522,34 +2521,33 @@ PyTorch.
 </span></code></pre></div>
 
   <div class="doc doc-contents ">
-  
+
       <p>Log the hardware and software environment.</p>
 
 
-
-  <p><span class="doc-section-title">Parameters:</span></p>
-  <ul>
-      <li class="doc-section-item field-body">
-        <b><code>level</code></b>
-            (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
-                <code><a class="autorefs autorefs-external" title="logging.INFO" href="https://docs.python.org/3/library/logging.html#logging.INFO">INFO</a></code>
+<p><span class="doc-section-title">Parameters:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code>level</code></b>
+              (<code><a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a></code>, default:
+                  <code><a class="autorefs autorefs-external" title="logging.INFO" href="https://docs.python.org/3/library/logging.html#logging.INFO">INFO</a></code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Logging level.</p>
-        </div>
-      </li>
-      <li class="doc-section-item field-body">
-        <b><code>ranks</code></b>
-            (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>] | None</code>, default:
-                <code>(0)</code>
+          –
+          <div class="doc-md-description">
+            <p>Logging level.</p>
+          </div>
+        </li>
+        <li class="doc-section-item field-body">
+          <b><code>ranks</code></b>
+              (<code><a class="autorefs autorefs-external" title="collections.abc.Iterable" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">Iterable</a>[<a class="autorefs autorefs-external" href="https://docs.python.org/3/library/functions.html#int">int</a>] | None</code>, default:
+                  <code>(0)</code>
 )
-        –
-        <div class="doc-md-description">
-          <p>Ranks to log the environment on. If <code>None</code>, logs on all ranks.</p>
-        </div>
-      </li>
-  </ul>
+          –
+          <div class="doc-md-description">
+            <p>Ranks to log the environment on. If <code>None</code>, logs on all ranks.</p>
+          </div>
+        </li>
+    </ul>
 
       <details class="quote">
         <summary>Source code in <code>llm/environment.py</code></summary>
@@ -2658,7 +2656,7 @@ PyTorch.
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../../assets/javascripts/bundle.081f42fc.min.js"></script>
       
     
   </body>
