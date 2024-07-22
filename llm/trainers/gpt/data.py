@@ -142,6 +142,8 @@ def preprocess_datasets(
             )
         block_size = min(block_size, tokenizer.model_max_length)
 
+    assert isinstance(block_size, int)
+
     # Note that with `batched=True`, this map processes 1,000 texts together,
     # so group_texts throws away a remainder for each of those groups of
     # 1,000 texts. You can adjust that batch_size here but a higher value
