@@ -44,8 +44,8 @@ def get_sent_tokenizer() -> Callable[[str], list[str]]:
         An NLTK sentence tokenizer.
     """
     downloader = nltk.downloader.Downloader()
-    if not downloader.is_installed('punkt'):  # pragma: no cover
-        nltk.download('punkt', quiet=True)
+    if not downloader.is_installed('punkt_tab'):  # pragma: no cover
+        nltk.download('punkt_tab', quiet=True)
         download_dir = downloader.default_download_dir()
         logger.info(f'Downloaded NLTK punkt model to {download_dir}.')
 
