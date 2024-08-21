@@ -129,7 +129,7 @@ plugins:
   - literate-nav:
       nav_file: SUMMARY.md
   - mkdocstrings:
-      custom_templates: docs/_templates
+      custom_templates: docs/templates
       enable_inventory: true
       handlers:
         python:
@@ -142,6 +142,7 @@ plugins:
             - https://huggingface.co/docs/tokenizers/main/en/objects.inv
             - https://huggingface.co/docs/transformers/main/en/objects.inv
           options:
+            annotations_path: brief
             docstring_section_style: list
             docstring_style: google
             inherited_members: yes
@@ -149,12 +150,15 @@ plugins:
             members_order: source
             merge_init_into_class: yes
             separate_signature: yes
-            # Mutually exclusive with separate_signature
-            # show_root_members_full_path: yes
-            # Causes black error with show_root_full_path
-            # show_object_full_path: yes
+            show_object_full_path: no
             show_root_full_path: yes
+            show_root_heading: no
+            show_root_members_full_path: no
+            show_root_toc_entry: yes
             show_signature_annotations: yes
             show_submodules: no
+            show_symbol_type_heading: yes
+            show_symbol_type_toc: yes
+            signature_crossrefs: yes
   - search
   - section-index
