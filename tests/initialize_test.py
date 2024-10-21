@@ -12,7 +12,7 @@ from llm.initialize import initialize
 from llm.initialize import initialize_from_args
 
 
-@pytest.fixture()
+@pytest.fixture
 def distributed() -> Generator[None, None, None]:  # noqa: PT004
     with (
         mock.patch('torch.distributed.init_process_group'),

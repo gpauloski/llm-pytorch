@@ -30,7 +30,7 @@ TINY_CONFIG = dict(
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def config(tmp_path: pathlib.Path) -> Generator[Config, None, None]:
     config_ = dict(
         PHASE=0,
