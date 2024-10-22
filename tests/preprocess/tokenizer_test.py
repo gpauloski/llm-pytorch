@@ -35,7 +35,7 @@ def test_tokenizer_with_max_seq_len(kind: Literal['bpe', 'wordpiece']) -> None:
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def input_files(tmp_path: pathlib.Path) -> list[pathlib.Path]:
     files = []
     for i in range(3):
