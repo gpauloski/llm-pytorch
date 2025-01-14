@@ -338,7 +338,7 @@ def main(argv: Sequence[str] | None = None) -> int:  # pragma: no cover
                 and accelerator.sync_gradients
                 and completed_steps % checkpointing_steps == 0
             ):
-                output_dir = f'step_{completed_steps }'
+                output_dir = f'step_{completed_steps}'
                 output_dir = os.path.join(args.checkpoint_dir, output_dir)
                 accelerator.save_state(output_dir)
                 if preconditioner is not None and accelerator.is_main_process:
