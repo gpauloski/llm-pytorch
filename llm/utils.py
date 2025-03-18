@@ -43,7 +43,7 @@ def create_summary_writer(
     writer = SummaryWriter(tensorboard_dir, **writer_kwargs)
 
     if hparam_dict is not None and metrics is not None:
-        metric_dict = {metric: 0 for metric in metrics}
+        metric_dict = dict.fromkeys(metrics, 0)
         exp, ssi, sei = hparams(hparam_dict, metric_dict=metric_dict)
         assert writer.file_writer is not None
         writer.file_writer.add_summary(exp)

@@ -116,7 +116,7 @@ def initialize(
         )
 
     if seed is not None:
-        local_rank = int(os.environ.get('LOCAL_RANK', 0))
+        local_rank = int(os.environ.get('LOCAL_RANK', '0'))
         random.seed(seed + local_rank)
         numpy.random.seed(seed + local_rank)
         torch.manual_seed(seed + local_rank)
