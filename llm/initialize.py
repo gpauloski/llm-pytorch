@@ -151,7 +151,7 @@ def initialize_from_args(args: argparse.Namespace) -> Config:
 
     initialize(
         debug=args.debug,
-        loglevel=args.loglevel or config.get('LOG_LEVEL', None),
+        loglevel=args.loglevel or config.get('LOG_LEVEL', None),  # type: ignore[[arg-type]
         logfile=config.get('LOG_FILE', None),
         seed=config.get('SEED', None),
         rich=args.rich,
