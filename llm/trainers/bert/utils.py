@@ -48,10 +48,10 @@ class TrainingConfig:
     ACCUMULATION_STEPS: int
 
     # Optional options
-    CLIP_GRAD_NORM: Optional[float] = None
-    DTYPE: Optional[torch.dtype] = None
+    CLIP_GRAD_NORM: Optional[float] = None  # noqa: UP045
+    DTYPE: Optional[torch.dtype] = None  # noqa: UP045
     GRADIENT_CHECKPOINTING: bool = False
-    LOG_FILE: Optional[str] = None
+    LOG_FILE: Optional[str] = None  # noqa: UP045
     SEED: int = 42
 
 
