@@ -116,5 +116,5 @@ def test_load_config_missing_file(tmp_path: pathlib.Path) -> None:
 def test_load_config_wrong_type(tmp_path: pathlib.Path) -> None:
     filepath = tmp_path / 'config.json'
     filepath.touch()
-    with pytest.raises(ValueError, match='.py'):
+    with pytest.raises(ValueError, match=r'\.py'):
         load_config(filepath)

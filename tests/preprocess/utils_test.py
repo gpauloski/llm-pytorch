@@ -89,5 +89,5 @@ def test_safe_extract_path_traversal(tmp_path: pathlib.Path) -> None:
         f.add(txt_file, arcname='../test.txt')
 
     target_dir = tmp_path / 'target'
-    with pytest.raises(OSError, match='^Tarfile contains'):
+    with pytest.raises(OSError, match=r'^Tarfile contains'):
         safe_extract(tar_path, target_dir)
