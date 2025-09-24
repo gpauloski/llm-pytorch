@@ -2262,13 +2262,13 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 <td><code>-d</code>, <code>--dataset</code></td>
 <td>choice (<code>wikipedia</code> &#x7C; <code>bookscorpus</code>)</td>
 <td>Dataset to download.</td>
-<td>_required</td>
+<td><code>Sentinel.UNSET</code></td>
 </tr>
 <tr>
 <td><code>-o</code>, <code>--output-dir</code></td>
 <td>text</td>
 <td>Output directory.</td>
-<td>_required</td>
+<td><code>Sentinel.UNSET</code></td>
 </tr>
 <tr>
 <td><code>--log-level</code></td>
@@ -2310,13 +2310,13 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 <td><code>-o</code>, <code>--output-dir</code></td>
 <td>text</td>
 <td>Output directory for encoded shards.</td>
-<td>_required</td>
+<td><code>Sentinel.UNSET</code></td>
 </tr>
 <tr>
 <td><code>-t</code>, <code>--tokenizer</code></td>
 <td>text</td>
 <td>Path to trained tokenizer to load.</td>
-<td>_required</td>
+<td><code>Sentinel.UNSET</code></td>
 </tr>
 <tr>
 <td><code>-l</code>, <code>--max-seq-len</code></td>
@@ -2376,13 +2376,13 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 <td><code>-o</code>, <code>--output-dir</code></td>
 <td>text</td>
 <td>Output directory for encoded shards.</td>
-<td>_required</td>
+<td><code>Sentinel.UNSET</code></td>
 </tr>
 <tr>
 <td><code>-s</code>, <code>--size</code></td>
 <td>text</td>
 <td>Max data size of each shard.</td>
-<td>_required</td>
+<td><code>Sentinel.UNSET</code></td>
 </tr>
 <tr>
 <td><code>-f</code>, <code>--format</code></td>
@@ -2437,7 +2437,7 @@ provided in the <code>llm.trainers</code> module are not listed here.</p>
 <td><code>-o</code>, <code>--output-file</code></td>
 <td>text</td>
 <td>Output file to save serialized tokenizer to.</td>
-<td>_required</td>
+<td><code>Sentinel.UNSET</code></td>
 </tr>
 <tr>
 <td><code>-s</code>, <code>--size</code></td>
