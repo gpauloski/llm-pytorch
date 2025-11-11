@@ -108,8 +108,6 @@ allow_untyped_defs = true
 
 [tool.pytest]
 filterwarnings = ["ignore::UserWarning:torch"]
-
-[tool.pytest.ini_options]
 norecursedirs = ["apex/*"]
 
 [tool.ruff]
