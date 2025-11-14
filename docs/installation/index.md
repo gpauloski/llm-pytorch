@@ -1,6 +1,6 @@
 # Installation
 
-This package is Linux only and requires Python >=3.9.
+This package is Linux only and requires Python >=3.10.
 It is recommended to install the package in a virtual environment of your choice.
 ```bash
 $ python -m venv venv     # or $ virtualenv venv

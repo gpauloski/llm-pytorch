@@ -5,7 +5,6 @@ import itertools
 import logging
 from typing import Any
 from typing import TypeVar
-from typing import Union
 
 import accelerate
 import datasets
@@ -13,10 +12,7 @@ import transformers
 
 logger = logging.getLogger('llm.trainers.gpt')
 
-DatasetT = TypeVar(
-    'DatasetT',
-    bound=Union[datasets.Dataset, datasets.DatasetDict],
-)
+DatasetT = TypeVar('DatasetT', bound=datasets.Dataset | datasets.DatasetDict)
 
 
 def get_datasets(

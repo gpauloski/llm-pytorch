@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Large language model training tools."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = {file = "LICENSE"}
 classifiers = [
     "License :: OSI Approved :: MIT License",
@@ -86,7 +86,7 @@ omit = ["llm/trainers/gpt/*"]
 parallel = true
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.14"
 check_untyped_defs = true
 disallow_any_generics = true
 disallow_incomplete_defs = true
@@ -112,7 +112,7 @@ norecursedirs = ["apex/*"]
 
 [tool.ruff]
 line-length = 79
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 # See all rules here: https://beta.ruff.rs/docs/rules

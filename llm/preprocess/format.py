@@ -5,8 +5,8 @@ from __future__ import annotations
 import logging
 import os
 import pathlib
+from collections.abc import Callable
 from collections.abc import Iterable
-from typing import Callable
 
 logger = logging.getLogger(__name__)
 NLTK_DOWNLOAD_DIR = str(pathlib.Path.home() / '.cache/nltk_data')

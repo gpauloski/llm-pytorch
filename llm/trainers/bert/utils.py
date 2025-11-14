@@ -8,7 +8,6 @@ import os
 from typing import Any
 from typing import get_type_hints
 from typing import Literal
-from typing import Optional
 from typing import Union
 
 import torch
@@ -48,10 +47,10 @@ class TrainingConfig:
     ACCUMULATION_STEPS: int
 
     # Optional options
-    CLIP_GRAD_NORM: Optional[float] = None  # noqa: UP045
-    DTYPE: Optional[torch.dtype] = None  # noqa: UP045
+    CLIP_GRAD_NORM: float | None = None
+    DTYPE: torch.dtype | None = None
     GRADIENT_CHECKPOINTING: bool = False
-    LOG_FILE: Optional[str] = None  # noqa: UP045
+    LOG_FILE: str | None = None
     SEED: int = 42
 
 

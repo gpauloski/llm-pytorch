@@ -8,11 +8,10 @@ from collections.abc import Iterable
 from collections.abc import Mapping
 from importlib.machinery import SourceFileLoader
 from typing import Any
-from typing import Union
 
 import torch.distributed as dist
 
-HParamT = Union[bool, float, int, str, None]
+HParamT = bool | float | int | str | None
 """Supported Hyperparameter types (i.e., JSON types)."""
 
 
@@ -89,7 +88,7 @@ def flattened_config(
 
     config = flatten_mapping(config)
     for key in list(config.keys()):
-        if not isinstance(config[key], (bool, float, int, str, type(None))):
+        if not isinstance(config[key], bool | float | int | str | type(None)):
             del config[key]
 
     return config
