@@ -5,14 +5,13 @@ import pathlib
 import sys
 from collections.abc import Iterable
 from typing import Any
-from typing import Union
 
 import torch.distributed as dist
 from rich.logging import RichHandler
 from torch.utils.tensorboard import SummaryWriter
 from torch.utils.tensorboard.summary import hparams
 
-HParamT = Union[bool, float, int, str, None]
+HParamT = bool | float | int | str | None
 """Supported Hyperparameter types (i.e., JSON types)."""
 
 
